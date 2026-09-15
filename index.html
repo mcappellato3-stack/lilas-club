@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Lilás Club — encontre perfis adultos na sua cidade.">
+
+  <meta
+    name="description"
+    content="Lilás Club — encontre perfis adultos na sua cidade."
+  >
+
   <title>Lilás Club</title>
 
   <style>
@@ -24,7 +29,7 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #fff;
+      background: #ffffff;
       color: var(--texto);
     }
 
@@ -68,11 +73,11 @@
     .hero h1 {
       font-size: 32px;
       margin-bottom: 9px;
-      color: #fff;
+      color: #ffffff;
     }
 
     .hero p {
-      color: #fff;
+      color: #ffffff;
       margin-bottom: 24px;
       font-size: 16px;
     }
@@ -80,13 +85,15 @@
     .busca {
       max-width: 720px;
       margin: auto;
-      background: white;
+      background: #ffffff;
       padding: 14px;
       border-radius: 18px;
+
       display: grid;
       grid-template-columns: 1fr 1fr auto;
       gap: 9px;
-      box-shadow: 0 10px 28px rgba(63, 45, 80, .15);
+
+      box-shadow: 0 10px 28px rgba(63,45,80,.15);
     }
 
     .busca select,
@@ -96,7 +103,7 @@
       border-radius: 11px;
       padding: 13px;
       font-size: 16px;
-      background: white;
+      background: #ffffff;
       color: var(--texto);
     }
 
@@ -145,6 +152,63 @@
       margin-bottom: 7px;
     }
 
+    #areaPerfis {
+      margin-bottom: 35px;
+    }
+
+    .titulo-perfis {
+      margin-bottom: 16px;
+    }
+
+    .grade-perfis {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
+    }
+
+    .card-perfil {
+      background: #ffffff;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 5px 18px rgba(60,40,80,.14);
+    }
+
+    .card-perfil img {
+      display: block;
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+    }
+
+    .card-conteudo {
+      padding: 14px;
+    }
+
+    .card-conteudo h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
+    }
+
+    .local-perfil {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #765c8f;
+    }
+
+    .descricao-perfil {
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .sem-resultado {
+      background: var(--lilas-claro);
+      padding: 22px;
+      border-radius: 16px;
+      text-align: center;
+      line-height: 1.5;
+    }
+
     .destaque {
       background: linear-gradient(135deg, #f8f1ff, #eaf8ff);
       padding: 25px;
@@ -188,6 +252,7 @@
     }
 
     @media (max-width: 700px) {
+
       .hero h1 {
         font-size: 27px;
       }
@@ -204,6 +269,23 @@
         grid-template-columns: repeat(2, 1fr);
       }
 
+      .grade-perfis {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+      }
+
+      .card-perfil img {
+        height: 220px;
+      }
+
+      .card-conteudo {
+        padding: 10px;
+      }
+
+      .card-conteudo h3 {
+        font-size: 17px;
+      }
+
       .logo {
         font-size: 23px;
       }
@@ -216,41 +298,95 @@
   </style>
 </head>
 
+
 <body>
 
 <header>
   <div class="topo">
-    <div class="logo">LILÁS CLUB</div>
-    <a class="anunciar" href="anunciar.html">ANUNCIAR</a>
+
+    <div class="logo">
+      LILÁS CLUB
+    </div>
+
+    <a
+      class="anunciar"
+      href="anunciar.html"
+    >
+      ANUNCIAR
+    </a>
+
   </div>
 </header>
 
+
 <section class="hero">
-  <h1>Acompanhantes na sua cidade</h1>
-  <p>Encontre perfis adultos de forma simples e rápida.</p>
+
+  <h1>
+    Acompanhantes na sua cidade
+  </h1>
+
+  <p>
+    Encontre perfis adultos de forma simples e rápida.
+  </p>
+
 
   <div class="busca">
-    <select id="cidade">
-      <option value="">Escolha a cidade</option>
+
+    <select id="estado">
+
+      <option value="">
+        Escolha o estado
+      </option>
+
       <option>São Paulo</option>
       <option>Rio de Janeiro</option>
-      <option>Belo Horizonte</option>
-      <option>Curitiba</option>
-      <option>Brasília</option>
-      <option>Porto Alegre</option>
+      <option>Minas Gerais</option>
+      <option>Paraná</option>
+      <option>Distrito Federal</option>
+      <option>Rio Grande do Sul</option>
+      <option>Santa Catarina</option>
+      <option>Bahia</option>
+      <option>Goiás</option>
+      <option>Pernambuco</option>
+      <option>Ceará</option>
+      <option>Espírito Santo</option>
+
     </select>
 
-    <input id="bairro" type="text" placeholder="Digite o bairro">
 
-    <button class="buscar" onclick="buscar()">BUSCAR</button>
+    <input
+      id="cidadeBusca"
+      type="text"
+      placeholder="Digite a cidade"
+      autocomplete="off"
+    >
+
+
+    <button
+      class="buscar"
+      type="button"
+      onclick="buscar()"
+    >
+      BUSCAR
+    </button>
+
   </div>
+
 </section>
+
 
 <main>
 
-  <h2>Escolha uma categoria</h2>
+  <section id="areaPerfis"></section>
+
+
+  <h2>
+    Escolha uma categoria
+  </h2>
+
 
   <div class="categorias">
+
     <div class="categoria">
       <span>♀</span>
       Mulheres
@@ -270,113 +406,420 @@
       <span>✓</span>
       Verificados
     </div>
+
   </div>
 
+
   <section class="destaque">
-    <h2>Quer anunciar no Lilás Club?</h2>
+
+    <h2>
+      Quer anunciar no Lilás Club?
+    </h2>
+
     <p>
-      Crie seu perfil, escolha sua cidade e apresente suas informações
-      de maneira simples.
+      Crie seu perfil, escolha sua cidade e apresente
+      suas informações de maneira simples.
     </p>
 
-    <a class="cta" href="anunciar.html">CRIAR PERFIL</a>
+    <a
+      class="cta"
+      href="anunciar.html"
+    >
+      CRIAR PERFIL
+    </a>
+
   </section>
 
+
   <div class="aviso">
-    <strong>Conteúdo para maiores de 18 anos.</strong><br>
+
+    <strong>
+      Conteúdo para maiores de 18 anos.
+    </strong>
+
+    <br>
+
     O Lilás Club é destinado exclusivamente a adultos.
     Todos os perfis e conteúdos publicados devem respeitar
     as leis aplicáveis e as regras da plataforma.
+
   </div>
 
 </main>
 
+
 <footer>
-  <strong>LILÁS CLUB</strong><br><br>
+
+  <strong>
+    LILÁS CLUB
+  </strong>
+
+  <br><br>
+
   © 2026 Lilás Club · Termos · Privacidade · Segurança
+
 </footer>
 
+
 <script>
-  function buscar() {
-    const cidade = document.getElementById("cidade").value;
-    const bairro = document.getElementById("bairro").value.trim();
 
-    if (!cidade) {
-      alert("Escolha uma cidade para continuar.");
-      return;
-    }
+function normalizar(texto) {
 
-    let mensagem = "Busca selecionada: " + cidade;
+  return (texto || "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
 
-    if (bairro) {
-      mensagem += " — " + bairro;
-    }
-
-    alert(mensagem);
-  }
-const perfilSalvo = localStorage.getItem("lilasPerfil");
-
-if (perfilSalvo) {
-  try {
-    const perfil = JSON.parse(perfilSalvo);
-
-    const secao = document.createElement("section");
-    secao.style.maxWidth = "900px";
-    secao.style.margin = "25px auto";
-    secao.style.padding = "20px";
-
-    const titulo = document.createElement("h2");
-    titulo.textContent = "Anúncio";
-    secao.appendChild(titulo);
-
-    const card = document.createElement("div");
-    card.style.padding = "20px";
-    card.style.borderRadius = "16px";
-    card.style.background = "#ffffff";
-    card.style.color = "#333333";
-    card.style.boxShadow = "0 4px 15px rgba(0,0,0,0.12)";
-
-    if (perfil.foto) {
-      const foto = document.createElement("img");
-      foto.src = perfil.foto;
-      foto.alt = "Foto do anúncio";
-      foto.style.width = "100%";
-      foto.style.maxHeight = "450px";
-      foto.style.objectFit = "cover";
-      foto.style.borderRadius = "12px";
-      foto.style.marginBottom = "15px";
-      card.appendChild(foto);
-    }
-
-    const nome = document.createElement("h3");
-    nome.textContent = perfil.nome || "";
-    card.appendChild(nome);
-
-    const local = document.createElement("p");
-    local.textContent =
-      (perfil.categoria || "") +
-      " • " +
-      (perfil.cidade || "") +
-      (perfil.bairro ? " • " + perfil.bairro : "");
-    card.appendChild(local);
-
-    const descricao = document.createElement("p");
-    descricao.textContent = perfil.descricao || "";
-    card.appendChild(descricao);
-
-    secao.appendChild(card);
-
-    const footer = document.querySelector("footer");
-    if (footer) {
-      document.body.insertBefore(secao, footer);
-    } else {
-      document.body.appendChild(secao);
-    }
-  } catch (erro) {
-    console.log("Erro ao carregar anúncio:", erro);
-  }
 }
+
+
+function pegarPerfil() {
+
+  const perfilSalvo =
+    localStorage.getItem("lilasPerfil");
+
+  if (!perfilSalvo) {
+    return null;
+  }
+
+  try {
+
+    return JSON.parse(perfilSalvo);
+
+  } catch (erro) {
+
+    console.log(
+      "Erro ao ler perfil:",
+      erro
+    );
+
+    return null;
+
+  }
+
+}
+
+
+function mostrarPerfil(perfil, tituloTexto) {
+
+  const area =
+    document.getElementById("areaPerfis");
+
+  area.innerHTML = "";
+
+
+  const titulo =
+    document.createElement("h2");
+
+  titulo.className =
+    "titulo-perfis";
+
+  titulo.textContent =
+    tituloTexto || "Perfis encontrados";
+
+  area.appendChild(titulo);
+
+
+  const grade =
+    document.createElement("div");
+
+  grade.className =
+    "grade-perfis";
+
+
+  const card =
+    document.createElement("div");
+
+  card.className =
+    "card-perfil";
+
+
+  if (perfil.foto) {
+
+    const foto =
+      document.createElement("img");
+
+    foto.src =
+      perfil.foto;
+
+    foto.alt =
+      "Foto do perfil";
+
+    card.appendChild(foto);
+
+  }
+
+
+  const conteudo =
+    document.createElement("div");
+
+  conteudo.className =
+    "card-conteudo";
+
+
+  const nome =
+    document.createElement("h3");
+
+  nome.textContent =
+    perfil.nome || "Perfil";
+
+  conteudo.appendChild(nome);
+
+
+  const local =
+    document.createElement("p");
+
+  local.className =
+    "local-perfil";
+
+
+  let localizacao = [];
+
+
+  if (perfil.estado) {
+
+    if (perfil.cidade) {
+      localizacao.push(perfil.cidade);
+    }
+
+    localizacao.push(perfil.estado);
+
+  } else {
+
+    /*
+      Compatibilidade com o cadastro antigo:
+      cidade = estado
+      bairro = cidade
+    */
+
+    if (perfil.bairro) {
+      localizacao.push(perfil.bairro);
+    }
+
+    if (perfil.cidade) {
+      localizacao.push(perfil.cidade);
+    }
+
+  }
+
+
+  local.textContent =
+    localizacao.join(" • ");
+
+  conteudo.appendChild(local);
+
+
+  if (perfil.descricao) {
+
+    const descricao =
+      document.createElement("p");
+
+    descricao.className =
+      "descricao-perfil";
+
+    descricao.textContent =
+      perfil.descricao;
+
+    conteudo.appendChild(descricao);
+
+  }
+
+
+  card.appendChild(conteudo);
+
+  grade.appendChild(card);
+
+  area.appendChild(grade);
+
+}
+
+
+function mostrarSemResultado() {
+
+  const area =
+    document.getElementById("areaPerfis");
+
+  area.innerHTML = `
+
+    <div class="sem-resultado">
+
+      <h2>
+        Nenhum perfil encontrado
+      </h2>
+
+      <p>
+        Confira o estado e a cidade e tente novamente.
+      </p>
+
+    </div>
+
+  `;
+
+
+  area.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+
+}
+
+
+function buscar() {
+
+  const estadoBusca =
+    document.getElementById("estado").value;
+
+  const cidadeBusca =
+    document.getElementById("cidadeBusca")
+      .value
+      .trim();
+
+
+  if (!estadoBusca) {
+
+    alert(
+      "Escolha o estado para continuar."
+    );
+
+    return;
+
+  }
+
+
+  if (!cidadeBusca) {
+
+    alert(
+      "Digite a cidade para continuar."
+    );
+
+    return;
+
+  }
+
+
+  const perfil =
+    pegarPerfil();
+
+
+  if (!perfil) {
+
+    mostrarSemResultado();
+
+    return;
+
+  }
+
+
+  /*
+    NOVO CADASTRO:
+    perfil.estado = São Paulo
+    perfil.cidade = Sorocaba
+
+    CADASTRO ANTIGO:
+    perfil.cidade = São Paulo
+    perfil.bairro = Sorocaba
+  */
+
+
+  const estadoPerfil =
+    normalizar(
+      perfil.estado ||
+      perfil.uf ||
+      perfil.cidade
+    );
+
+
+  let cidadePerfil = "";
+
+
+  if (
+    perfil.estado ||
+    perfil.uf
+  ) {
+
+    cidadePerfil =
+      normalizar(
+        perfil.cidade
+      );
+
+  } else {
+
+    cidadePerfil =
+      normalizar(
+        perfil.bairro ||
+        perfil.cidade
+      );
+
+  }
+
+
+  const estadoProcurado =
+    normalizar(estadoBusca);
+
+
+  const cidadeProcurada =
+    normalizar(cidadeBusca);
+
+
+  const estadoConfere =
+    estadoPerfil === estadoProcurado;
+
+
+  const cidadeConfere =
+    cidadePerfil === cidadeProcurada ||
+    cidadePerfil.includes(cidadeProcurada) ||
+    cidadeProcurada.includes(cidadePerfil);
+
+
+  if (
+    estadoConfere &&
+    cidadeConfere
+  ) {
+
+    mostrarPerfil(
+      perfil,
+      "Perfil encontrado"
+    );
+
+
+    document
+      .getElementById("areaPerfis")
+      .scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+  } else {
+
+    mostrarSemResultado();
+
+  }
+
+}
+
+
+/*
+  Mostra o anúncio cadastrado
+  automaticamente ao abrir a página.
+*/
+
+const perfilInicial =
+  pegarPerfil();
+
+
+if (perfilInicial) {
+
+  mostrarPerfil(
+    perfilInicial,
+    "Anúncios"
+  );
+
+}
+
 </script>
+
 
 </body>
 </html>
