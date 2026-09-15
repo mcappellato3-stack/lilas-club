@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lilás Club — encontre perfis adultos na sua cidade.">
+  <title>Lilás Club</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --azul: #62c8f3;
+      --lilas: #d9b8ff;
+      --lilas-claro: #f4ebff;
+      --amarelo: #ffd84d;
+      --texto: #352b45;
+      --branco: #ffffff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      background: #fff;
+      color: var(--texto);
+    }
+
+    header {
+      background: linear-gradient(120deg, var(--azul), var(--lilas));
+      padding: 18px 20px;
+    }
+
+    .topo {
+      max-width: 1100px;
+      margin: auto;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+    }
+
+    .logo {
+      font-size: 27px;
+      font-weight: 900;
+      color: var(--amarelo);
+      letter-spacing: 1px;
+      text-shadow: 0 1px 2px rgba(0,0,0,.12);
+    }
+
+    .anunciar {
+      text-decoration: none;
+      background: var(--amarelo);
+      color: #403449;
+      font-weight: 800;
+      padding: 11px 17px;
+      border-radius: 12px;
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--azul), var(--lilas));
+      padding: 38px 20px 48px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 32px;
+      margin-bottom: 9px;
+      color: #fff;
+    }
+
+    .hero p {
+      color: #fff;
+      margin-bottom: 24px;
+      font-size: 16px;
+    }
+
+    .busca {
+      max-width: 720px;
+      margin: auto;
+      background: white;
+      padding: 14px;
+      border-radius: 18px;
+      display: grid;
+      grid-template-columns: 1fr 1fr auto;
+      gap: 9px;
+      box-shadow: 0 10px 28px rgba(63, 45, 80, .15);
+    }
+
+    .busca select,
+    .busca input {
+      width: 100%;
+      border: 1px solid #ddd4e8;
+      border-radius: 11px;
+      padding: 13px;
+      font-size: 16px;
+      background: white;
+      color: var(--texto);
+    }
+
+    .buscar {
+      border: 0;
+      border-radius: 11px;
+      padding: 13px 22px;
+      background: var(--amarelo);
+      color: #403449;
+      font-size: 16px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    main {
+      max-width: 1100px;
+      margin: auto;
+      padding: 30px 20px;
+    }
+
+    h2 {
+      font-size: 23px;
+      margin-bottom: 17px;
+    }
+
+    .categorias {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 35px;
+    }
+
+    .categoria {
+      background: var(--lilas-claro);
+      border: 1px solid #e3d3f5;
+      border-radius: 16px;
+      padding: 20px 10px;
+      text-align: center;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    .categoria span {
+      display: block;
+      font-size: 25px;
+      margin-bottom: 7px;
+    }
+
+    .destaque {
+      background: linear-gradient(135deg, #f8f1ff, #eaf8ff);
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+    }
+
+    .destaque p {
+      line-height: 1.6;
+      margin-bottom: 17px;
+    }
+
+    .cta {
+      display: inline-block;
+      text-decoration: none;
+      background: var(--amarelo);
+      color: #403449;
+      padding: 12px 18px;
+      border-radius: 11px;
+      font-weight: 900;
+    }
+
+    .aviso {
+      padding: 17px;
+      border-radius: 14px;
+      background: #faf7fc;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    footer {
+      margin-top: 25px;
+      padding: 28px 20px;
+      text-align: center;
+      background: var(--lilas-claro);
+      font-size: 14px;
+    }
+
+    footer strong {
+      color: #7e54a8;
+    }
+
+    @media (max-width: 700px) {
+      .hero h1 {
+        font-size: 27px;
+      }
+
+      .busca {
+        grid-template-columns: 1fr;
+      }
+
+      .buscar {
+        width: 100%;
+      }
+
+      .categorias {
+        grid-template-columns: repeat(2, 1fr);
+      }
+
+      .logo {
+        font-size: 23px;
+      }
+
+      .anunciar {
+        padding: 10px 13px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="topo">
+    <div class="logo">LILÁS CLUB</div>
+    <a class="anunciar" href="anunciar.html">ANUNCIAR</a>
+  </div>
+</header>
+
+<section class="hero">
+  <h1>Acompanhantes na sua cidade</h1>
+  <p>Encontre perfis adultos de forma simples e rápida.</p>
+
+  <div class="busca">
+    <select id="cidade">
+      <option value="">Escolha a cidade</option>
+      <option>São Paulo</option>
+      <option>Rio de Janeiro</option>
+      <option>Belo Horizonte</option>
+      <option>Curitiba</option>
+      <option>Brasília</option>
+      <option>Porto Alegre</option>
+    </select>
+
+    <input id="bairro" type="text" placeholder="Digite o bairro">
+
+    <button class="buscar" onclick="buscar()">BUSCAR</button>
+  </div>
+</section>
+
+<main>
+
+  <h2>Escolha uma categoria</h2>
+
+  <div class="categorias">
+    <div class="categoria">
+      <span>♀</span>
+      Mulheres
+    </div>
+
+    <div class="categoria">
+      <span>♂</span>
+      Homens
+    </div>
+
+    <div class="categoria">
+      <span>🌈</span>
+      LGBTQ+
+    </div>
+
+    <div class="categoria">
+      <span>✓</span>
+      Verificados
+    </div>
+  </div>
+
+  <section class="destaque">
+    <h2>Quer anunciar no Lilás Club?</h2>
+    <p>
+      Crie seu perfil, escolha sua cidade e apresente suas informações
+      de maneira simples.
+    </p>
+
+    <a class="cta" href="anunciar.html">CRIAR PERFIL</a>
+  </section>
+
+  <div class="aviso">
+    <strong>Conteúdo para maiores de 18 anos.</strong><br>
+    O Lilás Club é destinado exclusivamente a adultos.
+    Todos os perfis e conteúdos publicados devem respeitar
+    as leis aplicáveis e as regras da plataforma.
+  </div>
+
+</main>
+
+<footer>
+  <strong>LILÁS CLUB</strong><br><br>
+  © 2026 Lilás Club · Termos · Privacidade · Segurança
+</footer>
+
+<script>
+  function buscar() {
+    const cidade = document.getElementById("cidade").value;
+    const bairro = document.getElementById("bairro").value.trim();
+
+    if (!cidade) {
+      alert("Escolha uma cidade para continuar.");
+      return;
+    }
+
+    let mensagem = "Busca selecionada: " + cidade;
+
+    if (bairro) {
+      mensagem += " — " + bairro;
+    }
+
+    alert(mensagem);
+  }
+</script>
+
+</body>
+</html>
