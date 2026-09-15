@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Criar anúncio | Lilás Club</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+  background:#f8f5ff;
+  color:#352b45;
+}
+header{
+  background:linear-gradient(135deg,#62c8f3,#d9b8ff);
+  padding:22px 18px;
+  text-align:center;
+}
+.logo{
+  color:#ffd84d;
+  font-size:30px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+header p{
+  margin:5px 0 0;
+  color:white;
+}
+main{
+  max-width:620px;
+  margin:auto;
+  padding:24px 18px 50px;
+}
+.voltar{
+  display:inline-block;
+  margin-bottom:20px;
+  color:#70549b;
+  text-decoration:none;
+  font-weight:700;
+}
+h1{margin-bottom:6px}
+.sub{
+  color:#766d80;
+  margin-bottom:25px;
+}
+.card{
+  background:white;
+  padding:22px;
+  border-radius:20px;
+  box-shadow:0 6px 25px rgba(80,50,110,.09);
+}
+label{
+  display:block;
+  font-weight:700;
+  margin:17px 0 7px;
+}
+input,select,textarea{
+  width:100%;
+  padding:14px;
+  border:1px solid #ddd3eb;
+  border-radius:12px;
+  font-size:16px;
+  background:white;
+}
+textarea{
+  min-height:120px;
+  resize:vertical;
+}
+.foto{
+  border:2px dashed #d9b8ff;
+  padding:20px;
+  text-align:center;
+  border-radius:15px;
+  margin-top:8px;
+}
+#preview{
+  display:none;
+  width:100%;
+  max-height:350px;
+  object-fit:cover;
+  border-radius:14px;
+  margin-top:15px;
+}
+button{
+  width:100%;
+  margin-top:25px;
+  border:0;
+  border-radius:14px;
+  padding:16px;
+  background:#ffd84d;
+  color:#352b45;
+  font-size:17px;
+  font-weight:900;
+  cursor:pointer;
+}
+.aviso{
+  font-size:13px;
+  color:#766d80;
+  margin-top:15px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">LILÁS CLUB</div>
+  <p>Encontre. Conecte. Viva.</p>
+</header>
+
+<main>
+
+<a class="voltar" href="index.html">← Voltar para início</a>
+
+<h1>Criar anúncio</h1>
+<p class="sub">Preencha seus dados para criar um perfil de teste.</p>
+
+<div class="card">
+
+<label>Nome do anúncio</label>
+<input id="nome" type="text" placeholder="Como deseja aparecer">
+
+<label>Categoria</label>
+<select id="categoria">
+  <option>Mulheres</option>
+  <option>Homens</option>
+  <option>LGBTQ+</option>
+</select>
+
+<label>Cidade</label>
+<input id="cidade" type="text" placeholder="Ex.: São Paulo">
+
+<label>Bairro</label>
+<input id="bairro" type="text" placeholder="Ex.: Moema">
+
+<label>Descrição</label>
+<textarea id="descricao" placeholder="Conte um pouco sobre você..."></textarea>
+
+<label>Foto</label>
+<div class="foto">
+  <input id="foto" type="file" accept="image/*">
+  <img id="preview">
+</div>
+
+<button onclick="criarPerfil()">Criar perfil de teste</button>
+
+<p class="aviso">
+Somente maiores de 18 anos. Nesta versão de teste, os dados ficam apenas neste aparelho.
+</p>
+
+</div>
+</main>
+
+<script>
+const foto = document.getElementById("foto");
+const preview = document.getElementById("preview");
+
+foto.addEventListener("change", function(){
+  const arquivo = this.files[0];
+  if(!arquivo) return;
+
+  const leitor = new FileReader();
+
+  leitor.onload = function(e){
+    preview.src = e.target.result;
+    preview.style.display = "block";
+  };
+
+  leitor.readAsDataURL(arquivo);
+});
+
+function criarPerfil(){
+
+  const nome = document.getElementById("nome").value.trim();
+
+  if(!nome){
+    alert("Digite o nome do anúncio.");
+    return;
+  }
+
+  const perfil = {
+    nome: nome,
+    categoria: document.getElementById("categoria").value,
+    cidade: document.getElementById("cidade").value,
+    bairro: document.getElementById("bairro").value,
+    descricao: document.getElementById("descricao").value,
+    foto: preview.src || ""
+  };
+
+  localStorage.setItem("lilasPerfil", JSON.stringify(perfil));
+
+  alert("Perfil de teste criado!");
+  window.location.href="index.html";
+}
+</script>
+
+</body>
+</html>
