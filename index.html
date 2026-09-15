@@ -1,13 +1,17 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
 
   <meta
     name="description"
-    content="Lilás Club — encontre perfis adultos na sua cidade."
-  >
+    content="Lilás Club | Encontre perfis na sua cidade"
+  />
 
   <title>Lilás Club</title>
 
@@ -19,807 +23,947 @@
     }
 
     :root {
-      --azul: #62c8f3;
-      --lilas: #d9b8ff;
-      --lilas-claro: #f4ebff;
-      --amarelo: #ffd84d;
-      --texto: #352b45;
-      --branco: #ffffff;
+      --lilas: #8b2cb3;
+      --lilas-claro: #f4e6fa;
+      --rosa: #d94fa3;
+      --preto: #222;
+      --cinza: #777;
+      --fundo: #f7f7f7;
+      --branco: #fff;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
-      background: #ffffff;
-      color: var(--texto);
+      font-family: Arial, Helvetica, sans-serif;
+      background: var(--fundo);
+      color: var(--preto);
     }
 
     header {
-      background: linear-gradient(120deg, var(--azul), var(--lilas));
-      padding: 18px 20px;
-    }
-
-    .topo {
-      max-width: 1100px;
-      margin: auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
+      background: white;
+      padding: 18px 16px;
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      position: sticky;
+      top: 0;
+      z-index: 20;
     }
 
     .logo {
-      font-size: 27px;
-      font-weight: 900;
-      color: var(--amarelo);
-      letter-spacing: 1px;
-      text-shadow: 0 1px 2px rgba(0,0,0,.12);
+      font-size: 29px;
+      font-weight: 800;
+      color: var(--lilas);
+      letter-spacing: -1px;
     }
 
-    .anunciar {
-      text-decoration: none;
-      background: var(--amarelo);
-      color: #403449;
-      font-weight: 800;
-      padding: 11px 17px;
-      border-radius: 12px;
+    .logo span {
+      color: var(--rosa);
+    }
+
+    .container {
+      width: min(100%, 1100px);
+      margin: auto;
+      padding: 18px 14px 40px;
     }
 
     .hero {
-      background: linear-gradient(135deg, var(--azul), var(--lilas));
-      padding: 38px 20px 48px;
+      background: linear-gradient(
+        135deg,
+        #8127a8,
+        #c4479d
+      );
+
+      color: white;
+      border-radius: 18px;
+      padding: 25px 18px;
+      margin-bottom: 18px;
       text-align: center;
     }
 
     .hero h1 {
-      font-size: 32px;
-      margin-bottom: 9px;
-      color: #ffffff;
-    }
-
-    .hero p {
-      color: #ffffff;
-      margin-bottom: 24px;
-      font-size: 16px;
-    }
-
-    .busca {
-      max-width: 720px;
-      margin: auto;
-      background: #ffffff;
-      padding: 14px;
-      border-radius: 18px;
-
-      display: grid;
-      grid-template-columns: 1fr 1fr auto;
-      gap: 9px;
-
-      box-shadow: 0 10px 28px rgba(63,45,80,.15);
-    }
-
-    .busca select,
-    .busca input {
-      width: 100%;
-      border: 1px solid #ddd4e8;
-      border-radius: 11px;
-      padding: 13px;
-      font-size: 16px;
-      background: #ffffff;
-      color: var(--texto);
-    }
-
-    .buscar {
-      border: 0;
-      border-radius: 11px;
-      padding: 13px 22px;
-      background: var(--amarelo);
-      color: #403449;
-      font-size: 16px;
-      font-weight: 900;
-      cursor: pointer;
-    }
-
-    main {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px 20px;
-    }
-
-    h2 {
-      font-size: 23px;
-      margin-bottom: 17px;
-    }
-
-    .categorias {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 12px;
-      margin-bottom: 35px;
-    }
-
-    .categoria {
-      background: var(--lilas-claro);
-      border: 1px solid #e3d3f5;
-      border-radius: 16px;
-      padding: 20px 10px;
-      text-align: center;
-      font-weight: 800;
-      cursor: pointer;
-    }
-
-    .categoria span {
-      display: block;
-      font-size: 25px;
+      font-size: 24px;
       margin-bottom: 7px;
     }
 
-    #areaPerfis {
-      margin-bottom: 35px;
+    .hero p {
+      font-size: 14px;
+      opacity: 0.95;
     }
 
-    .titulo-perfis {
-      margin-bottom: 16px;
+    .busca-box {
+      background: white;
+      padding: 16px;
+      border-radius: 16px;
+      box-shadow: 0 3px 14px rgba(0,0,0,.07);
+      margin-bottom: 22px;
     }
 
-    .grade-perfis {
+    .busca-box h2 {
+      font-size: 17px;
+      color: var(--lilas);
+      margin-bottom: 13px;
+    }
+
+    .campos {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 14px;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
-    .card-perfil {
-      background: #ffffff;
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 5px 18px rgba(60,40,80,.14);
-    }
-
-    .card-perfil img {
-      display: block;
+    select,
+    input {
       width: 100%;
-      height: 280px;
-      object-fit: cover;
+      height: 46px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 0 12px;
+      background: white;
+      font-size: 15px;
+      outline: none;
     }
 
-    .card-conteudo {
-      padding: 14px;
+    select:focus,
+    input:focus {
+      border-color: var(--lilas);
     }
 
-    .card-conteudo h3 {
-      font-size: 20px;
-      margin-bottom: 6px;
+    #buscar {
+      width: 100%;
+      border: 0;
+      margin-top: 11px;
+      height: 48px;
+      border-radius: 11px;
+      background: var(--lilas);
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
     }
 
-    .local-perfil {
+    #buscar:active {
+      transform: scale(.99);
+    }
+
+    .topo-resultados {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 6px 2px 14px;
+    }
+
+    .topo-resultados h2 {
+      font-size: 19px;
+    }
+
+    #quantidade {
+      font-size: 13px;
+      color: #777;
+    }
+
+    #listaPerfis {
+      display: grid;
+
+      /* DUAS COLUNAS NO CELULAR */
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+
+      gap: 11px;
+    }
+
+    .perfil-card {
+      background: white;
+      border-radius: 13px;
+      overflow: hidden;
+      box-shadow: 0 2px 9px rgba(0,0,0,.09);
+      cursor: pointer;
+      transition: transform .15s ease;
+      min-width: 0;
+    }
+
+    .perfil-card:active {
+      transform: scale(.985);
+    }
+
+    /*
+      IMPORTANTE:
+      NÃO corta a foto.
+
+      object-fit: contain faz a imagem
+      inteira aparecer dentro do espaço.
+    */
+    .foto-box {
+      width: 100%;
+      height: 230px;
+      background: #eee;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+
+    .foto-box img {
+      width: 100%;
+      height: 100%;
+
+      /* CORREÇÃO DA FOTO */
+      object-fit: contain;
+
+      object-position: center;
+      display: block;
+    }
+
+    .perfil-info {
+      padding: 10px;
+    }
+
+    .linha-nome {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .nome {
+      font-weight: 800;
+      font-size: 15px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .verificada {
+      color: #7b27a5;
+      font-size: 15px;
+    }
+
+    .local {
+      color: #777;
+      font-size: 12px;
+      margin-top: 5px;
+      line-height: 1.3;
+    }
+
+    .descricao {
+      margin-top: 7px;
+      font-size: 12px;
+      color: #555;
+
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+
+      min-height: 30px;
+    }
+
+    .preco {
+      font-weight: 800;
+      color: var(--lilas);
+      margin-top: 8px;
       font-size: 14px;
-      font-weight: 700;
-      margin-bottom: 8px;
-      color: #765c8f;
     }
 
-    .descricao-perfil {
-      font-size: 14px;
-      line-height: 1.45;
+    .recursos {
+      display: flex;
+      gap: 6px;
+      margin-top: 7px;
+      font-size: 12px;
+    }
+
+    .recurso {
+      background: var(--lilas-claro);
+      color: var(--lilas);
+      border-radius: 7px;
+      padding: 4px 6px;
     }
 
     .sem-resultado {
-      background: var(--lilas-claro);
-      padding: 22px;
-      border-radius: 16px;
+      grid-column: 1 / -1;
+      background: white;
+      padding: 30px 20px;
+      border-radius: 15px;
       text-align: center;
-      line-height: 1.5;
+      color: #777;
     }
 
-    .destaque {
-      background: linear-gradient(135deg, #f8f1ff, #eaf8ff);
-      padding: 25px;
-      border-radius: 20px;
-      margin-bottom: 30px;
+    .sem-resultado strong {
+      display: block;
+      color: var(--lilas);
+      font-size: 17px;
+      margin-bottom: 7px;
     }
 
-    .destaque p {
-      line-height: 1.6;
-      margin-bottom: 17px;
+    .acoes {
+      margin-top: 24px;
+      text-align: center;
     }
 
-    .cta {
+    .anunciar {
       display: inline-block;
+      background: var(--rosa);
+      color: white;
       text-decoration: none;
-      background: var(--amarelo);
-      color: #403449;
-      padding: 12px 18px;
-      border-radius: 11px;
-      font-weight: 900;
+      font-weight: bold;
+      padding: 13px 22px;
+      border-radius: 12px;
     }
 
-    .aviso {
-      padding: 17px;
-      border-radius: 14px;
-      background: #faf7fc;
-      font-size: 14px;
-      line-height: 1.5;
+    @media (min-width: 700px) {
+      #listaPerfis {
+        grid-template-columns:
+          repeat(3, minmax(0, 1fr));
+        gap: 18px;
+      }
+
+      .foto-box {
+        height: 320px;
+      }
     }
 
-    footer {
-      margin-top: 25px;
-      padding: 28px 20px;
-      text-align: center;
-      background: var(--lilas-claro);
-      font-size: 14px;
-    }
-
-    footer strong {
-      color: #7e54a8;
-    }
-
-    @media (max-width: 700px) {
-
-      .hero h1 {
-        font-size: 27px;
-      }
-
-      .busca {
-        grid-template-columns: 1fr;
-      }
-
-      .buscar {
-        width: 100%;
-      }
-
-      .categorias {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .grade-perfis {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 10px;
-      }
-
-      .card-perfil img {
-        height: 220px;
-      }
-
-      .card-conteudo {
-        padding: 10px;
-      }
-
-      .card-conteudo h3 {
-        font-size: 17px;
-      }
-
-      .logo {
-        font-size: 23px;
-      }
-
-      .anunciar {
-        padding: 10px 13px;
-        font-size: 14px;
+    @media (min-width: 1000px) {
+      #listaPerfis {
+        grid-template-columns:
+          repeat(4, minmax(0, 1fr));
       }
     }
   </style>
 </head>
 
-
 <body>
 
 <header>
-  <div class="topo">
+  <div class="logo">
+    Lilás <span>Club</span>
+  </div>
+</header>
 
-    <div class="logo">
-      LILÁS CLUB
+<main class="container">
+
+  <section class="hero">
+    <h1>Encontre perfis perto de você</h1>
+    <p>
+      Escolha o estado e a cidade para encontrar perfis.
+    </p>
+  </section>
+
+  <section class="busca-box">
+
+    <h2>Onde você está?</h2>
+
+    <div class="campos">
+
+      <select id="estado">
+        <option value="">
+          Todos os estados
+        </option>
+
+        <option value="AC">Acre</option>
+        <option value="AL">Alagoas</option>
+        <option value="AP">Amapá</option>
+        <option value="AM">Amazonas</option>
+        <option value="BA">Bahia</option>
+        <option value="CE">Ceará</option>
+        <option value="DF">Distrito Federal</option>
+        <option value="ES">Espírito Santo</option>
+        <option value="GO">Goiás</option>
+        <option value="MA">Maranhão</option>
+        <option value="MT">Mato Grosso</option>
+        <option value="MS">Mato Grosso do Sul</option>
+        <option value="MG">Minas Gerais</option>
+        <option value="PA">Pará</option>
+        <option value="PB">Paraíba</option>
+        <option value="PR">Paraná</option>
+        <option value="PE">Pernambuco</option>
+        <option value="PI">Piauí</option>
+        <option value="RJ">Rio de Janeiro</option>
+        <option value="RN">Rio Grande do Norte</option>
+        <option value="RS">Rio Grande do Sul</option>
+        <option value="RO">Rondônia</option>
+        <option value="RR">Roraima</option>
+        <option value="SC">Santa Catarina</option>
+        <option value="SP">São Paulo</option>
+        <option value="SE">Sergipe</option>
+        <option value="TO">Tocantins</option>
+      </select>
+
+      <input
+        id="cidade"
+        type="text"
+        placeholder="Digite a cidade"
+        autocomplete="off"
+      >
+
     </div>
 
+    <button id="buscar">
+      BUSCAR
+    </button>
+
+  </section>
+
+  <div class="topo-resultados">
+
+    <h2>Perfis</h2>
+
+    <span id="quantidade"></span>
+
+  </div>
+
+  <section id="listaPerfis"></section>
+
+  <div class="acoes">
     <a
       class="anunciar"
       href="anunciar.html"
     >
-      ANUNCIAR
-    </a>
-
-  </div>
-</header>
-
-
-<section class="hero">
-
-  <h1>
-    Acompanhantes na sua cidade
-  </h1>
-
-  <p>
-    Encontre perfis adultos de forma simples e rápida.
-  </p>
-
-
-  <div class="busca">
-
-    <select id="estado">
-
-      <option value="">
-        Escolha o estado
-      </option>
-
-      <option>São Paulo</option>
-      <option>Rio de Janeiro</option>
-      <option>Minas Gerais</option>
-      <option>Paraná</option>
-      <option>Distrito Federal</option>
-      <option>Rio Grande do Sul</option>
-      <option>Santa Catarina</option>
-      <option>Bahia</option>
-      <option>Goiás</option>
-      <option>Pernambuco</option>
-      <option>Ceará</option>
-      <option>Espírito Santo</option>
-
-    </select>
-
-
-    <input
-      id="cidadeBusca"
-      type="text"
-      placeholder="Digite a cidade"
-      autocomplete="off"
-    >
-
-
-    <button
-      class="buscar"
-      type="button"
-      onclick="buscar()"
-    >
-      BUSCAR
-    </button>
-
-  </div>
-
-</section>
-
-
-<main>
-
-  <section id="areaPerfis"></section>
-
-
-  <h2>
-    Escolha uma categoria
-  </h2>
-
-
-  <div class="categorias">
-
-    <div class="categoria">
-      <span>♀</span>
-      Mulheres
-    </div>
-
-    <div class="categoria">
-      <span>♂</span>
-      Homens
-    </div>
-
-    <div class="categoria">
-      <span>🌈</span>
-      LGBTQ+
-    </div>
-
-    <div class="categoria">
-      <span>✓</span>
-      Verificados
-    </div>
-
-  </div>
-
-
-  <section class="destaque">
-
-    <h2>
-      Quer anunciar no Lilás Club?
-    </h2>
-
-    <p>
-      Crie seu perfil, escolha sua cidade e apresente
-      suas informações de maneira simples.
-    </p>
-
-    <a
-      class="cta"
-      href="anunciar.html"
-    >
       CRIAR PERFIL
     </a>
-
-  </section>
-
-
-  <div class="aviso">
-
-    <strong>
-      Conteúdo para maiores de 18 anos.
-    </strong>
-
-    <br>
-
-    O Lilás Club é destinado exclusivamente a adultos.
-    Todos os perfis e conteúdos publicados devem respeitar
-    as leis aplicáveis e as regras da plataforma.
-
   </div>
 
 </main>
 
 
-<footer>
-
-  <strong>
-    LILÁS CLUB
-  </strong>
-
-  <br><br>
-
-  © 2026 Lilás Club · Termos · Privacidade · Segurança
-
-</footer>
-
-
 <script>
 
-function normalizar(texto) {
+  const listaPerfis =
+    document.getElementById("listaPerfis");
 
-  return (texto || "")
-    .toString()
-    .trim()
-    .toLowerCase()
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "");
+  const campoEstado =
+    document.getElementById("estado");
 
-}
+  const campoCidade =
+    document.getElementById("cidade");
 
+  const botaoBuscar =
+    document.getElementById("buscar");
 
-function pegarPerfil() {
+  const quantidade =
+    document.getElementById("quantidade");
 
-  const perfilSalvo =
-    localStorage.getItem("lilasPerfil");
 
-  if (!perfilSalvo) {
-    return null;
-  }
+  /*
+    Remove acentos, espaços extras
+    e diferenças entre maiúsculas/minúsculas.
 
-  try {
+    Exemplo:
+    São Paulo
+    sao paulo
+    SÃO PAULO
 
-    return JSON.parse(perfilSalvo);
+    passam a ser iguais.
+  */
 
-  } catch (erro) {
+  function normalizar(texto) {
 
-    console.log(
-      "Erro ao ler perfil:",
-      erro
-    );
-
-    return null;
-
-  }
-
-}
-
-
-function mostrarPerfil(perfil, tituloTexto) {
-
-  const area =
-    document.getElementById("areaPerfis");
-
-  area.innerHTML = "";
-
-
-  const titulo =
-    document.createElement("h2");
-
-  titulo.className =
-    "titulo-perfis";
-
-  titulo.textContent =
-    tituloTexto || "Perfis encontrados";
-
-  area.appendChild(titulo);
-
-
-  const grade =
-    document.createElement("div");
-
-  grade.className =
-    "grade-perfis";
-
-
-  const card =
-    document.createElement("div");
-
-  card.className =
-    "card-perfil";
-
-
-  if (perfil.foto) {
-
-    const foto =
-      document.createElement("img");
-
-    foto.src =
-      perfil.foto;
-
-    foto.alt =
-      "Foto do perfil";
-
-    card.appendChild(foto);
-
-  }
-
-
-  const conteudo =
-    document.createElement("div");
-
-  conteudo.className =
-    "card-conteudo";
-
-
-  const nome =
-    document.createElement("h3");
-
-  nome.textContent =
-    perfil.nome || "Perfil";
-
-  conteudo.appendChild(nome);
-
-
-  const local =
-    document.createElement("p");
-
-  local.className =
-    "local-perfil";
-
-
-  let localizacao = [];
-
-
-  if (perfil.estado) {
-
-    if (perfil.cidade) {
-      localizacao.push(perfil.cidade);
-    }
-
-    localizacao.push(perfil.estado);
-
-  } else {
-
-    /*
-      Compatibilidade com o cadastro antigo:
-      cidade = estado
-      bairro = cidade
-    */
-
-    if (perfil.bairro) {
-      localizacao.push(perfil.bairro);
-    }
-
-    if (perfil.cidade) {
-      localizacao.push(perfil.cidade);
-    }
-
-  }
-
-
-  local.textContent =
-    localizacao.join(" • ");
-
-  conteudo.appendChild(local);
-
-
-  if (perfil.descricao) {
-
-    const descricao =
-      document.createElement("p");
-
-    descricao.className =
-      "descricao-perfil";
-
-    descricao.textContent =
-      perfil.descricao;
-
-    conteudo.appendChild(descricao);
-
-  }
-
-
-  card.appendChild(conteudo);
-
-  grade.appendChild(card);
-
-  area.appendChild(grade);
-
-}
-
-
-function mostrarSemResultado() {
-
-  const area =
-    document.getElementById("areaPerfis");
-
-  area.innerHTML = `
-
-    <div class="sem-resultado">
-
-      <h2>
-        Nenhum perfil encontrado
-      </h2>
-
-      <p>
-        Confira o estado e a cidade e tente novamente.
-      </p>
-
-    </div>
-
-  `;
-
-
-  area.scrollIntoView({
-    behavior: "smooth",
-    block: "start"
-  });
-
-}
-
-
-function buscar() {
-
-  const estadoBusca =
-    document.getElementById("estado").value;
-
-  const cidadeBusca =
-    document.getElementById("cidadeBusca")
-      .value
-      .trim();
-
-
-  if (!estadoBusca) {
-
-    alert(
-      "Escolha o estado para continuar."
-    );
-
-    return;
-
-  }
-
-
-  if (!cidadeBusca) {
-
-    alert(
-      "Digite a cidade para continuar."
-    );
-
-    return;
-
-  }
-
-
-  const perfil =
-    pegarPerfil();
-
-
-  if (!perfil) {
-
-    mostrarSemResultado();
-
-    return;
+    return String(texto || "")
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .trim()
+      .toLowerCase();
 
   }
 
 
   /*
-    NOVO CADASTRO:
-    perfil.estado = São Paulo
-    perfil.cidade = Sorocaba
-
-    CADASTRO ANTIGO:
-    perfil.cidade = São Paulo
-    perfil.bairro = Sorocaba
+    Procura os perfis salvos.
+    Aceita tanto lilasPerfil quanto lilasPerfis.
   */
 
+  function carregarPerfis() {
 
-  const estadoPerfil =
-    normalizar(
+    let perfis = [];
+
+    try {
+
+      const varios =
+        JSON.parse(
+          localStorage.getItem("lilasPerfis")
+        );
+
+      if (Array.isArray(varios)) {
+        perfis = [...varios];
+      }
+
+    } catch (erro) {
+      console.log("Erro lendo lilasPerfis", erro);
+    }
+
+
+    try {
+
+      const unico =
+        JSON.parse(
+          localStorage.getItem("lilasPerfil")
+        );
+
+      if (unico) {
+
+        if (Array.isArray(unico)) {
+
+          unico.forEach(perfil => {
+
+            const existe =
+              perfis.some(
+                p =>
+                  JSON.stringify(p) ===
+                  JSON.stringify(perfil)
+              );
+
+            if (!existe) {
+              perfis.push(perfil);
+            }
+
+          });
+
+        } else {
+
+          const existe =
+            perfis.some(
+              p =>
+                JSON.stringify(p) ===
+                JSON.stringify(unico)
+            );
+
+          if (!existe) {
+            perfis.push(unico);
+          }
+
+        }
+
+      }
+
+    } catch (erro) {
+      console.log("Erro lendo lilasPerfil", erro);
+    }
+
+
+    return perfis;
+
+  }
+
+
+  /*
+    Encontra a foto mesmo se o formulário
+    tiver salvo com nomes diferentes.
+  */
+
+  function obterFoto(perfil) {
+
+    if (!perfil) return "";
+
+    if (perfil.foto) return perfil.foto;
+
+    if (perfil.fotoCapa) return perfil.fotoCapa;
+
+    if (perfil.capa) return perfil.capa;
+
+    if (perfil.imagem) return perfil.imagem;
+
+    if (
+      Array.isArray(perfil.fotos) &&
+      perfil.fotos.length
+    ) {
+      return perfil.fotos[0];
+    }
+
+    if (
+      Array.isArray(perfil.galeria) &&
+      perfil.galeria.length
+    ) {
+      return perfil.galeria[0];
+    }
+
+    return "";
+
+  }
+
+
+  function obterNome(perfil) {
+
+    return (
+      perfil.nome ||
+      perfil.nomeArtistico ||
+      perfil.apelido ||
+      "Perfil"
+    );
+
+  }
+
+
+  function obterEstado(perfil) {
+
+    return (
       perfil.estado ||
       perfil.uf ||
-      perfil.cidade
+      perfil.state ||
+      ""
     );
-
-
-  let cidadePerfil = "";
-
-
-  if (
-    perfil.estado ||
-    perfil.uf
-  ) {
-
-    cidadePerfil =
-      normalizar(
-        perfil.cidade
-      );
-
-  } else {
-
-    cidadePerfil =
-      normalizar(
-        perfil.bairro ||
-        perfil.cidade
-      );
 
   }
 
 
-  const estadoProcurado =
-    normalizar(estadoBusca);
+  function obterCidade(perfil) {
 
-
-  const cidadeProcurada =
-    normalizar(cidadeBusca);
-
-
-  const estadoConfere =
-    estadoPerfil === estadoProcurado;
-
-
-  const cidadeConfere =
-    cidadePerfil === cidadeProcurada ||
-    cidadePerfil.includes(cidadeProcurada) ||
-    cidadeProcurada.includes(cidadePerfil);
-
-
-  if (
-    estadoConfere &&
-    cidadeConfere
-  ) {
-
-    mostrarPerfil(
-      perfil,
-      "Perfil encontrado"
+    return (
+      perfil.cidade ||
+      perfil.city ||
+      perfil.localidade ||
+      ""
     );
 
+  }
 
-    document
-      .getElementById("areaPerfis")
-      .scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+
+  function obterBairro(perfil) {
+
+    return (
+      perfil.bairro ||
+      perfil.regiao ||
+      ""
+    );
+
+  }
+
+
+  function obterDescricao(perfil) {
+
+    return (
+      perfil.descricao ||
+      perfil.bio ||
+      perfil.frase ||
+      perfil.sobre ||
+      ""
+    );
+
+  }
+
+
+  function obterPreco(perfil) {
+
+    const preco =
+      perfil.valor1hora ||
+      perfil.valor1Hora ||
+      perfil.valorHora ||
+      perfil.precoHora ||
+      perfil.valor ||
+      "";
+
+    if (!preco) {
+      return "";
+    }
+
+    const texto = String(preco);
+
+    if (
+      texto.includes("R$") ||
+      texto.includes("£") ||
+      texto.includes("€")
+    ) {
+      return texto;
+    }
+
+    return "R$ " + texto;
+
+  }
+
+
+  /*
+    Cria o card.
+  */
+
+  function criarCard(perfil, indice) {
+
+    const card =
+      document.createElement("article");
+
+    card.className = "perfil-card";
+
+    const foto = obterFoto(perfil);
+    const nome = obterNome(perfil);
+    const cidade = obterCidade(perfil);
+    const bairro = obterBairro(perfil);
+    const descricao = obterDescricao(perfil);
+    const preco = obterPreco(perfil);
+
+    const localTexto =
+      [bairro, cidade]
+        .filter(Boolean)
+        .join(" • ");
+
+
+    card.innerHTML = `
+
+      <div class="foto-box">
+
+        ${
+          foto
+
+          ? `
+            <img
+              src="${foto}"
+              alt="${nome}"
+            >
+          `
+
+          : `
+            <div style="
+              color:#888;
+              text-align:center;
+              padding:20px;
+              font-size:13px;
+            ">
+              Sem foto
+            </div>
+          `
+        }
+
+      </div>
+
+
+      <div class="perfil-info">
+
+        <div class="linha-nome">
+
+          <div class="nome">
+            ${nome}
+          </div>
+
+          <div class="verificada">
+            ✓
+          </div>
+
+        </div>
+
+
+        ${
+          localTexto
+          ? `
+            <div class="local">
+              📍 ${localTexto}
+            </div>
+          `
+          : ""
+        }
+
+
+        ${
+          descricao
+          ? `
+            <div class="descricao">
+              ${descricao}
+            </div>
+          `
+          : ""
+        }
+
+
+        ${
+          preco
+          ? `
+            <div class="preco">
+              ${preco}
+            </div>
+          `
+          : ""
+        }
+
+
+        <div class="recursos">
+
+          ${
+            perfil.video
+            ? `<span class="recurso">▶ Vídeo</span>`
+            : ""
+          }
+
+          ${
+            perfil.audio
+            ? `<span class="recurso">🎙 Áudio</span>`
+            : ""
+          }
+
+        </div>
+
+      </div>
+    `;
+
+
+    /*
+      CARD INTEIRO CLICÁVEL
+    */
+
+    card.addEventListener("click", () => {
+
+      localStorage.setItem(
+        "lilasPerfilSelecionado",
+        JSON.stringify(perfil)
+      );
+
+      localStorage.setItem(
+        "lilasPerfilSelecionadoIndice",
+        String(indice)
+      );
+
+      window.location.href = "perfil.html";
+
+    });
+
+
+    return card;
+
+  }
+
+
+  /*
+    Mostra os resultados.
+  */
+
+  function mostrarPerfis(perfis) {
+
+    listaPerfis.innerHTML = "";
+
+    quantidade.textContent =
+      perfis.length === 1
+        ? "1 perfil"
+        : `${perfis.length} perfis`;
+
+
+    if (!perfis.length) {
+
+      listaPerfis.innerHTML = `
+
+        <div class="sem-resultado">
+
+          <strong>
+            Nenhum perfil encontrado
+          </strong>
+
+          Tente escolher outro estado
+          ou digitar outra cidade.
+
+        </div>
+      `;
+
+      return;
+
+    }
+
+
+    perfis.forEach((perfil, indice) => {
+
+      listaPerfis.appendChild(
+        criarCard(perfil, indice)
+      );
+
+    });
+
+  }
+
+
+  /*
+    BUSCA CORRIGIDA
+  */
+
+  function buscarPerfis() {
+
+    const todos =
+      carregarPerfis();
+
+    const estadoBuscado =
+      normalizar(campoEstado.value);
+
+    const cidadeBuscada =
+      normalizar(campoCidade.value);
+
+
+    const resultados =
+      todos.filter(perfil => {
+
+        const estadoPerfil =
+          normalizar(
+            obterEstado(perfil)
+          );
+
+        const cidadePerfil =
+          normalizar(
+            obterCidade(perfil)
+          );
+
+
+        /*
+          Se nenhum estado estiver escolhido,
+          não filtra por estado.
+        */
+
+        const estadoOk =
+          !estadoBuscado ||
+          estadoPerfil === estadoBuscado ||
+          estadoPerfil.includes(estadoBuscado) ||
+          estadoBuscado.includes(estadoPerfil);
+
+
+        /*
+          A cidade aceita começo do nome também.
+
+          Exemplo:
+          "sao"
+          encontra
+          "São Paulo".
+        */
+
+        const cidadeOk =
+          !cidadeBuscada ||
+          cidadePerfil.includes(cidadeBuscada) ||
+          cidadeBuscada.includes(cidadePerfil);
+
+
+        return estadoOk && cidadeOk;
+
       });
 
-  } else {
 
-    mostrarSemResultado();
+    mostrarPerfis(resultados);
 
   }
 
-}
 
-
-/*
-  Mostra o anúncio cadastrado
-  automaticamente ao abrir a página.
-*/
-
-const perfilInicial =
-  pegarPerfil();
-
-
-if (perfilInicial) {
-
-  mostrarPerfil(
-    perfilInicial,
-    "Anúncios"
+  botaoBuscar.addEventListener(
+    "click",
+    buscarPerfis
   );
 
-}
+
+  /*
+    Também permite apertar Enter.
+  */
+
+  campoCidade.addEventListener(
+    "keydown",
+    event => {
+
+      if (event.key === "Enter") {
+        buscarPerfis();
+      }
+
+    }
+  );
+
+
+  /*
+    Quando abrir a página,
+    mostra os perfis cadastrados.
+  */
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    () => {
+
+      mostrarPerfis(
+        carregarPerfis()
+      );
+
+    }
+  );
 
 </script>
-
 
 </body>
 </html>
