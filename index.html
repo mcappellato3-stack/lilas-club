@@ -1,647 +1,1128 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lilás Club</title>
 
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0"
-  >
+<style>
+*{
+  box-sizing:border-box;
+}
 
-  <meta
-    name="description"
-    content="Lilás Club"
-  >
+body{
+  margin:0;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+  background:#faf8fc;
+  color:#24182b;
+}
 
-  <title>Lilás Club</title>
+a{
+  text-decoration:none;
+  color:inherit;
+}
 
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+/* TOPO */
 
-    :root {
-      --lilas: #8c35ad;
-      --lilas-escuro: #66227d;
-      --rosa: #d84b9a;
-      --vermelho: #d93455;
-      --branco: #ffffff;
-      --fundo: #f5f5f7;
-      --texto: #252525;
-      --cinza: #777;
-      --borda: #e5e5e5;
-    }
+header{
+  background:white;
+  border-bottom:1px solid #eadff2;
+  position:sticky;
+  top:0;
+  z-index:20;
+}
 
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: var(--fundo);
-      color: var(--texto);
-    }
+.topo{
+  max-width:1100px;
+  margin:auto;
+  padding:12px 14px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
 
-    /* =========================
-       LOGO
-    ========================== */
+.logo{
+  display:flex;
+  align-items:center;
+  gap:9px;
+  color:#7330a8;
+  font-size:21px;
+  font-weight:900;
+}
 
-    header {
-      background: white;
-      border-bottom: 1px solid #ececec;
-      position: sticky;
-      top: 0;
-      z-index: 50;
-    }
+.logo-icon{
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:linear-gradient(135deg,#8f3fd1,#ff4fa3);
+  color:white;
+  font-size:20px;
+}
 
-    .header-interno {
-      min-height: 68px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 9px 14px;
-    }
+.anunciar{
+  background:#7e35b7;
+  color:white;
+  border-radius:20px;
+  padding:10px 15px;
+  font-size:13px;
+  font-weight:800;
+}
 
-    .logo {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 9px;
-    }
+/* HERO */
 
-    .logo-coracao {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: var(--lilas);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 24px;
-      line-height: 1;
-      box-shadow: 0 2px 7px rgba(140, 53, 173, .22);
-    }
+.hero{
+  max-width:1100px;
+  margin:auto;
+  padding:18px 12px 8px;
+}
 
-    .logo-nome {
-      font-size: 28px;
-      font-weight: 900;
-      letter-spacing: -1px;
-      white-space: nowrap;
-    }
+.hero-box{
+  padding:22px 17px;
+  border-radius:22px;
+  color:white;
+  background:linear-gradient(135deg,#7430ad,#a348d2,#e255ad);
+}
 
-    .logo-lilas {
-      color: var(--lilas);
-    }
+.hero h1{
+  margin:0;
+  font-size:30px;
+  line-height:1.05;
+}
 
-    .logo-club {
-      color: var(--vermelho);
-    }
+.hero p{
+  margin:9px 0 0;
+  font-size:14px;
+  line-height:1.45;
+}
 
-    /* =========================
-       PÁGINA
-    ========================== */
+/* BUSCA */
 
-    .container {
-      width: min(100%, 1100px);
-      margin: auto;
-      padding: 14px 12px 40px;
-    }
+.busca-area{
+  max-width:1100px;
+  margin:auto;
+  padding:8px 12px 12px;
+}
 
-    .hero {
-      background:
-        linear-gradient(
-          135deg,
-          #7c299d,
-          #c54492
-        );
+.busca{
+  background:white;
+  border:1px solid #e9deef;
+  border-radius:18px;
+  padding:11px;
+  box-shadow:0 8px 25px rgba(75,35,95,.08);
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:9px;
+}
 
-      color: white;
-      padding: 21px 16px;
-      border-radius: 17px;
-      text-align: center;
-      margin-bottom: 14px;
-    }
+.campo{
+  display:flex;
+  flex-direction:column;
+  gap:5px;
+}
 
-    .hero h1 {
-      font-size: 22px;
-      margin-bottom: 5px;
-    }
+.campo label{
+  font-size:11px;
+  font-weight:800;
+  color:#796b84;
+}
 
-    .hero p {
-      font-size: 13px;
-      opacity: .96;
-    }
+select,
+input{
+  width:100%;
+  min-height:46px;
+  border:1px solid #e4d7eb;
+  border-radius:13px;
+  background:white;
+  padding:0 11px;
+  color:#25192c;
+  font-size:14px;
+  outline:none;
+}
 
-    /* =========================
-       BUSCA
-    ========================== */
+.campo-livre{
+  grid-column:1 / -1;
+}
 
-    .busca-box {
-      background: white;
-      padding: 14px;
-      border-radius: 15px;
-      box-shadow: 0 3px 12px rgba(0,0,0,.07);
-      margin-bottom: 19px;
-    }
+.buscar{
+  grid-column:1 / -1;
+  min-height:48px;
+  border:0;
+  border-radius:14px;
+  background:linear-gradient(135deg,#8f3fd1,#6e299f);
+  color:white;
+  font-weight:900;
+  font-size:15px;
+}
 
-    .busca-titulo {
-      font-size: 16px;
-      font-weight: 800;
-      color: var(--lilas);
-      margin-bottom: 10px;
-    }
+/* CONTEÚDO */
 
-    .campos {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 9px;
-    }
+main{
+  max-width:1100px;
+  margin:auto;
+  padding:4px 12px 35px;
+}
 
-    select,
-    input {
-      width: 100%;
-      height: 47px;
-      border: 1px solid #ddd;
-      border-radius: 11px;
-      background: white;
-      font-size: 15px;
-      padding: 0 12px;
-      outline: none;
-    }
+.titulo-area{
+  display:flex;
+  justify-content:space-between;
+  align-items:end;
+  gap:10px;
+  margin:8px 0 12px;
+}
 
-    select:focus,
-    input:focus {
-      border-color: var(--lilas);
-      box-shadow: 0 0 0 2px rgba(140,53,173,.08);
-    }
+.titulo-area h2{
+  margin:0;
+  font-size:21px;
+}
 
-    #buscar {
-      width: 100%;
-      height: 48px;
-      margin-top: 10px;
-      border: none;
-      border-radius: 11px;
-      background: var(--lilas);
-      color: white;
-      font-size: 16px;
-      font-weight: 800;
-      cursor: pointer;
-    }
+.contador{
+  margin-top:3px;
+  font-size:12px;
+  color:#80738a;
+}
 
-    #buscar:active {
-      transform: scale(.99);
-    }
+.limpar{
+  border:0;
+  background:transparent;
+  color:#7735a6;
+  font-weight:800;
+  padding:5px;
+}
 
-    .dica-busca {
-      font-size: 11px;
-      color: #8a8a8a;
-      margin-top: 8px;
-      line-height: 1.35;
-    }
+/* CARDS */
 
-    /* =========================
-       RESULTADOS
-    ========================== */
+.grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:9px;
+}
 
-    .topo-resultados {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 4px 2px 12px;
-    }
+.card{
+  min-width:0;
+  overflow:hidden;
+  border-radius:16px;
+  background:white;
+  border:1px solid #e8ddec;
+  box-shadow:0 6px 18px rgba(60,30,75,.07);
+  cursor:pointer;
+}
 
-    .topo-resultados h2 {
-      font-size: 18px;
-    }
+.foto{
+  position:relative;
+  width:100%;
+  aspect-ratio:3 / 4;
+  overflow:hidden;
+  background:#eee7f2;
+}
 
-    #quantidade {
-      color: #777;
-      font-size: 12px;
-    }
+.foto img{
+  width:100%;
+  height:100%;
+  display:block;
+  object-fit:cover;
+  object-position:center;
+}
 
-    #listaPerfis {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 10px;
-    }
+.sem-foto{
+  width:100%;
+  height:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#8b7797;
+  font-size:13px;
+  font-weight:700;
+}
 
-    .perfil-card {
-      background: white;
-      border-radius: 13px;
-      overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,.09);
-      cursor: pointer;
-      min-width: 0;
-    }
+.selo{
+  position:absolute;
+  top:7px;
+  left:7px;
+  background:rgba(83,36,105,.86);
+  color:white;
+  padding:5px 7px;
+  border-radius:20px;
+  font-size:9px;
+  font-weight:900;
+}
 
-    .perfil-card:active {
-      transform: scale(.985);
-    }
+.coracao{
+  position:absolute;
+  top:7px;
+  right:7px;
+  width:32px;
+  height:32px;
+  border:0;
+  border-radius:50%;
+  background:rgba(255,255,255,.94);
+  color:#b02d85;
+  font-size:18px;
+}
 
-    /* =========================
-       FOTO
-    ========================== */
+.info{
+  padding:9px;
+}
 
-    .foto-box {
-      width: 100%;
-      height: 190px;
-      background: #f8f8f8;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      padding: 8px;
-    }
+.nome{
+  font-size:15px;
+  font-weight:900;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-    .foto-box img {
-      display: block;
-      max-width: 92%;
-      max-height: 100%;
-      width: auto;
-      height: auto;
-      object-fit: contain;
-      object-position: center;
-      border-radius: 8px;
-    }
+.local{
+  margin-top:4px;
+  font-size:11px;
+  color:#82758a;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
 
-    /* =========================
-       INFORMAÇÕES DO PERFIL
-    ========================== */
+.descricao{
+  margin-top:7px;
+  font-size:12px;
+  line-height:1.35;
+  color:#55495d;
+  height:33px;
+  overflow:hidden;
+}
 
-    .perfil-info {
-      padding: 9px;
-    }
+.preco{
+  margin-top:8px;
+  color:#6c2aa1;
+  font-size:12px;
+  font-weight:900;
+}
 
-    .linha-nome {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 5px;
-    }
+.vazio{
+  display:none;
+  padding:30px 15px;
+  border:1px dashed #d9c8e5;
+  border-radius:17px;
+  background:white;
+  text-align:center;
+  color:#766b7e;
+}
 
-    .nome {
-      font-size: 15px;
-      font-weight: 800;
-      overflow: hidden;
-      white-space: nowrap;
-      text-overflow: ellipsis;
-    }
+/* MODAL PERFIL */
 
-    .verificada {
-      color: var(--lilas);
-      font-weight: 900;
-    }
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  z-index:100;
+  padding:15px;
+  background:rgba(20,10,25,.68);
+  overflow:auto;
+}
 
-    .local {
-      color: #777;
-      font-size: 11px;
-      margin-top: 5px;
-      line-height: 1.35;
-    }
+.modal.ativo{
+  display:block;
+}
 
-    .descricao {
-      color: #555;
-      font-size: 11px;
-      line-height: 1.35;
-      margin-top: 6px;
+.modal-box{
+  max-width:520px;
+  margin:20px auto;
+  border-radius:22px;
+  background:white;
+  overflow:hidden;
+}
 
-      display: -webkit-box;
-      -webkit-line-clamp: 2;
-      -webkit-box-orient: vertical;
-      overflow: hidden;
+.modal-foto{
+  width:100%;
+  aspect-ratio:3 / 4;
+  max-height:520px;
+  background:#eee7f2;
+}
 
-      min-height: 29px;
-    }
+.modal-foto img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    .preco {
-      margin-top: 7px;
-      color: var(--lilas);
-      font-weight: 800;
-      font-size: 14px;
-    }
+.modal-info{
+  padding:16px;
+}
 
-    .recursos {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 4px;
-      margin-top: 6px;
-    }
+.modal-topo{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+}
 
-    .recurso {
-      background: #f2e5f7;
-      color: var(--lilas);
-      border-radius: 6px;
-      padding: 3px 5px;
-      font-size: 10px;
-    }
+.modal-topo h2{
+  margin:0;
+}
 
-    .sem-resultado {
-      grid-column: 1 / -1;
-      background: white;
-      border-radius: 14px;
-      text-align: center;
-      padding: 28px 16px;
-      color: #777;
-    }
+.fechar{
+  border:0;
+  width:36px;
+  height:36px;
+  border-radius:50%;
+  font-size:20px;
+  background:#f2e8f7;
+}
 
-    .sem-resultado strong {
-      display: block;
-      color: var(--lilas);
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
+.modal-local{
+  margin-top:5px;
+  color:#7c7084;
+  font-size:13px;
+}
 
-    .acoes {
-      text-align: center;
-      margin-top: 23px;
-    }
+.modal-desc{
+  margin-top:14px;
+  line-height:1.5;
+  color:#514658;
+}
 
-    .anunciar {
-      display: inline-block;
-      background: var(--rosa);
-      color: white;
-      text-decoration: none;
-      font-weight: 800;
-      padding: 13px 22px;
-      border-radius: 11px;
-    }
+.valores{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:7px;
+  margin-top:15px;
+}
 
-    @media (min-width: 600px) {
-      .campos {
-        grid-template-columns: 1fr 1fr;
-      }
+.valor{
+  text-align:center;
+  border:1px solid #eadff0;
+  border-radius:12px;
+  padding:10px 5px;
+  background:#fcf9fd;
+}
 
-      #listaPerfis {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 15px;
-      }
+.valor small{
+  display:block;
+  color:#897c91;
+  font-size:10px;
+}
 
-      .foto-box {
-        height: 245px;
-      }
-    }
+.valor strong{
+  display:block;
+  color:#6e299f;
+  font-size:13px;
+  margin-top:3px;
+}
 
-    @media (min-width: 950px) {
-      #listaPerfis {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
-      }
-    }
-  </style>
+.whatsapp{
+  width:100%;
+  margin-top:14px;
+  border:0;
+  min-height:48px;
+  border-radius:14px;
+  background:#7432ad;
+  color:white;
+  font-weight:900;
+}
+
+/* TELAS MAIORES */
+
+@media(min-width:750px){
+
+  .busca{
+    grid-template-columns:1fr 1fr 1.3fr auto;
+  }
+
+  .campo-livre{
+    grid-column:auto;
+  }
+
+  .buscar{
+    grid-column:auto;
+    padding:0 25px;
+    align-self:end;
+  }
+
+  .grid{
+    grid-template-columns:repeat(4,minmax(0,1fr));
+    gap:14px;
+  }
+
+  .hero h1{
+    font-size:42px;
+  }
+}
+</style>
 </head>
 
 <body>
 
 <header>
+  <div class="topo">
 
-  <div class="header-interno">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">♥</span>
+      <span>Lilás Club</span>
+    </a>
 
-    <div class="logo">
-
-      <div class="logo-coracao">
-        ♥
-      </div>
-
-      <div class="logo-nome">
-
-        <span class="logo-lilas">
-          Lilás
-        </span>
-
-        <span class="logo-club">
-          Club
-        </span>
-
-      </div>
-
-    </div>
+    <a href="anunciar.html" class="anunciar">
+      ANUNCIAR
+    </a>
 
   </div>
-
 </header>
 
+<section class="hero">
+  <div class="hero-box">
 
-<main class="container">
-
-  <section class="hero">
-
-    <h1>
-      Encontre perfis perto de você
-    </h1>
+    <h1>Encontre o perfil ideal para você.</h1>
 
     <p>
-      Pesquise por cidade, bairro ou região
+      Pesquise por estado, cidade, bairro ou pelo nome do perfil.
     </p>
 
-  </section>
+  </div>
+</section>
 
+<section class="busca-area">
 
-  <section class="busca-box">
+  <div class="busca">
 
-    <div class="busca-titulo">
-      Onde você procura?
-    </div>
+    <div class="campo">
 
-    <div class="campos">
+      <label>ESTADO</label>
 
       <select id="estado">
-
-        <option value="">
-          Todos os estados
-        </option>
-
-        <option value="AC">Acre</option>
-        <option value="AL">Alagoas</option>
-        <option value="AP">Amapá</option>
-        <option value="AM">Amazonas</option>
-        <option value="BA">Bahia</option>
-        <option value="CE">Ceará</option>
-        <option value="DF">Distrito Federal</option>
-        <option value="ES">Espírito Santo</option>
-        <option value="GO">Goiás</option>
-        <option value="MA">Maranhão</option>
-        <option value="MT">Mato Grosso</option>
-        <option value="MS">Mato Grosso do Sul</option>
-        <option value="MG">Minas Gerais</option>
-        <option value="PA">Pará</option>
-        <option value="PB">Paraíba</option>
-        <option value="PR">Paraná</option>
-        <option value="PE">Pernambuco</option>
-        <option value="PI">Piauí</option>
-        <option value="RJ">Rio de Janeiro</option>
-        <option value="RN">Rio Grande do Norte</option>
-        <option value="RS">Rio Grande do Sul</option>
-        <option value="RO">Rondônia</option>
-        <option value="RR">Roraima</option>
-        <option value="SC">Santa Catarina</option>
-        <option value="SP">São Paulo</option>
-        <option value="SE">Sergipe</option>
-        <option value="TO">Tocantins</option>
-
+        <option value="">Todos os estados</option>
       </select>
 
+    </div>
+
+    <div class="campo">
+
+      <label>CIDADE</label>
+
+      <select id="cidade">
+        <option value="">Todas as cidades</option>
+      </select>
+
+    </div>
+
+    <div class="campo campo-livre">
+
+      <label>BUSCA LIVRE</label>
 
       <input
-        id="localBusca"
+        id="textoBusca"
         type="search"
-        placeholder="Cidade, bairro ou região"
-        autocomplete="off"
+        placeholder="Nome, estado, cidade ou bairro"
       >
 
     </div>
 
-
-    <button id="buscar">
-      BUSCAR
+    <button
+      id="buscar"
+      class="buscar"
+      type="button"
+    >
+      🔎 BUSCAR
     </button>
-
-    <div class="dica-busca">
-      Ex.: São Paulo, Sao Paulo, Centro, Centre, Moema...
-    </div>
-
-  </section>
-
-
-  <div class="topo-resultados">
-
-    <h2>Perfis</h2>
-
-    <span id="quantidade"></span>
 
   </div>
 
+</section>
 
-  <section id="listaPerfis"></section>
+<main>
 
+  <div class="titulo-area">
 
-  <div class="acoes">
+    <div>
+      <h2>Perfis</h2>
+      <div id="contador" class="contador">
+        0 perfis encontrados
+      </div>
+    </div>
 
-    <a
-      href="anunciar.html"
-      class="anunciar"
+    <button
+      id="limpar"
+      class="limpar"
+      type="button"
     >
-      CRIAR PERFIL
-    </a>
+      Limpar busca
+    </button>
 
+  </div>
+
+  <div
+    id="grid"
+    class="grid"
+  ></div>
+
+  <div
+    id="vazio"
+    class="vazio"
+  >
+    <strong>Nenhum perfil encontrado.</strong>
+    <br>
+    Tente outra cidade, estado, bairro ou nome.
   </div>
 
 </main>
 
+<div
+  id="modal"
+  class="modal"
+>
+
+  <div class="modal-box">
+
+    <div
+      id="modalFoto"
+      class="modal-foto"
+    ></div>
+
+    <div class="modal-info">
+
+      <div class="modal-topo">
+
+        <div>
+          <h2 id="modalNome">Perfil</h2>
+          <div
+            id="modalLocal"
+            class="modal-local"
+          ></div>
+        </div>
+
+        <button
+          id="fechar"
+          class="fechar"
+          type="button"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div
+        id="modalDesc"
+        class="modal-desc"
+      ></div>
+
+      <div class="valores">
+
+        <div class="valor">
+          <small>15 MIN</small>
+          <strong id="valor15">—</strong>
+        </div>
+
+        <div class="valor">
+          <small>30 MIN</small>
+          <strong id="valor30">—</strong>
+        </div>
+
+        <div class="valor">
+          <small>1 HORA</small>
+          <strong id="valor60">—</strong>
+        </div>
+
+      </div>
+
+      <button
+        id="whatsapp"
+        class="whatsapp"
+        type="button"
+      >
+        WhatsApp
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
 
 <script>
 
-const listaPerfis =
-  document.getElementById("listaPerfis");
+/* ELEMENTOS */
 
-const campoEstado =
-  document.getElementById("estado");
+const estado =
+document.getElementById("estado");
 
-const campoLocal =
-  document.getElementById("localBusca");
+const cidade =
+document.getElementById("cidade");
 
-const botaoBuscar =
-  document.getElementById("buscar");
+const textoBusca =
+document.getElementById("textoBusca");
 
-const quantidade =
-  document.getElementById("quantidade");
+const buscar =
+document.getElementById("buscar");
+
+const limpar =
+document.getElementById("limpar");
+
+const grid =
+document.getElementById("grid");
+
+const contador =
+document.getElementById("contador");
+
+const vazio =
+document.getElementById("vazio");
+
+const modal =
+document.getElementById("modal");
+
+const fechar =
+document.getElementById("fechar");
+
+const modalFoto =
+document.getElementById("modalFoto");
+
+const modalNome =
+document.getElementById("modalNome");
+
+const modalLocal =
+document.getElementById("modalLocal");
+
+const modalDesc =
+document.getElementById("modalDesc");
+
+const valor15 =
+document.getElementById("valor15");
+
+const valor30 =
+document.getElementById("valor30");
+
+const valor60 =
+document.getElementById("valor60");
+
+const whatsapp =
+document.getElementById("whatsapp");
 
 
-/* ===========================
-   NORMALIZA TEXTO
-=========================== */
+let perfis = [];
+let perfilAtual = null;
 
-function normalizar(texto) {
 
-  return String(texto || "")
-    .normalize("NFD")
-    .replace(/[\u0300-\u036f]/g, "")
-    .toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
+/* FUNÇÕES AUXILIARES */
+
+function txt(v){
+
+  if(
+    v === undefined ||
+    v === null
+  ){
+    return "";
+  }
+
+  return String(v).trim();
 
 }
 
 
-/* ===========================
-   NOMES DOS ESTADOS
-=========================== */
+function normal(v){
 
-const estados = {
+  return txt(v)
+  .normalize("NFD")
+  .replace(/[\u0300-\u036f]/g,"")
+  .toLowerCase();
 
-  AC: "acre",
-  AL: "alagoas",
-  AP: "amapa",
-  AM: "amazonas",
-  BA: "bahia",
-  CE: "ceara",
-  DF: "distrito federal",
-  ES: "espirito santo",
-  GO: "goias",
-  MA: "maranhao",
-  MT: "mato grosso",
-  MS: "mato grosso do sul",
-  MG: "minas gerais",
-  PA: "para",
-  PB: "paraiba",
-  PR: "parana",
-  PE: "pernambuco",
-  PI: "piaui",
-  RJ: "rio de janeiro",
-  RN: "rio grande do norte",
-  RS: "rio grande do sul",
-  RO: "rondonia",
-  RR: "roraima",
-  SC: "santa catarina",
-  SP: "sao paulo",
-  SE: "sergipe",
-  TO: "tocantins"
-
-};
+}
 
 
-/* ===========================
-   SINÔNIMOS / ERROS COMUNS
-=========================== */
+function pegar(obj,nomes){
 
-const equivalencias = {
+  for(const nome of nomes){
 
-  "centre": "centro",
-  "center": "centro",
+    if(
+      obj &&
+      obj[nome] !== undefined &&
+      obj[nome] !== null &&
+      txt(obj[nome]) !== ""
+    ){
+      return obj[nome];
+    }
 
-  "sao paolo": "sao paulo",
-  "saopaulo": "sao paulo",
+  }
 
-  "rio janeiro": "rio de janeiro",
+  return "";
 
-  "bh": "belo horizonte",
-
-  "sampa": "sao paulo"
-
-};
-
-
-function aplicarEquivalencias(texto) {
-
-  let resultado =
-    normalizar(texto);
+}
 
 
-  Object.keys(equivalencias)
-    .forEach(chave => {
+function lerJSON(valor){
 
-      const regex =
-        new RegExp(
-          "\\b" + chave + "\\b",
-          "g"
+  try{
+    return JSON.parse(valor);
+  }
+  catch{
+    return null;
+  }
+
+}
+
+
+/* FOTO */
+
+function acharFoto(p){
+
+  let foto =
+  pegar(
+    p,
+    [
+      "fotoCapa",
+      "foto",
+      "capa",
+      "imagem",
+      "image",
+      "photo",
+      "avatar",
+      "fotoPrincipal"
+    ]
+  );
+
+  if(foto){
+    return foto;
+  }
+
+
+  const listas = [
+    p.fotos,
+    p.galeria,
+    p.imagens,
+    p.images
+  ];
+
+
+  for(const lista of listas){
+
+    if(
+      Array.isArray(lista) &&
+      lista.length
+    ){
+
+      const primeira = lista[0];
+
+      if(typeof primeira === "string"){
+        return primeira;
+      }
+
+      if(
+        primeira &&
+        typeof primeira === "object"
+      ){
+
+        foto =
+        pegar(
+          primeira,
+          [
+            "url",
+            "src",
+            "foto",
+            "imagem"
+          ]
         );
 
-      resultado =
-        resultado.replace(
-          regex,
-          equivalencias[chave]
-        );
+        if(foto){
+          return foto;
+        }
 
-    });
+      }
+
+    }
+
+  }
+
+
+  return "";
+
+}
+
+
+/* NORMALIZA PERFIL */
+
+function prepararPerfil(p){
+
+  return {
+
+    original:p,
+
+    nome:
+    pegar(
+      p,
+      [
+        "nome",
+        "name",
+        "apelido",
+        "titulo"
+      ]
+    ) || "Perfil",
+
+    idade:
+    pegar(
+      p,
+      [
+        "idade",
+        "age"
+      ]
+    ),
+
+    estado:
+    pegar(
+      p,
+      [
+        "estado",
+        "uf",
+        "state"
+      ]
+    ),
+
+    cidade:
+    pegar(
+      p,
+      [
+        "cidade",
+        "municipio",
+        "city"
+      ]
+    ),
+
+    bairro:
+    pegar(
+      p,
+      [
+        "bairro",
+        "neighborhood"
+      ]
+    ),
+
+    descricao:
+    pegar(
+      p,
+      [
+        "descricao",
+        "description",
+        "sobre",
+        "bio",
+        "frase"
+      ]
+    ),
+
+    categoria:
+    pegar(
+      p,
+      [
+        "categoria",
+        "category"
+      ]
+    ),
+
+    whatsapp:
+    pegar(
+      p,
+      [
+        "whatsapp",
+        "telefone",
+        "phone",
+        "contato"
+      ]
+    ),
+
+    preco15:
+    pegar(
+      p,
+      [
+        "valor15",
+        "preco15",
+        "valor_15",
+        "preco_15"
+      ]
+    ),
+
+    preco30:
+    pegar(
+      p,
+      [
+        "valor30",
+        "preco30",
+        "valor_30",
+        "preco_30"
+      ]
+    ),
+
+    preco60:
+    pegar(
+      p,
+      [
+        "valor60",
+        "preco60",
+        "valor1h",
+        "preco1h",
+        "valor_60"
+      ]
+    ),
+
+    verificado:
+    Boolean(
+      pegar(
+        p,
+        [
+          "verificado",
+          "verified"
+        ]
+      )
+    ),
+
+    foto:
+    acharFoto(p)
+
+  };
+
+}
+
+
+/* CARREGA PERFIS SALVOS */
+
+function carregar(){
+
+  const encontrados = [];
+
+
+  const chaves = [
+
+    "lilasPerfil",
+
+    "lilasPerfis",
+
+    "perfilLilas",
+
+    "perfisLilas",
+
+    "perfisLilás"
+
+  ];
+
+
+  for(const chave of chaves){
+
+    const bruto =
+    localStorage.getItem(chave);
+
+    if(!bruto){
+      continue;
+    }
+
+
+    const dado =
+    lerJSON(bruto);
+
+
+    if(Array.isArray(dado)){
+
+      encontrados.push(...dado);
+
+    }
+
+    else if(
+      dado &&
+      typeof dado === "object"
+    ){
+
+      encontrados.push(dado);
+
+    }
+
+  }
+
+
+  /*
+  Procura também automaticamente
+  outras chaves que contenham
+  lilas + perfil
+  */
+
+  for(
+    let i = 0;
+    i < localStorage.length;
+    i++
+  ){
+
+    const chave =
+    localStorage.key(i);
+
+    const n =
+    normal(chave);
+
+
+    if(
+      !n.includes("lilas") ||
+      !n.includes("perfil")
+    ){
+      continue;
+    }
+
+
+    if(chaves.includes(chave)){
+      continue;
+    }
+
+
+    const dado =
+    lerJSON(
+      localStorage.getItem(chave)
+    );
+
+
+    if(Array.isArray(dado)){
+
+      encontrados.push(...dado);
+
+    }
+
+    else if(
+      dado &&
+      typeof dado === "object"
+    ){
+
+      encontrados.push(dado);
+
+    }
+
+  }
+
+
+  /*
+  Evita perfil duplicado
+  */
+
+  const resultado = [];
+  const vistos = new Set();
+
+
+  encontrados.forEach(p=>{
+
+    const perfil =
+    prepararPerfil(p);
+
+
+    const codigo = [
+
+      normal(perfil.nome),
+
+      normal(perfil.cidade),
+
+      normal(perfil.estado),
+
+      normal(perfil.whatsapp)
+
+    ].join("|");
+
+
+    if(vistos.has(codigo)){
+      return;
+    }
+
+
+    vistos.add(codigo);
+
+    resultado.push(perfil);
+
+  });
 
 
   return resultado;
@@ -649,877 +1130,326 @@ function aplicarEquivalencias(texto) {
 }
 
 
-/* ===========================
-   LEVENSHTEIN
-=========================== */
+/* ESTADOS */
 
-function distancia(a, b) {
+function preencherEstados(){
 
-  a = normalizar(a);
-  b = normalizar(b);
+  const estados = [
 
+    ...new Set(
 
-  const matriz =
-    Array.from(
-      { length: b.length + 1 },
-      () =>
-        new Array(a.length + 1)
-    );
+      perfis
 
-
-  for (
-    let i = 0;
-    i <= b.length;
-    i++
-  ) {
-
-    matriz[i][0] = i;
-
-  }
-
-
-  for (
-    let j = 0;
-    j <= a.length;
-    j++
-  ) {
-
-    matriz[0][j] = j;
-
-  }
-
-
-  for (
-    let i = 1;
-    i <= b.length;
-    i++
-  ) {
-
-    for (
-      let j = 1;
-      j <= a.length;
-      j++
-    ) {
-
-      if (
-        b[i - 1] === a[j - 1]
-      ) {
-
-        matriz[i][j] =
-          matriz[i - 1][j - 1];
-
-      } else {
-
-        matriz[i][j] =
-          Math.min(
-
-            matriz[i - 1][j - 1] + 1,
-
-            matriz[i][j - 1] + 1,
-
-            matriz[i - 1][j] + 1
-
-          );
-
-      }
-
-    }
-
-  }
-
-
-  return matriz[b.length][a.length];
-
-}
-
-
-/* ===========================
-   PALAVRAS PARECIDAS
-=========================== */
-
-function palavraCombina(
-  procurada,
-  existente
-) {
-
-  procurada =
-    normalizar(procurada);
-
-  existente =
-    normalizar(existente);
-
-
-  if (
-    !procurada ||
-    !existente
-  ) {
-
-    return false;
-
-  }
-
-
-  if (
-    existente.includes(procurada) ||
-    procurada.includes(existente)
-  ) {
-
-    return true;
-
-  }
-
-
-  if (procurada.length <= 3) {
-
-    return existente.startsWith(
-      procurada
-    );
-
-  }
-
-
-  const erro =
-    distancia(
-      procurada,
-      existente
-    );
-
-
-  let limite = 1;
-
-
-  if (procurada.length >= 8) {
-    limite = 2;
-  }
-
-
-  return erro <= limite;
-
-}
-
-
-/* ===========================
-   BUSCA FLEXÍVEL
-=========================== */
-
-function textoCombina(
-  termoBusca,
-  textoPerfil
-) {
-
-  const busca =
-    aplicarEquivalencias(
-      termoBusca
-    );
-
-
-  const texto =
-    aplicarEquivalencias(
-      textoPerfil
-    );
-
-
-  if (!busca) {
-    return true;
-  }
-
-
-  if (!texto) {
-    return false;
-  }
-
-
-  if (
-    texto.includes(busca)
-  ) {
-
-    return true;
-
-  }
-
-
-  const palavrasBusca =
-    busca
-      .split(" ")
-      .filter(Boolean);
-
-
-  const palavrasPerfil =
-    texto
-      .split(" ")
-      .filter(Boolean);
-
-
-  return palavrasBusca.every(
-    palavra =>
-
-      palavrasPerfil.some(
-        palavraPerfil =>
-
-          palavraCombina(
-            palavra,
-            palavraPerfil
-          )
-
+      .map(
+        p => txt(p.estado)
       )
 
-  );
+      .filter(Boolean)
 
-}
-
-
-/* ===========================
-   CARREGA PERFIS
-=========================== */
-
-function carregarPerfis() {
-
-  const perfis = [];
-
-  const chaves = [
-
-    "lilasPerfis",
-    "lilasPerfil",
-    "perfis",
-    "perfil"
+    )
 
   ];
 
 
-  chaves.forEach(
-    chave => {
-
-      try {
-
-        const bruto =
-          localStorage.getItem(
-            chave
-          );
-
-
-        if (!bruto) {
-          return;
-        }
-
-
-        const valor =
-          JSON.parse(bruto);
-
-
-        if (
-          Array.isArray(valor)
-        ) {
-
-          valor.forEach(
-            item => {
-
-              if (item) {
-                perfis.push(item);
-              }
-
-            }
-          );
-
-        } else if (valor) {
-
-          perfis.push(valor);
-
-        }
-
-      } catch (erro) {
-
-        console.log(
-          "Erro ao ler",
-          chave
-        );
-
-      }
-
-    }
+  estados.sort(
+    (a,b)=>
+    a.localeCompare(
+      b,
+      "pt-BR"
+    )
   );
 
 
-  /* remove duplicados */
-
-  const unicos = [];
-  const vistos = new Set();
+  estado.innerHTML =
+  '<option value="">Todos os estados</option>';
 
 
-  perfis.forEach(
-    perfil => {
+  estados.forEach(nome=>{
 
-      const chave =
-        JSON.stringify(perfil);
+    const op =
+    document.createElement("option");
+
+    op.value = nome;
+    op.textContent = nome;
+
+    estado.appendChild(op);
+
+  });
+
+}
 
 
-      if (
-        !vistos.has(chave)
-      ) {
+/* CIDADES */
 
-        vistos.add(chave);
+function preencherCidades(){
 
-        unicos.push(perfil);
-
-      }
-
-    }
+  const e =
+  normal(
+    estado.value
   );
 
 
-  return unicos;
+  const cidades = [
 
-}
+    ...new Set(
 
+      perfis
 
-/* ===========================
-   CAMPOS DO PERFIL
-=========================== */
+      .filter(
+        p =>
+        !e ||
+        normal(p.estado) === e
+      )
 
-function primeiro(
-  perfil,
-  campos
-) {
+      .map(
+        p => txt(p.cidade)
+      )
 
-  for (
-    const campo of campos
-  ) {
+      .filter(Boolean)
 
-    if (
-      perfil &&
-      perfil[campo] !== undefined &&
-      perfil[campo] !== null &&
-      String(perfil[campo]).trim() !== ""
-    ) {
-
-      return perfil[campo];
-
-    }
-
-  }
-
-
-  return "";
-
-}
-
-
-function obterNome(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "nome",
-      "nomeArtistico",
-      "nomeCompleto",
-      "apelido",
-      "titulo"
-    ]
-  ) || "Perfil";
-
-}
-
-
-function obterEstado(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "estado",
-      "uf",
-      "siglaEstado",
-      "state"
-    ]
-  );
-
-}
-
-
-function obterCidade(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "cidade",
-      "municipio",
-      "city",
-      "localidade",
-      "cidadeAtendimento"
-    ]
-  );
-
-}
-
-
-function obterBairro(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "bairro",
-      "bairroAtendimento",
-      "neighborhood",
-      "district"
-    ]
-  );
-
-}
-
-
-function obterRegiao(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "regiao",
-      "zona",
-      "area",
-      "local",
-      "localizacao"
-    ]
-  );
-
-}
-
-
-function obterDescricao(perfil) {
-
-  return primeiro(
-    perfil,
-    [
-      "descricao",
-      "bio",
-      "frase",
-      "sobre",
-      "apresentacao"
-    ]
-  );
-
-}
-
-
-/* ===========================
-   FOTO
-=========================== */
-
-function obterFoto(perfil) {
-
-  const direta =
-    primeiro(
-      perfil,
-      [
-        "fotoCapa",
-        "foto",
-        "capa",
-        "imagem",
-        "image",
-        "photo"
-      ]
-    );
-
-
-  if (direta) {
-
-    return direta;
-
-  }
-
-
-  const listas = [
-
-    perfil.fotos,
-    perfil.galeria,
-    perfil.images,
-    perfil.photos
+    )
 
   ];
 
 
-  for (
-    const lista of listas
-  ) {
-
-    if (
-      Array.isArray(lista) &&
-      lista.length > 0
-    ) {
-
-      if (
-        typeof lista[0] === "string"
-      ) {
-
-        return lista[0];
-
-      }
-
-
-      if (
-        lista[0] &&
-        lista[0].url
-      ) {
-
-        return lista[0].url;
-
-      }
-
-    }
-
-  }
-
-
-  return "";
-
-}
-
-
-/* ===========================
-   PREÇO
-=========================== */
-
-function obterPreco(perfil) {
-
-  const valor =
-    primeiro(
-      perfil,
-      [
-        "valor1hora",
-        "valor1Hora",
-        "valorHora",
-        "precoHora",
-        "preco1hora",
-        "valor"
-      ]
-    );
-
-
-  if (!valor) {
-    return "";
-  }
-
-
-  const texto =
-    String(valor);
-
-
-  if (
-    texto.includes("R$") ||
-    texto.includes("£") ||
-    texto.includes("€") ||
-    texto.includes("$")
-  ) {
-
-    return texto;
-
-  }
-
-
-  return "R$ " + texto;
-
-}
-
-
-/* ===========================
-   TEXTO PESQUISÁVEL
-=========================== */
-
-function criarTextoPesquisa(
-  perfil
-) {
-
-  const partes = [
-
-    obterCidade(perfil),
-
-    obterBairro(perfil),
-
-    obterRegiao(perfil),
-
-    obterEstado(perfil)
-
-  ];
-
-
-  /*
-    Também procura em outros
-    campos curtos do cadastro.
-  */
-
-  Object.values(
-    perfil || {}
-  )
-  .forEach(
-    valor => {
-
-      if (
-        typeof valor === "string" &&
-        valor.length <= 120 &&
-        !valor.startsWith("data:image")
-      ) {
-
-        partes.push(valor);
-
-      }
-
-    }
+  cidades.sort(
+    (a,b)=>
+    a.localeCompare(
+      b,
+      "pt-BR"
+    )
   );
 
 
-  return partes
-    .filter(Boolean)
-    .join(" ");
+  cidade.innerHTML =
+  '<option value="">Todas as cidades</option>';
+
+
+  cidades.forEach(nome=>{
+
+    const op =
+    document.createElement("option");
+
+    op.value = nome;
+    op.textContent = nome;
+
+    cidade.appendChild(op);
+
+  });
 
 }
 
 
-/* ===========================
-   ESTADO
-=========================== */
+/* DINHEIRO */
 
-function estadoCombina(
-  selecionado,
-  perfilEstado
-) {
+function dinheiro(valor){
 
-  if (!selecionado) {
-    return true;
+  const v =
+  txt(valor);
+
+  if(!v){
+    return "—";
   }
 
 
-  const sigla =
-    normalizar(
-      selecionado
-    );
-
-
-  const nome =
-    normalizar(
-      estados[
-        selecionado
-      ] || ""
-    );
-
-
-  const salvo =
-    normalizar(
-      perfilEstado
-    );
-
-
-  if (!salvo) {
-
-    /*
-      Se perfil antigo não tiver
-      estado salvo, não bloqueia.
-    */
-
-    return true;
-
+  if(v.includes("R$")){
+    return v;
   }
 
 
-  return (
-
-    salvo === sigla ||
-
-    salvo === nome ||
-
-    salvo.includes(nome) ||
-
-    nome.includes(salvo)
-
+  const numero =
+  Number(
+    v
+    .replace(/[^\d,.]/g,"")
+    .replace(".","")
+    .replace(",",".")
   );
 
+
+  if(
+    Number.isFinite(numero) &&
+    numero > 0
+  ){
+
+    return numero.toLocaleString(
+      "pt-BR",
+      {
+        style:"currency",
+        currency:"BRL"
+      }
+    );
+
+  }
+
+
+  return v;
+
 }
 
 
-/* ===========================
-   CARD
-=========================== */
+/* CRIA FOTO */
 
-function criarCard(
-  perfil,
-  indice
-) {
+function fotoHTML(p){
+
+  if(!p.foto){
+
+    return `
+      <div class="sem-foto">
+        Foto do perfil
+      </div>
+    `;
+
+  }
+
+
+  return `
+    <img
+      src="${p.foto}"
+      alt="${p.nome}"
+    >
+  `;
+
+}
+
+
+/* CRIA CARD */
+
+function criarCard(p){
 
   const card =
-    document.createElement(
-      "article"
-    );
+  document.createElement("div");
+
+  card.className = "card";
 
 
-  card.className =
-    "perfil-card";
+  const nomeCompleto =
+  p.idade
+  ?
+  `${p.nome}, ${p.idade}`
+  :
+  p.nome;
 
 
-  const nome =
-    obterNome(perfil);
+  const local = [
 
-  const foto =
-    obterFoto(perfil);
+    p.bairro,
 
-  const cidade =
-    obterCidade(perfil);
+    p.cidade,
 
-  const bairro =
-    obterBairro(perfil);
+    p.estado
 
-  const regiao =
-    obterRegiao(perfil);
+  ]
 
-  const descricao =
-    obterDescricao(perfil);
+  .filter(Boolean)
 
-  const preco =
-    obterPreco(perfil);
+  .join(" • ");
 
 
-  const local =
-    [
-      bairro,
-      cidade,
-      regiao
-    ]
-    .filter(Boolean)
-    .filter(
-      (item, indice, array) =>
-        array.indexOf(item) === indice
-    )
-    .join(" • ");
+  const valor =
+  p.preco60 ||
+  p.preco30 ||
+  p.preco15;
 
 
   card.innerHTML = `
 
-    <div class="foto-box">
+    <div class="foto">
+
+      ${fotoHTML(p)}
 
       ${
-        foto
-
-        ? `
-          <img
-            src="${foto}"
-            alt="${nome}"
-          >
-        `
-
-        : `
-          <div
-            style="
-              color:#888;
-              font-size:12px;
-            "
-          >
-            Sem foto
-          </div>
-        `
+        p.verificado
+        ?
+        '<span class="selo">VERIFICADO</span>'
+        :
+        ""
       }
+
+      <button
+        class="coracao"
+        type="button"
+      >
+        ♡
+      </button>
 
     </div>
 
 
-    <div class="perfil-info">
+    <div class="info">
 
-      <div class="linha-nome">
+      <div class="nome">
+        ${nomeCompleto}
+      </div>
 
-        <div class="nome">
-          ${nome}
-        </div>
+      <div class="local">
+        ${
+          local ||
+          "Local não informado"
+        }
+      </div>
 
-        <div class="verificada">
-          ✓
-        </div>
+      <div class="descricao">
+
+        ${
+          p.descricao ||
+          p.categoria ||
+          "Toque para ver o perfil."
+        }
 
       </div>
 
-
-      ${
-        local
-
-        ? `
-          <div class="local">
-            📍 ${local}
-          </div>
-        `
-
-        : ""
-      }
-
-
-      ${
-        descricao
-
-        ? `
-          <div class="descricao">
-            ${descricao}
-          </div>
-        `
-
-        : ""
-      }
-
-
-      ${
-        preco
-
-        ? `
-          <div class="preco">
-            ${preco}
-          </div>
-        `
-
-        : ""
-      }
-
-
-      <div class="recursos">
+      <div class="preco">
 
         ${
-          perfil.video
-
-          ? `
-            <span class="recurso">
-              ▶ Vídeo
-            </span>
-          `
-
-          : ""
-        }
-
-
-        ${
-          perfil.audio
-
-          ? `
-            <span class="recurso">
-              🎙 Áudio
-            </span>
-          `
-
-          : ""
+          valor
+          ?
+          "A partir de " +
+          dinheiro(valor)
+          :
+          "Consulte valores"
         }
 
       </div>
 
     </div>
+
   `;
 
 
   card.addEventListener(
     "click",
-    () => {
+    e=>{
 
-      localStorage.setItem(
-        "lilasPerfilSelecionado",
-        JSON.stringify(perfil)
-      );
+      if(
+        e.target.classList.contains(
+          "coracao"
+        )
+      ){
+        return;
+      }
+
+      abrirPerfil(p);
+
+    }
+  );
 
 
-      localStorage.setItem(
-        "lilasPerfilSelecionadoIndice",
-        String(indice)
-      );
+  const coracao =
+  card.querySelector(".coracao");
 
 
-      window.location.href =
-        "perfil.html";
+  coracao.addEventListener(
+    "click",
+    e=>{
+
+      e.stopPropagation();
+
+      coracao.textContent =
+      coracao.textContent === "♡"
+      ?
+      "♥"
+      :
+      "♡";
 
     }
   );
@@ -1530,209 +1460,419 @@ function criarCard(
 }
 
 
-/* ===========================
-   MOSTRA RESULTADOS
-=========================== */
+/* MOSTRA PERFIS */
 
-function mostrarPerfis(
-  perfis
-) {
+function mostrar(lista){
 
-  listaPerfis.innerHTML = "";
+  grid.innerHTML = "";
 
 
-  quantidade.textContent =
-    perfis.length === 1
+  lista.forEach(p=>{
 
-      ? "1 perfil"
+    grid.appendChild(
+      criarCard(p)
+    );
 
-      : `${perfis.length} perfis`;
-
-
-  if (
-    perfis.length === 0
-  ) {
-
-    listaPerfis.innerHTML = `
-
-      <div class="sem-resultado">
-
-        <strong>
-          Nenhum perfil encontrado
-        </strong>
-
-        Tente escrever a cidade,
-        bairro ou região de outra forma.
-
-      </div>
-    `;
+  });
 
 
+  const total =
+  lista.length;
+
+
+  contador.textContent =
+
+  total === 1
+
+  ?
+
+  "1 perfil encontrado"
+
+  :
+
+  `${total} perfis encontrados`;
+
+
+  if(total === 0){
+
+    grid.style.display =
+    "none";
+
+    vazio.style.display =
+    "block";
+
+  }
+
+  else{
+
+    grid.style.display =
+    "grid";
+
+    vazio.style.display =
+    "none";
+
+  }
+
+}
+
+
+/* BUSCA */
+
+function fazerBusca(){
+
+  const e =
+  normal(
+    estado.value
+  );
+
+
+  const c =
+  normal(
+    cidade.value
+  );
+
+
+  const buscaLivre =
+  normal(
+    textoBusca.value
+  );
+
+
+  const resultado =
+  perfis.filter(p=>{
+
+
+    const bateEstado =
+
+    !e ||
+
+    normal(p.estado) === e;
+
+
+    const bateCidade =
+
+    !c ||
+
+    normal(p.cidade) === c;
+
+
+    const textoPerfil = [
+
+      p.nome,
+
+      p.estado,
+
+      p.cidade,
+
+      p.bairro,
+
+      p.categoria,
+
+      p.descricao
+
+    ]
+
+    .map(normal)
+
+    .join(" ");
+
+
+    const bateTexto =
+
+    !buscaLivre ||
+
+    textoPerfil.includes(
+      buscaLivre
+    );
+
+
+    return (
+
+      bateEstado &&
+
+      bateCidade &&
+
+      bateTexto
+
+    );
+
+  });
+
+
+  mostrar(resultado);
+
+}
+
+
+/* ABRE PERFIL */
+
+function abrirPerfil(p){
+
+  perfilAtual = p;
+
+
+  try{
+
+    localStorage.setItem(
+
+      "lilasPerfilSelecionado",
+
+      JSON.stringify(
+        p.original
+      )
+
+    );
+
+  }
+  catch{}
+
+
+  modalFoto.innerHTML =
+  fotoHTML(p);
+
+
+  modalNome.textContent =
+
+  p.idade
+
+  ?
+
+  `${p.nome}, ${p.idade}`
+
+  :
+
+  p.nome;
+
+
+  modalLocal.textContent = [
+
+    p.bairro,
+
+    p.cidade,
+
+    p.estado
+
+  ]
+
+  .filter(Boolean)
+
+  .join(" • ");
+
+
+  modalDesc.textContent =
+
+  p.descricao ||
+
+  "Sem descrição informada.";
+
+
+  valor15.textContent =
+  dinheiro(
+    p.preco15
+  );
+
+
+  valor30.textContent =
+  dinheiro(
+    p.preco30
+  );
+
+
+  valor60.textContent =
+  dinheiro(
+    p.preco60
+  );
+
+
+  whatsapp.style.display =
+
+  p.whatsapp
+
+  ?
+
+  "block"
+
+  :
+
+  "none";
+
+
+  modal.classList.add(
+    "ativo"
+  );
+
+}
+
+
+/* FECHA PERFIL */
+
+function fecharPerfil(){
+
+  modal.classList.remove(
+    "ativo"
+  );
+
+}
+
+
+/* WHATSAPP */
+
+function abrirWhats(){
+
+  if(
+    !perfilAtual ||
+    !perfilAtual.whatsapp
+  ){
     return;
-
   }
 
 
-  perfis.forEach(
-    (perfil, indice) => {
+  const numero =
 
-      listaPerfis.appendChild(
-        criarCard(
-          perfil,
-          indice
-        )
-      );
+  txt(
+    perfilAtual.whatsapp
+  )
 
-    }
+  .replace(
+    /\D/g,
+    ""
+  );
+
+
+  if(!numero){
+    return;
+  }
+
+
+  const mensagem =
+
+  encodeURIComponent(
+
+    `Olá! Vi o perfil de ${perfilAtual.nome} no Lilás Club.`
+
+  );
+
+
+  window.open(
+
+    `https://wa.me/${numero}?text=${mensagem}`,
+
+    "_blank"
+
   );
 
 }
 
 
-/* ===========================
-   FAZ A BUSCA
-=========================== */
+/* EVENTOS */
 
-function buscarPerfis() {
-
-  const todos =
-    carregarPerfis();
-
-
-  const estado =
-    campoEstado.value;
-
-
-  const busca =
-    campoLocal.value;
-
-
-  const resultados =
-    todos.filter(
-      perfil => {
-
-
-        const estadoOk =
-          estadoCombina(
-            estado,
-            obterEstado(perfil)
-          );
-
-
-        if (!estadoOk) {
-          return false;
-        }
-
-
-        const textoPerfil =
-          criarTextoPesquisa(
-            perfil
-          );
-
-
-        const localOk =
-          textoCombina(
-            busca,
-            textoPerfil
-          );
-
-
-        return localOk;
-
-      }
-    );
-
-
-  mostrarPerfis(
-    resultados
-  );
-
-}
-
-
-/* ===========================
-   BOTÃO
-=========================== */
-
-botaoBuscar.addEventListener(
-  "click",
-  buscarPerfis
-);
-
-
-/* Enter */
-
-campoLocal.addEventListener(
-  "keydown",
-  evento => {
-
-    if (
-      evento.key === "Enter"
-    ) {
-
-      buscarPerfis();
-
-    }
-
-  }
-);
-
-
-/* ===========================
-   BUSCA ENQUANTO DIGITA
-=========================== */
-
-let timerBusca;
-
-
-campoLocal.addEventListener(
-  "input",
-  () => {
-
-    clearTimeout(
-      timerBusca
-    );
-
-
-    timerBusca =
-      setTimeout(
-        () => {
-
-          buscarPerfis();
-
-        },
-        350
-      );
-
-  }
-);
-
-
-/* Estado muda */
-
-campoEstado.addEventListener(
+estado.addEventListener(
   "change",
-  buscarPerfis
-);
+  ()=>{
 
-
-/* ===========================
-   ABRE MOSTRANDO PERFIS
-=========================== */
-
-document.addEventListener(
-  "DOMContentLoaded",
-  () => {
-
-    mostrarPerfis(
-      carregarPerfis()
-    );
+    preencherCidades();
 
   }
 );
+
+
+buscar.addEventListener(
+  "click",
+  fazerBusca
+);
+
+
+textoBusca.addEventListener(
+  "keydown",
+  e=>{
+
+    if(e.key === "Enter"){
+
+      fazerBusca();
+
+    }
+
+  }
+);
+
+
+limpar.addEventListener(
+  "click",
+  ()=>{
+
+    estado.value = "";
+
+    preencherCidades();
+
+    cidade.value = "";
+
+    textoBusca.value = "";
+
+    mostrar(perfis);
+
+  }
+);
+
+
+fechar.addEventListener(
+  "click",
+  fecharPerfil
+);
+
+
+whatsapp.addEventListener(
+  "click",
+  abrirWhats
+);
+
+
+modal.addEventListener(
+  "click",
+  e=>{
+
+    if(
+      e.target === modal
+    ){
+
+      fecharPerfil();
+
+    }
+
+  }
+);
+
+
+/* INICIA */
+
+function iniciar(){
+
+  perfis =
+  carregar();
+
+
+  preencherEstados();
+
+  preencherCidades();
+
+  mostrar(perfis);
+
+
+  console.log(
+
+    "Lilás Club carregou",
+
+    perfis.length,
+
+    "perfil/perfis"
+
+  );
+
+}
+
+
+iniciar();
 
 </script>
 
 </body>
-
 </html>
