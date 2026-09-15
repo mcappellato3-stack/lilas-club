@@ -314,6 +314,68 @@
 
     alert(mensagem);
   }
+const perfilSalvo = localStorage.getItem("lilasPerfil");
+
+if (perfilSalvo) {
+  try {
+    const perfil = JSON.parse(perfilSalvo);
+
+    const secao = document.createElement("section");
+    secao.style.maxWidth = "900px";
+    secao.style.margin = "25px auto";
+    secao.style.padding = "20px";
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = "Anúncio";
+    secao.appendChild(titulo);
+
+    const card = document.createElement("div");
+    card.style.padding = "20px";
+    card.style.borderRadius = "16px";
+    card.style.background = "#ffffff";
+    card.style.color = "#333333";
+    card.style.boxShadow = "0 4px 15px rgba(0,0,0,0.12)";
+
+    if (perfil.foto) {
+      const foto = document.createElement("img");
+      foto.src = perfil.foto;
+      foto.alt = "Foto do anúncio";
+      foto.style.width = "100%";
+      foto.style.maxHeight = "450px";
+      foto.style.objectFit = "cover";
+      foto.style.borderRadius = "12px";
+      foto.style.marginBottom = "15px";
+      card.appendChild(foto);
+    }
+
+    const nome = document.createElement("h3");
+    nome.textContent = perfil.nome || "";
+    card.appendChild(nome);
+
+    const local = document.createElement("p");
+    local.textContent =
+      (perfil.categoria || "") +
+      " • " +
+      (perfil.cidade || "") +
+      (perfil.bairro ? " • " + perfil.bairro : "");
+    card.appendChild(local);
+
+    const descricao = document.createElement("p");
+    descricao.textContent = perfil.descricao || "";
+    card.appendChild(descricao);
+
+    secao.appendChild(card);
+
+    const footer = document.querySelector("footer");
+    if (footer) {
+      document.body.insertBefore(secao, footer);
+    } else {
+      document.body.appendChild(secao);
+    }
+  } catch (erro) {
+    console.log("Erro ao carregar anúncio:", erro);
+  }
+}
 </script>
 
 </body>
