@@ -34,24 +34,26 @@ async function getStoredMedia(id){
 }
 function firstVideoMeta(raw={}){
   const list=Array.isArray(raw.videos)?raw.videos:[];
-  const first=list.find(v=>v&&typeof v==="object"&&v.id);
-  return first||null;
+  const objectVideo=list.find(v=>v&&typeof v==="object"&&v.id);
+  if(objectVideo)return objectVideo;
+  const legacy=list.find(v=>typeof v==="string"&&v.trim());
+  return legacy?{legacy:true,name:legacy}:null;
 }
 
 const demoProfiles=[
 {
   id:"teste-julia",name:"Júlia TESTE",age:25,state:"SP",city:"São Paulo",district:"Moema",category:"Acompanhantes",gender:"Mulheres",
-  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"julia-1.svg",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"julia-1.svg",videoUrl:"julia-demo.mp4",
   raw:{nome:"Júlia TESTE",idade:25,estado:"SP",cidade:"São Paulo",bairro:"Moema",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar cards, busca, galeria, valores e página de perfil.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Seg","Ter","Qua","Qui","Sex"],inicio:"10:00",fim:"22:00"},fotos:["julia-1.svg","julia-2.svg","julia-3.svg"],capaIndex:0,teste:true}
 },
 {
   id:"teste-camila",name:"Camila TESTE",age:27,state:"RJ",city:"Rio de Janeiro",district:"Copacabana",category:"Acompanhantes",gender:"Mulheres",
-  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"camila-1.svg",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"camila-1.svg",videoUrl:"camila-demo.mp4",
   raw:{nome:"Camila TESTE",idade:27,estado:"RJ",cidade:"Rio de Janeiro",bairro:"Copacabana",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar a navegação, os filtros, a galeria e os valores.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Ter","Qua","Qui","Sex","Sáb"],inicio:"11:00",fim:"23:00"},fotos:["camila-1.svg","camila-2.svg","camila-3.svg"],capaIndex:0,teste:true}
 },
 {
   id:"teste-larissa",name:"Larissa TESTE",age:29,state:"MG",city:"Belo Horizonte",district:"Savassi",category:"Acompanhantes",gender:"Mulheres",
-  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:false,image:"larissa-1.svg",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:false,image:"larissa-1.svg",videoUrl:"larissa-demo.mp4",
   raw:{nome:"Larissa TESTE",idade:29,estado:"MG",cidade:"Belo Horizonte",bairro:"Savassi",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar o site antes da entrada de anúncios reais.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Seg","Qua","Qui","Sex","Sáb"],inicio:"12:00",fim:"21:00"},fotos:["larissa-1.svg","larissa-2.svg","larissa-3.svg"],capaIndex:0,teste:true}
 }
 ];
@@ -66,7 +68,7 @@ function userProfiles(){
     category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
     text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
     image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),
-    videoMeta:firstVideoMeta(p),videoPoster:p.videoPoster||"",raw:p
+    videoMeta:firstVideoMeta(p),videoPoster:p.videoPoster||"",videoUrl:p.videoUrl||"",raw:p
   }));
 }
 const allProfiles=()=>[...userProfiles(),...demoProfiles];
@@ -118,41 +120,49 @@ function render(){
   if($("#sortSelect").value==="name")rows.sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
   $("#resultCount").textContent=`${rows.length} ${rows.length===1?"perfil":"perfis"}`;
   $("#emptyState").classList.toggle("hidden",rows.length>0);
-  $("#cards").innerHTML=rows.map(p=>`<article class="card" data-id="${p.id}">
-    <div class="card-media" ${p.videoMeta?.id?`data-video-id="${p.videoMeta.id}" data-video-poster="${p.videoPoster||p.image||""}"`:""}>${p.videoMeta?.id
-      ? `${(p.videoPoster||p.image)?`<img src="${p.videoPoster||p.image}" alt="Prévia do vídeo de ${p.name}">`:`<span>Vídeo do perfil<br>${p.name}</span>`}<span class="card-video-badge">VÍDEO</span><button class="card-video-play" type="button" aria-label="Reproduzir vídeo">▶</button>`
-      : (p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`)}</div>
+  $("#cards").innerHTML=rows.map(p=>{
+    const hasVideo=!!(p.videoUrl||p.videoMeta?.id||p.videoMeta?.legacy);
+    const videoAttrs=`${p.videoMeta?.id?` data-video-id="${p.videoMeta.id}"`:""}${p.videoUrl?` data-video-url="${p.videoUrl}"`:""} data-video-poster="${p.videoPoster||p.image||""}"`;
+    const media=hasVideo
+      ? `<div class="card-media video-cover"${videoAttrs}>${p.videoUrl?`<video muted playsinline loop autoplay preload="metadata" poster="${p.videoPoster||p.image||""}" src="${p.videoUrl}"></video>`:((p.videoPoster||p.image)?`<img src="${p.videoPoster||p.image}" alt="Prévia do vídeo de ${p.name}">`:`<span>Vídeo do perfil<br>${p.name}</span>`)}<span class="media-watermark">LILÁS CLUB</span><span class="card-video-badge">VÍDEO</span><button class="card-video-play" type="button" aria-label="Reproduzir vídeo">▶</button></div>`
+      : `<div class="card-media">${p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`}<span class="media-watermark">LILÁS CLUB</span></div>`;
+    return `<article class="card" data-id="${p.id}">
+    ${media}
     <button class="fav ${fav.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Favoritar">${fav.includes(p.id)?"♥":"♡"}</button>
     <div class="card-body"><div class="card-title">${p.name}${p.age?`, ${p.age}`:""} ${p.verified?'<span class="verified">✓</span>':""}</div>
     <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div>${p.raw?.caches?.hora1?`<div class="card-rate">1 hora • R$ ${p.raw.caches.hora1}</div>`:""}<p class="tagline">${p.text}</p></div>
-  </article>`).join("");
+  </article>`}).join("");
   $$("[data-fav]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFav(b.dataset.fav)});
   $$(".card").forEach(card=>card.onclick=()=>{localStorage.setItem("lilasPerfilSelecionado",card.dataset.id);location.href="perfil.html"});
   hydrateCardVideos();
 }
 
 async function hydrateCardVideos(){
-  const medias=$$(".card-media[data-video-id]");
+  const medias=$$(".card-media.video-cover");
   for(const box of medias){
-    const id=box.dataset.videoId;
-    const blob=await getStoredMedia(id);
-    if(!(blob instanceof Blob))continue;
-    const url=URL.createObjectURL(blob);
-    const poster=box.dataset.videoPoster||"";
-    box.innerHTML=`<video muted playsinline loop preload="metadata" ${poster?`poster="${poster}"`:""}></video><span class="card-video-badge">VÍDEO</span><button class="card-video-play" type="button" aria-label="Reproduzir vídeo">▶</button>`;
-    const video=box.querySelector("video");
+    const id=box.dataset.videoId||"";
+    const direct=box.dataset.videoUrl||"";
+    let video=box.querySelector("video");
+    let objectUrl="";
+    if(!video && id){
+      const blob=await getStoredMedia(id);
+      if(blob instanceof Blob){
+        objectUrl=URL.createObjectURL(blob);
+        const poster=box.dataset.videoPoster||"";
+        const img=box.querySelector("img"); if(img)img.remove();
+        video=document.createElement("video");
+        video.muted=true; video.playsInline=true; video.loop=true; video.autoplay=true; video.preload="metadata";
+        if(poster)video.poster=poster; video.src=objectUrl; box.prepend(video);
+      }
+    }
+    if(!video)continue;
     const play=box.querySelector(".card-video-play");
-    video.src=url;
-    const toggle=async e=>{
-      e?.stopPropagation();
-      if(video.paused){
-        try{await video.play();box.classList.add("is-playing");play.textContent="❚❚"}catch{}
-      }else{video.pause();box.classList.remove("is-playing");play.textContent="▶"}
-    };
-    play.onclick=toggle;
-    video.onclick=toggle;
-    video.onpause=()=>{box.classList.remove("is-playing");play.textContent="▶"};
-    video.onplay=()=>{box.classList.add("is-playing");play.textContent="❚❚"};
+    const sync=()=>{const playing=!video.paused&&!video.ended;box.classList.toggle("is-playing",playing);if(play)play.textContent=playing?"❚❚":"▶"};
+    try{await video.play()}catch{}
+    sync();
+    const toggle=async e=>{e?.stopPropagation();if(video.paused){try{await video.play()}catch{}}else video.pause();sync()};
+    if(play)play.onclick=toggle;
+    video.onclick=toggle; video.onpause=sync; video.onplay=sync;
   }
 }
 function showSuggestions(){
