@@ -16,3 +16,6 @@ Fluxo: home → cadastrar modelo → escolher plano → simular pagamento → pu
 ## Pagamento de teste
 
 Os valores, Pix e cartão desta versão são apenas uma simulação interna. Nenhuma cobrança real é realizada. A integração financeira verdadeira será conectada somente depois da escolha do provedor e da configuração segura das chaves no servidor.
+
+## Perfis de teste desta versão
+Esta versão inclui 3 perfis totalmente fictícios (São Paulo, Rio de Janeiro e Belo Horizonte), com 3 imagens ilustrativas locais em cada perfil e valores demonstrativos de R$ 100 / R$ 120 / R$ 200. Eles existem apenas para teste e podem ser removidos do array `demoProfiles` em `app.js`.

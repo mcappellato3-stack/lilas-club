@@ -6,10 +6,21 @@ let selectedCategory="Acompanhantes",selectedGender="Todos",viewMode="grid",only
 let cityCache={};
 
 const demoProfiles=[
-{id:"demo1",name:"Marina",age:27,state:"SP",city:"São Paulo",district:"Jardins",category:"Acompanhantes",gender:"Mulheres",text:"Atendimento com discrição e elegância.",verified:true,image:""},
-{id:"demo2",name:"Bianca",age:25,state:"RJ",city:"Rio de Janeiro",district:"Copacabana",category:"Acompanhantes",gender:"Mulheres",text:"Perfil verificado • fotos e informações.",verified:true,image:""},
-{id:"demo3",name:"Carla",age:29,state:"MG",city:"Belo Horizonte",district:"Savassi",category:"Massagens",gender:"Mulheres",text:"Atendimento mediante agendamento.",verified:false,image:""},
-{id:"demo4",name:"Alex",age:28,state:"PR",city:"Curitiba",district:"Centro",category:"Videochamadas",gender:"Homens",text:"Disponibilidade informada no perfil.",verified:true,image:""}
+{
+  id:"teste-julia",name:"Júlia TESTE",age:25,state:"SP",city:"São Paulo",district:"Moema",category:"Acompanhantes",gender:"Mulheres",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"julia-1.svg",
+  raw:{nome:"Júlia TESTE",idade:25,estado:"SP",cidade:"São Paulo",bairro:"Moema",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar cards, busca, galeria, valores e página de perfil.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Seg","Ter","Qua","Qui","Sex"],inicio:"10:00",fim:"22:00"},fotos:["julia-1.svg","julia-2.svg","julia-3.svg"],capaIndex:0,teste:true}
+},
+{
+  id:"teste-camila",name:"Camila TESTE",age:27,state:"RJ",city:"Rio de Janeiro",district:"Copacabana",category:"Acompanhantes",gender:"Mulheres",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:true,image:"camila-1.svg",
+  raw:{nome:"Camila TESTE",idade:27,estado:"RJ",cidade:"Rio de Janeiro",bairro:"Copacabana",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar a navegação, os filtros, a galeria e os valores.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Ter","Qua","Qui","Sex","Sáb"],inicio:"11:00",fim:"23:00"},fotos:["camila-1.svg","camila-2.svg","camila-3.svg"],capaIndex:0,teste:true}
+},
+{
+  id:"teste-larissa",name:"Larissa TESTE",age:29,state:"MG",city:"Belo Horizonte",district:"Savassi",category:"Acompanhantes",gender:"Mulheres",
+  text:"Perfil fictício criado somente para testar o funcionamento do site.",verified:false,image:"larissa-1.svg",
+  raw:{nome:"Larissa TESTE",idade:29,estado:"MG",cidade:"Belo Horizonte",bairro:"Savassi",categoria:"Acompanhantes",genero:"Mulheres",titulo:"Perfil demonstrativo",descricao:"Perfil totalmente fictício. Cadastro criado apenas para testar o site antes da entrada de anúncios reais.",telefone:"",caches:{min15:"100",min30:"120",hora1:"200"},horario:{dias:["Seg","Qua","Qui","Sex","Sáb"],inicio:"12:00",fim:"21:00"},fotos:["larissa-1.svg","larissa-2.svg","larissa-3.svg"],capaIndex:0,teste:true}
+}
 ];
 
 function userProfiles(){
@@ -77,7 +88,7 @@ function render(){
     <div class="card-media">${p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`}</div>
     <button class="fav ${fav.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Favoritar">${fav.includes(p.id)?"♥":"♡"}</button>
     <div class="card-body"><div class="card-title">${p.name}${p.age?`, ${p.age}`:""} ${p.verified?'<span class="verified">✓</span>':""}</div>
-    <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div><p class="tagline">${p.text}</p></div>
+    <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div>${p.raw?.caches?.hora1?`<div class="card-rate">1 hora • R$ ${p.raw.caches.hora1}</div>`:""}<p class="tagline">${p.text}</p></div>
   </article>`).join("");
   $$("[data-fav]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFav(b.dataset.fav)});
   $$(".card").forEach(card=>card.onclick=()=>{localStorage.setItem("lilasPerfilSelecionado",card.dataset.id);location.href="perfil.html"});
