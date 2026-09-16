@@ -1,5 +1,7 @@
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const normalize=s=>(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase();
+const profileState=p=>(p.estado||p.state||((p.cidade||p.city||"").match(/-\s*([A-Z]{2})\s*$/)||[])[1]||"").toUpperCase();
+const profileCity=p=>(p.cidade||p.city||"").replace(/\s*-\s*[A-Z]{2}\s*$/,"").trim();
 let selectedCategory="Acompanhantes",selectedGender="Todos",viewMode="grid",onlyFavorites=false;
 let cityCache={};
 
@@ -16,10 +18,10 @@ function userProfiles(){
   for(const k of keys){try{const v=JSON.parse(localStorage.getItem(k)||"null");if(Array.isArray(v))out.push(...v);else if(v&&typeof v==="object")out.push(v)}catch{}}
   return out.map((p,i)=>({
     id:p.id||`user${i}`,name:p.nome||p.name||"Perfil",age:p.idade||p.age||"",
-    state:(p.estado||p.state||"").toUpperCase(),city:p.cidade||p.city||"",district:p.bairro||p.district||"",
+    state:profileState(p),city:profileCity(p),district:p.bairro||p.district||"",
     category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
     text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
-    image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||"")
+    image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),raw:p
   }));
 }
 const allProfiles=()=>[...userProfiles(),...demoProfiles];
@@ -78,6 +80,7 @@ function render(){
     <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div><p class="tagline">${p.text}</p></div>
   </article>`).join("");
   $$("[data-fav]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFav(b.dataset.fav)});
+  $$(".card").forEach(card=>card.onclick=()=>{localStorage.setItem("lilasPerfilSelecionado",card.dataset.id);location.href="perfil.html"});
 }
 function showSuggestions(){
   const q=normalize($("#searchInput").value.trim());
@@ -117,6 +120,7 @@ function bindModal(){
 function closeModal(){ $("#modal").classList.add("hidden") }
 
 document.addEventListener("DOMContentLoaded",()=>{
+  if(!$("#stateSelect"))return;
   fillStates(); render();
   if(localStorage.getItem("lilas18")==="yes")$("#ageGate").classList.add("hidden");
   $("#enterBtn").onclick=()=>{localStorage.setItem("lilas18","yes");$("#ageGate").classList.add("hidden")};

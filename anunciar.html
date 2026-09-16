@@ -13,12 +13,12 @@
       --fundo:#07162c;--branco:#fff;--verde:#1f9d55;--vermelho:#d83343;
       --sombra:0 8px 24px rgba(61,35,82,.08)
     }
-    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:radial-gradient(circle at top,#12345f 0,#0b2444 28%,#07162c 62%,#04101f 100%);color:var(--texto);min-height:100vh}
+    body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;background:linear-gradient(180deg,#f8f0fd 0,#ead6f7 100%);color:var(--texto);min-height:100vh}
     button,input,select,textarea{font:inherit}
     button{cursor:pointer}
-    header{background:linear-gradient(135deg,#061225,#0d2a4f);padding:18px 16px 16px;color:white;position:sticky;top:0;z-index:20;box-shadow:0 4px 16px rgba(43,17,63,.18)}
+    header{background:#f3e7fb;padding:8px 14px;color:var(--texto);position:sticky;top:0;z-index:20;border-bottom:1px solid #d9c2e9;box-shadow:0 4px 16px rgba(83,32,113,.12)}
     .header-inner{max-width:780px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .logo{font-weight:900;letter-spacing:.06em;font-size:24px;color:var(--amarelo)}
+    .logo img{display:block;width:220px;max-width:58vw;max-height:76px;object-fit:contain;object-position:left center}
     .header-note{font-size:12px;opacity:.88;text-align:right}
     main{max-width:780px;margin:0 auto;padding:18px 12px 100px}
     .intro{background:rgba(255,255,255,.98);border:1px solid var(--borda);border-radius:16px;padding:16px;margin-bottom:12px;box-shadow:var(--sombra)}
@@ -43,18 +43,20 @@
     .empty-box{border:2px dashed #d6c9df;border-radius:12px;padding:24px;text-align:center;color:var(--cinza);background:#fcfbfd}
     .file-list{display:grid;gap:7px;margin-top:10px}.file-item{display:flex;justify-content:space-between;gap:10px;background:#f8f4fb;border-radius:9px;padding:10px;font-size:12px}.file-item button{border:0;background:transparent;color:var(--vermelho);font-weight:800}
     .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:12px;line-height:1.45}.check input{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
-    .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(6,18,37,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12);padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:780px;margin:auto;display:flex;gap:9px}.nav-btn,.publish-btn{border:0;border-radius:11px;padding:13px 14px;font-weight:900}.nav-btn{background:#eee7f3;color:var(--lilas);min-width:112px}.publish-btn{background:linear-gradient(135deg,var(--rosa),#b5225a);color:white;flex:1}.publish-btn:disabled{opacity:.55}
+    .demo-notice{background:#fff7d6;border:1px solid #f0cd55;color:#6a5200;border-radius:11px;padding:11px 12px;font-size:12px;font-weight:750;line-height:1.4;margin:4px 0 14px}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.plan{position:relative;border:2px solid #ded2e8;background:#fff;border-radius:14px;padding:14px 11px;text-align:left;color:var(--texto);min-height:146px}.plan.active{border-color:var(--lilas);background:#fbf6ff;box-shadow:0 0 0 3px rgba(140,82,201,.12)}.plan .tag{position:absolute;right:8px;top:8px;background:linear-gradient(135deg,#ffd95a,#f2b900);color:#4b3700;border-radius:99px;padding:4px 7px;font-size:9px;font-weight:900}.plan strong{display:block;color:var(--lilas);font-size:16px;margin-bottom:5px}.plan .duration{display:block;color:var(--cinza);font-size:12px}.plan .price{display:block;font-size:21px;font-weight:950;margin:14px 0 3px}.plan small{color:var(--cinza);font-size:10px}.payment-options{display:grid;grid-template-columns:1fr 1fr;gap:9px}.payment-option{display:flex;gap:9px;align-items:center;border:1px solid var(--borda);border-radius:11px;padding:12px;margin:0;background:#fff}.payment-option input{width:18px;height:18px}.order-summary{margin-top:14px;background:#f7effc;border-radius:12px;padding:13px}.order-row{display:flex;justify-content:space-between;gap:12px;margin:5px 0;font-size:13px}.order-total{border-top:1px solid #d8c8e5;margin-top:9px;padding-top:10px;font-size:16px;font-weight:900;color:var(--lilas)}
+    .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(243,231,251,.96);backdrop-filter:blur(10px);border-top:1px solid #d9c2e9;padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:780px;margin:auto;display:flex;gap:9px}.nav-btn,.publish-btn{border:0;border-radius:11px;padding:13px 14px;font-weight:900}.nav-btn{background:#fff;color:var(--lilas);min-width:112px}.publish-btn{background:linear-gradient(135deg,var(--lilas),var(--rosa));color:white;flex:1}.publish-btn:disabled{opacity:.55}
     .status{display:none;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;font-weight:700}.status.ok{display:block;background:#e9f8ef;color:#18733f}.status.err{display:block;background:#fdecef;color:#a92134}
-    @media(max-width:560px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(4,1fr)}.photo-grid{grid-template-columns:repeat(2,1fr)}.header-note{display:none}.logo{font-size:22px}}
+    @media(max-width:560px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(4,1fr)}.photo-grid{grid-template-columns:repeat(2,1fr)}.plans{grid-template-columns:1fr}.plan{min-height:0}.header-note{display:none}.logo{font-size:22px}}
   </style>
 </head>
 <body>
-<header><div class="header-inner"><div class="logo">LILÁS CLUB</div><div class="header-note">Cadastro de anunciantes adultos • 18+</div></div></header>
+<header><div class="header-inner"><a class="logo" href="index.html"><img src="logo-lilas-club.png" alt="Lilás Club"></a><div class="header-note">Cadastro de anunciantes adultos • 18+</div></div></header>
 <main>
   <div class="intro">
     <h1>Publique seu anúncio</h1>
     <p>Preencha por etapas. Você pode revisar tudo antes de publicar.</p>
-    <div class="progress-wrap"><div class="progress"><span id="progressBar"></span></div><div class="progress-text" id="progressText">1/8</div></div>
+    <div class="progress-wrap"><div class="progress"><span id="progressBar"></span></div><div class="progress-text" id="progressText">1/9</div></div>
   </div>
   <div id="status" class="status"></div>
 
@@ -130,6 +132,30 @@
       <div class="hint">O Lilás Club não permite conteúdo envolvendo menores, coerção, exploração ou publicação sem consentimento.</div>
     </div>
   </section>
+
+  <section class="section" data-step="8">
+    <button class="section-title" type="button"><span class="left"><span class="badge">💳</span>Plano e pagamento</span><span class="chev">⌄</span></button>
+    <div class="section-body">
+      <div class="demo-notice">Valores fictícios para demonstração. Nenhuma cobrança real será feita nesta versão e os preços poderão ser alterados depois.</div>
+      <label>Escolha por quanto tempo deseja publicar</label>
+      <div class="plans" id="plans">
+        <button class="plan" type="button" data-plan="Básico" data-days="7" data-price="29.90"><strong>Básico</strong><span class="duration">Anúncio por 7 dias</span><span class="price">R$ 29,90</span><small>Publicação normal</small></button>
+        <button class="plan active" type="button" data-plan="Popular" data-days="15" data-price="49.90"><span class="tag">MAIS ESCOLHIDO</span><strong>Popular</strong><span class="duration">Anúncio por 15 dias</span><span class="price">R$ 49,90</span><small>Mais tempo no site</small></button>
+        <button class="plan" type="button" data-plan="Premium" data-days="30" data-price="79.90"><strong>Premium</strong><span class="duration">Anúncio por 30 dias</span><span class="price">R$ 79,90</span><small>Melhor custo-benefício</small></button>
+      </div>
+      <label class="check"><input id="destaque" type="checkbox" /> <span><b>Destacar anúncio por 7 dias</b><br>Exibir com prioridade e selo de destaque. Adicional fictício: R$ 34,90.</span></label>
+      <label>Forma de pagamento</label>
+      <div class="payment-options">
+        <label class="payment-option"><input type="radio" name="pagamento" value="Pix" checked><span><b>Pix</b><br><small>Confirmação rápida</small></span></label>
+        <label class="payment-option"><input type="radio" name="pagamento" value="Cartão"><span><b>Cartão</b><br><small>Crédito ou débito</small></span></label>
+      </div>
+      <div class="order-summary">
+        <div class="order-row"><span>Plano</span><b id="summaryPlan">Popular — 15 dias</b></div>
+        <div class="order-row" id="summaryHighlightRow" style="display:none"><span>Destaque por 7 dias</span><b>R$ 34,90</b></div>
+        <div class="order-row order-total"><span>Total</span><span id="summaryTotal">R$ 49,90</span></div>
+      </div>
+    </div>
+  </section>
 </main>
 
 <div class="bottom-bar"><div class="bottom-inner"><button id="prevBtn" class="nav-btn" type="button">← Voltar</button><button id="nextBtn" class="publish-btn" type="button">Continuar →</button></div></div>
@@ -139,12 +165,13 @@
   let current=0;
   let genero='Mulher', categoria='Acompanhantes';
   let fotos=[]; let capaIndex=0; let videos=[]; let audio='';
+  let plano={nome:'Popular',dias:15,preco:49.90};
   const MAX_FOTOS=6;
   const $=id=>document.getElementById(id);
 
   for(let i=18;i<=70;i++){ const o=document.createElement('option'); o.value=i; o.textContent=i+' anos'; $('idade').appendChild(o); }
 
-  function openStep(n){ current=Math.max(0,Math.min(sections.length-1,n)); sections.forEach((s,i)=>s.classList.toggle('open',i===current)); sections[current].scrollIntoView({behavior:'smooth',block:'start'}); $('progressBar').style.width=((current+1)/sections.length*100)+'%'; $('progressText').textContent=(current+1)+'/'+sections.length; $('prevBtn').style.visibility=current===0?'hidden':'visible'; $('nextBtn').textContent=current===sections.length-1?'Publicar anúncio':'Continuar →'; }
+  function openStep(n){ current=Math.max(0,Math.min(sections.length-1,n)); sections.forEach((s,i)=>s.classList.toggle('open',i===current)); sections[current].scrollIntoView({behavior:'smooth',block:'start'}); $('progressBar').style.width=((current+1)/sections.length*100)+'%'; $('progressText').textContent=(current+1)+'/'+sections.length; $('prevBtn').style.visibility=current===0?'hidden':'visible'; $('nextBtn').textContent=current===sections.length-1?'Simular pagamento e publicar':'Continuar →'; }
   document.querySelectorAll('.section-title').forEach((b,i)=>b.addEventListener('click',()=>openStep(i)));
   $('prevBtn').addEventListener('click',()=>openStep(current-1));
   $('nextBtn').addEventListener('click',()=>{ if(current<sections.length-1){ if(validateStep(current)) openStep(current+1); } else publicar(); });
@@ -153,6 +180,11 @@
   $('days').addEventListener('click',e=>{const b=e.target.closest('.day'); if(b)b.classList.toggle('active')});
   $('titulo').addEventListener('input',()=> $('tituloCount').textContent=$('titulo').value.length);
   $('descricao').addEventListener('input',()=> $('descCount').textContent=$('descricao').value.length);
+
+  $('plans').addEventListener('click',e=>{ const btn=e.target.closest('.plan'); if(!btn)return; document.querySelectorAll('.plan').forEach(x=>x.classList.remove('active')); btn.classList.add('active'); plano={nome:btn.dataset.plan,dias:Number(btn.dataset.days),preco:Number(btn.dataset.price)}; renderOrder(); });
+  $('destaque').addEventListener('change',renderOrder);
+  function brl(value){return value.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+  function renderOrder(){const destaque=$('destaque').checked; $('summaryPlan').textContent=plano.nome+' — '+plano.dias+' dias'; $('summaryHighlightRow').style.display=destaque?'flex':'none'; $('summaryTotal').textContent=brl(plano.preco+(destaque?34.90:0));}
 
   function validateStep(step){ hideStatus(); if(step===0 && (!$('cidade').value.trim()||!$('bairro').value.trim())) return fail('Preencha cidade e bairro.'); if(step===1 && !$('telefone').value.trim()) return fail('Informe um telefone ou WhatsApp.'); if(step===2 && (!$('nome').value.trim()||!$('idade').value||!$('titulo').value.trim()||!$('descricao').value.trim())) return fail('Complete nome, idade, título e apresentação.'); return true; }
   function fail(msg){ showStatus(msg,'err'); return false; }
@@ -173,18 +205,20 @@
 
   function publicar(){ hideStatus(); if(!$('adulto').checked||!$('responsavel').checked)return fail('Marque as duas declarações antes de publicar.'); if(!$('nome').value.trim()||!$('cidade').value.trim()||!$('bairro').value.trim())return fail('Revise os campos obrigatórios do cadastro.');
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
+    const destaque=$('destaque').checked; const metodo=document.querySelector('input[name="pagamento"]:checked')?.value||'Pix'; const total=plano.preco+(destaque?34.90:0);
     const perfil={
       nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
       horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, capaIndex, videos, audio,
+      publicacao:{plano:plano.nome,dias:plano.dias,precoPlano:plano.preco,destaque,precoDestaque:destaque?34.90:0,total,metodo,status:'demonstracao'},
       atualizadoEm:new Date().toISOString()
     };
-    try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700); }
+    try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Pagamento de demonstração aprovado! Anúncio publicado. Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',900); }
     catch(err){ fail('As fotos ficaram grandes demais para este protótipo. Tente usar menos fotos por enquanto.'); }
   }
 
-  renderFotos(); openStep(0);
+  renderFotos(); renderOrder(); openStep(0);
 </script>
 </body>
 </html>

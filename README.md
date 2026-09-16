@@ -1,20 +1,18 @@
-LILÁS CLUB — NOVA BASE
+# Lilás Club — pacote completo
 
-Arquivos:
-- index.html
-- style.css
-- locations.js
-- app.js
+Arquivos do site:
 
-Como instalar no projeto:
-1. Faça backup do projeto atual.
-2. Coloque os quatro arquivos na raiz do site.
-3. Mantenha seu anunciar.html atual.
-4. Faça Commit/Push.
-5. Aguarde o deploy e abra o site no iPhone.
+- `index.html` — home, buscas, filtros e perfis
+- `anunciar.html` — cadastro completo de modelos/anunciantes
+- `perfil.html` — página completa do perfil
+- `style.css` — visual lilás claro e responsivo
+- `locations.js` — Estados e cidades
+- `app.js` — busca, favoritos, cards e integração do cadastro
+- `logo-lilas-club.png` — logo oficial luxuoso
+- `IDENTIDADE-LILAS-CLUB.md` — cores, logo e regras visuais oficiais
 
-O seletor de Estado contém os 26 estados + Distrito Federal.
-Ao escolher um Estado, o site tenta carregar todos os municípios daquele Estado pela BrasilAPI/IBGE.
-Há uma lista de fallback para cidades principais caso a API esteja indisponível.
+Fluxo: home → cadastrar modelo → escolher plano → simular pagamento → publicar → perfil aparece na home → abrir página do perfil.
 
-O app também tenta ler o cadastro existente salvo em localStorage nas chaves lilasPerfil/lilasPerfis.
+## Pagamento de teste
+
+Os valores, Pix e cartão desta versão são apenas uma simulação interna. Nenhuma cobrança real é realizada. A integração financeira verdadeira será conectada somente depois da escolha do provedor e da configuração segura das chaves no servidor.
