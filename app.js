@@ -5,6 +5,39 @@ const profileCity=p=>(p.cidade||p.city||"").replace(/\s*-\s*[A-Z]{2}\s*$/,"").tr
 let selectedCategory="Acompanhantes",selectedGender="Todos",viewMode="grid",onlyFavorites=false;
 let cityCache={};
 
+// Vídeos do protótipo ficam no IndexedDB do navegador.
+// Isso permite testar arquivos reais no GitHub Pages sem colocar vídeos no localStorage.
+const LILAS_MEDIA_DB="lilasClubMediaDB";
+const LILAS_MEDIA_STORE="media";
+function openMediaDB(){
+  return new Promise((resolve,reject)=>{
+    const req=indexedDB.open(LILAS_MEDIA_DB,1);
+    req.onupgradeneeded=()=>{
+      const db=req.result;
+      if(!db.objectStoreNames.contains(LILAS_MEDIA_STORE))db.createObjectStore(LILAS_MEDIA_STORE);
+    };
+    req.onsuccess=()=>resolve(req.result);
+    req.onerror=()=>reject(req.error);
+  });
+}
+async function getStoredMedia(id){
+  if(!id)return null;
+  try{
+    const db=await openMediaDB();
+    return await new Promise((resolve,reject)=>{
+      const tx=db.transaction(LILAS_MEDIA_STORE,"readonly");
+      const req=tx.objectStore(LILAS_MEDIA_STORE).get(id);
+      req.onsuccess=()=>resolve(req.result||null);
+      req.onerror=()=>reject(req.error);
+    });
+  }catch{return null}
+}
+function firstVideoMeta(raw={}){
+  const list=Array.isArray(raw.videos)?raw.videos:[];
+  const first=list.find(v=>v&&typeof v==="object"&&v.id);
+  return first||null;
+}
+
 const demoProfiles=[
 {
   id:"teste-julia",name:"Júlia TESTE",age:25,state:"SP",city:"São Paulo",district:"Moema",category:"Acompanhantes",gender:"Mulheres",
@@ -32,7 +65,8 @@ function userProfiles(){
     state:profileState(p),city:profileCity(p),district:p.bairro||p.district||"",
     category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
     text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
-    image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),raw:p
+    image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),
+    videoMeta:firstVideoMeta(p),videoPoster:p.videoPoster||"",raw:p
   }));
 }
 const allProfiles=()=>[...userProfiles(),...demoProfiles];
@@ -85,13 +119,41 @@ function render(){
   $("#resultCount").textContent=`${rows.length} ${rows.length===1?"perfil":"perfis"}`;
   $("#emptyState").classList.toggle("hidden",rows.length>0);
   $("#cards").innerHTML=rows.map(p=>`<article class="card" data-id="${p.id}">
-    <div class="card-media">${p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`}</div>
+    <div class="card-media" ${p.videoMeta?.id?`data-video-id="${p.videoMeta.id}" data-video-poster="${p.videoPoster||p.image||""}"`:""}>${p.videoMeta?.id
+      ? `${(p.videoPoster||p.image)?`<img src="${p.videoPoster||p.image}" alt="Prévia do vídeo de ${p.name}">`:`<span>Vídeo do perfil<br>${p.name}</span>`}<span class="card-video-badge">VÍDEO</span><button class="card-video-play" type="button" aria-label="Reproduzir vídeo">▶</button>`
+      : (p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`)}</div>
     <button class="fav ${fav.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Favoritar">${fav.includes(p.id)?"♥":"♡"}</button>
     <div class="card-body"><div class="card-title">${p.name}${p.age?`, ${p.age}`:""} ${p.verified?'<span class="verified">✓</span>':""}</div>
     <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div>${p.raw?.caches?.hora1?`<div class="card-rate">1 hora • R$ ${p.raw.caches.hora1}</div>`:""}<p class="tagline">${p.text}</p></div>
   </article>`).join("");
   $$("[data-fav]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFav(b.dataset.fav)});
   $$(".card").forEach(card=>card.onclick=()=>{localStorage.setItem("lilasPerfilSelecionado",card.dataset.id);location.href="perfil.html"});
+  hydrateCardVideos();
+}
+
+async function hydrateCardVideos(){
+  const medias=$$(".card-media[data-video-id]");
+  for(const box of medias){
+    const id=box.dataset.videoId;
+    const blob=await getStoredMedia(id);
+    if(!(blob instanceof Blob))continue;
+    const url=URL.createObjectURL(blob);
+    const poster=box.dataset.videoPoster||"";
+    box.innerHTML=`<video muted playsinline loop preload="metadata" ${poster?`poster="${poster}"`:""}></video><span class="card-video-badge">VÍDEO</span><button class="card-video-play" type="button" aria-label="Reproduzir vídeo">▶</button>`;
+    const video=box.querySelector("video");
+    const play=box.querySelector(".card-video-play");
+    video.src=url;
+    const toggle=async e=>{
+      e?.stopPropagation();
+      if(video.paused){
+        try{await video.play();box.classList.add("is-playing");play.textContent="❚❚"}catch{}
+      }else{video.pause();box.classList.remove("is-playing");play.textContent="▶"}
+    };
+    play.onclick=toggle;
+    video.onclick=toggle;
+    video.onpause=()=>{box.classList.remove("is-playing");play.textContent="▶"};
+    video.onplay=()=>{box.classList.add("is-playing");play.textContent="❚❚"};
+  }
 }
 function showSuggestions(){
   const q=normalize($("#searchInput").value.trim());

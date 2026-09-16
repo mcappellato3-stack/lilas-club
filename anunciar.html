@@ -107,7 +107,7 @@
   <section class="section" data-step="5">
     <button class="section-title" type="button"><span class="left"><span class="badge">📷</span>Fotos</span><span class="chev">⌄</span></button>
     <div class="section-body">
-      <p class="hint"><b>Teste atual: até 6 fotos.</b> Depois aumentamos para 12. Toque em “Capa” para escolher a primeira foto do anúncio.</p>
+      <p class="hint"><b>Teste atual: até 6 fotos.</b> Se você adicionar um vídeo, ele vira a capa principal e as fotos ficam na galeria. Sem vídeo, a foto marcada como “Capa” será usada no anúncio.</p>
       <div class="photo-toolbar"><label class="upload-btn" for="fotosInput">＋ Adicionar fotos</label><button class="upload-btn secondary" id="limparFotos" type="button">Limpar</button></div>
       <input id="fotosInput" type="file" accept="image/*" multiple />
       <div id="photoGrid" class="photo-grid"></div><div id="photoEmpty" class="empty-box">Nenhuma foto adicionada ainda.</div>
@@ -117,7 +117,7 @@
   <section class="section" data-step="6">
     <button class="section-title" type="button"><span class="left"><span class="badge">🎬</span>Vídeos e áudio</span><span class="chev">⌄</span></button>
     <div class="section-body">
-      <label>Vídeos</label><div class="hint">No protótipo, guardamos o nome dos arquivos. O envio real para o servidor entra quando conectarmos o backend.</div>
+      <label>Vídeos</label><div class="hint"><b>O primeiro vídeo vira automaticamente a capa do anúncio.</b> Para esta fase de teste, o arquivo fica salvo neste navegador/iPhone. As fotos continuam na galeria.</div>
       <label class="upload-btn" for="videosInput" style="margin-top:10px">＋ Adicionar vídeos</label><input id="videosInput" type="file" accept="video/*" multiple /><div id="videoList" class="file-list"></div>
       <label style="margin-top:18px">Áudio de apresentação</label><div class="hint">Você poderá colocar um áudio curto de apresentação.</div>
       <label class="upload-btn" for="audioInput" style="margin-top:10px;background:var(--verde)">🎤 Carregar áudio</label><input id="audioInput" type="file" accept="audio/*" /><div id="audioList" class="file-list"></div>
@@ -166,6 +166,12 @@
   let genero='Mulher', categoria='Acompanhantes';
   let fotos=[]; let capaIndex=0; let videos=[]; let audio='';
   let plano={nome:'Popular',dias:15,preco:49.90};
+  const MEDIA_DB='lilasClubMediaDB', MEDIA_STORE='media', MAX_VIDEOS=3;
+  function openMediaDB(){ return new Promise((resolve,reject)=>{ const req=indexedDB.open(MEDIA_DB,1); req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains(MEDIA_STORE))db.createObjectStore(MEDIA_STORE)}; req.onsuccess=()=>resolve(req.result); req.onerror=()=>reject(req.error); }); }
+  async function saveMedia(id,blob){ const db=await openMediaDB(); return new Promise((resolve,reject)=>{ const tx=db.transaction(MEDIA_STORE,'readwrite'); tx.objectStore(MEDIA_STORE).put(blob,id); tx.oncomplete=()=>resolve(); tx.onerror=()=>reject(tx.error); }); }
+  async function deleteMedia(id){ try{const db=await openMediaDB(); await new Promise((resolve,reject)=>{const tx=db.transaction(MEDIA_STORE,'readwrite');tx.objectStore(MEDIA_STORE).delete(id);tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error)})}catch{} }
+  function mediaId(){return 'video-'+Date.now()+'-'+Math.random().toString(36).slice(2,9)}
+  function videoPoster(file){ return new Promise(resolve=>{ const url=URL.createObjectURL(file); const v=document.createElement('video'); v.preload='metadata'; v.muted=true; v.playsInline=true; let done=false; const finish=(value='')=>{if(done)return;done=true;URL.revokeObjectURL(url);resolve(value)}; v.onloadedmetadata=()=>{try{v.currentTime=Math.min(.35,Math.max(0,(v.duration||1)/4))}catch{finish('')}}; v.onseeked=()=>{try{const maxW=640,scale=Math.min(1,maxW/(v.videoWidth||maxW));const c=document.createElement('canvas');c.width=Math.max(1,Math.round((v.videoWidth||640)*scale));c.height=Math.max(1,Math.round((v.videoHeight||800)*scale));c.getContext('2d').drawImage(v,0,0,c.width,c.height);finish(c.toDataURL('image/jpeg',.68))}catch{finish('')}}; v.onerror=()=>finish(''); setTimeout(()=>finish(''),5000); v.src=url; }); }
   const MAX_FOTOS=6;
   const $=id=>document.getElementById(id);
 
@@ -198,19 +204,34 @@
   function renderFotos(){ const g=$('photoGrid'); g.innerHTML=''; $('photoEmpty').style.display=fotos.length?'none':'block'; fotos.forEach((src,i)=>{ const d=document.createElement('div'); d.className='photo-card'+(i===capaIndex?' cover':''); d.innerHTML=`${i===capaIndex?'<span class="cover-tag">CAPA</span>':''}<img alt="Foto ${i+1}" src="${src}"><div class="photo-actions"><button type="button" data-cover="${i}">Capa</button><button type="button" data-remove="${i}">Excluir</button></div>`; g.appendChild(d); }); }
   $('photoGrid').addEventListener('click',e=>{ const c=e.target.dataset.cover, r=e.target.dataset.remove; if(c!==undefined){capaIndex=Number(c);renderFotos()} if(r!==undefined){const idx=Number(r);fotos.splice(idx,1); if(capaIndex>=fotos.length)capaIndex=Math.max(0,fotos.length-1); else if(idx<capaIndex)capaIndex--; renderFotos()} });
 
-  $('videosInput').addEventListener('change',e=>{ videos=[...e.target.files].slice(0,3).map(f=>f.name); renderFiles(); });
+  $('videosInput').addEventListener('change',async e=>{
+    hideStatus();
+    const files=[...e.target.files].filter(f=>f.type.startsWith('video/')).slice(0,Math.max(0,MAX_VIDEOS-videos.length));
+    if(!files.length){e.target.value='';return}
+    for(const f of files){
+      try{
+        const id=mediaId();
+        const poster=videos.length===0 ? await videoPoster(f) : '';
+        await saveMedia(id,f);
+        videos.push({id,name:f.name,type:f.type,size:f.size,poster});
+      }catch{fail('Não foi possível salvar esse vídeo para o teste. Tente um arquivo menor.')}
+    }
+    renderFiles(); e.target.value='';
+  });
   $('audioInput').addEventListener('change',e=>{ audio=e.target.files[0]?.name||''; renderFiles(); });
-  function renderFiles(){ $('videoList').innerHTML=videos.map((n,i)=>`<div class="file-item"><span>🎬 ${escapeHtml(n)}</span><button type="button" onclick="videos.splice(${i},1);renderFiles()">Excluir</button></div>`).join(''); $('audioList').innerHTML=audio?`<div class="file-item"><span>🎤 ${escapeHtml(audio)}</span><button type="button" onclick="audio='';renderFiles()">Excluir</button></div>`:''; }
+  window.removerVideo=async i=>{const item=videos[i];if(item?.id)await deleteMedia(item.id);videos.splice(i,1);renderFiles()};
+  function renderFiles(){ $('videoList').innerHTML=videos.map((v,i)=>`<div class="file-item"><span>🎬 ${i===0?'<b>CAPA • </b>':''}${escapeHtml(v.name||'Vídeo')}</span><button type="button" onclick="removerVideo(${i})">Excluir</button></div>`).join(''); $('audioList').innerHTML=audio?`<div class="file-item"><span>🎤 ${escapeHtml(audio)}</span><button type="button" onclick="audio='';renderFiles()">Excluir</button></div>`:''; }
   function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
   function publicar(){ hideStatus(); if(!$('adulto').checked||!$('responsavel').checked)return fail('Marque as duas declarações antes de publicar.'); if(!$('nome').value.trim()||!$('cidade').value.trim()||!$('bairro').value.trim())return fail('Revise os campos obrigatórios do cadastro.');
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
     const destaque=$('destaque').checked; const metodo=document.querySelector('input[name="pagamento"]:checked')?.value||'Pix'; const total=plano.preco+(destaque?34.90:0);
     const perfil={
+      id:'perfil-'+Date.now(),
       nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, capaIndex, videos, audio,
+      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, capaIndex, videos, videoCapaId:videos[0]?.id||'', videoPoster:videos[0]?.poster||'', audio,
       publicacao:{plano:plano.nome,dias:plano.dias,precoPlano:plano.preco,destaque,precoDestaque:destaque?34.90:0,total,metodo,status:'demonstracao'},
       atualizadoEm:new Date().toISOString()
     };
