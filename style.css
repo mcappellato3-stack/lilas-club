@@ -64,3 +64,14 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
 @keyframes lilasPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.76}}
 @keyframes lilasFade{0%,100%{opacity:1}50%{opacity:.5}}
 .field-error{outline:2px solid #cf2d68 !important;border-color:#cf2d68 !important;box-shadow:0 0 0 3px rgba(207,45,104,.12)!important}
+
+@keyframes lilasBadgeBlink{0%,18%,100%{opacity:.98;transform:translateY(0) scale(1)}9%{opacity:.62;transform:translateY(-1px) scale(.985)}}
+@keyframes lilasTxtBlink{0%,20%,100%{opacity:1}10%{opacity:.4}}
+.card-media .smart-badge{animation:lilasBadgeBlink 2.4s ease-in-out infinite;transform-origin:left top}
+.card-media .smart-badge .txt{animation:lilasTxtBlink 2.4s ease-in-out infinite}
+.card-media .smart-badge.cheguei{top:12px;left:50%;transform:translateX(-50%)}
+.card-media .smart-badge.favorita{top:auto;bottom:52px;left:14px}
+.card-media .smart-badge.emalta{top:12px;left:auto;right:14px}
+.demo-main-media,.card-media,.demo-thumb,.video-card video{overflow:hidden}
+.demo-thumb{position:relative;background:#17121b;border-radius:12px;overflow:hidden}
+.demo-thumb video,.demo-thumb img{width:100%;height:100%;object-fit:cover;display:block}

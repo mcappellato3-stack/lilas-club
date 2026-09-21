@@ -171,7 +171,7 @@
   const sections=[...document.querySelectorAll('.section')];
   let current=0;
   let genero='Mulher', categoria='Acompanhantes';
-  let fotos=[]; let fotoOriginais=[]; let fotoModos=[]; let capaIndex=0; let videos=[]; let videoItens=[]; let audio='';
+  let fotos=[]; let fotoOriginais=[]; let fotoModos=[]; let capaIndex=0; let videos=[]; let videoItens=[]; let audio=''; let audioFile=null;
   let editIndex=-1, editMode='auto', editorImg=null;
   const MAX_FOTOS=6;
   const $=id=>document.getElementById(id);
@@ -227,6 +227,9 @@
     const sc=Math.min(w/img.width,h/img.height), dw=img.width*sc, dh=img.height*sc;
     ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);
   }
+  function openLilDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('lilasClubMediaDB',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+  async function putAsset(key,blob){const db=await openLilDB();return await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readwrite');tx.objectStore('assets').put(blob,key);tx.oncomplete=()=>resolve(key);tx.onerror=()=>reject(tx.error)})}
+  async function clearStoredAssets(keys=[]){if(!keys.length)return;try{const db=await openLilDB();await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readwrite');const st=tx.objectStore('assets');keys.filter(Boolean).forEach(k=>st.delete(k));tx.oncomplete=resolve;tx.onerror=()=>reject(tx.error)})}catch{}}
   async function makeAutoFrame(src){const img=await imageFromData(src);const c=document.createElement('canvas');c.width=900;c.height=1200;drawAutoFrame(c.getContext('2d'),img,900,1200);return c.toDataURL('image/jpeg',.86)}
 
   $('fotosInput').addEventListener('change',async e=>{
@@ -254,10 +257,10 @@
   $('videosInput').addEventListener('change',e=>{
     videoItens.forEach(v=>{if(v.url)URL.revokeObjectURL(v.url)});
     const fs=[...e.target.files].slice(0,3);
-    videoItens=fs.map(f=>({name:f.name,url:URL.createObjectURL(f),mode:'auto',time:0,duration:0}));
+    videoItens=fs.map(f=>({name:f.name,url:URL.createObjectURL(f),file:f,mode:'auto',time:0,duration:0}));
     videos=fs.map(f=>f.name); renderFiles(); e.target.value='';
   });
-  $('audioInput').addEventListener('change',e=>{ audio=e.target.files[0]?.name||''; renderFiles(); });
+  $('audioInput').addEventListener('change',e=>{ audioFile=e.target.files[0]||null; audio=audioFile?.name||''; renderFiles(); });
   function setVideoMode(i,mode){const v=videoItens[i];if(!v)return;v.mode=mode;if(mode==='auto'&&v.duration){v.time=Math.min(Math.max(v.duration*.12,.2),1.5)}renderFiles()}
   function setVideoTime(i,value){const v=videoItens[i];if(!v)return;v.mode='manual';v.time=Number(value)||0;const el=document.querySelector(`[data-video-preview="${i}"]`);if(el&&isFinite(v.time))el.currentTime=v.time;const tag=document.querySelector(`[data-video-time="${i}"]`);if(tag)tag.textContent=v.time.toFixed(1)+'s'}
   function removeVideo(i){const v=videoItens[i];if(v?.url)URL.revokeObjectURL(v.url);videoItens.splice(i,1);videos.splice(i,1);renderFiles()}
@@ -268,18 +271,29 @@
   }
   function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
-  function publicar(){ hideStatus(); clearFieldErrors();
+  async function publicar(){ hideStatus(); clearFieldErrors();
     if(!validateStep(0)||!validateStep(1)||!validateStep(2)) return;
     if(!$('adulto').checked) return revealField('adulto','Confirme que você é maior de 18 anos.',7);
     if(!$('responsavel').checked) return revealField('responsavel','Confirme a declaração de responsabilidade.',7);
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
     const cacheVals=[$('preco15').value.trim(),$('preco30').value.trim(),$('preco60').value.trim()].map(v=>Number(String(v).replace(',', '.'))||0).filter(v=>v>0);
     const coverMedia=videoItens.length?'video':'image';
+    const previous=JSON.parse(localStorage.getItem('lilasPerfil')||'null');
+    const oldKeys=[...(previous?.videoKeys||[]), ...(previous?.audioKey?[previous.audioKey]:[])].filter(Boolean);
+    const stamp=Date.now();
+    const videoKeys=[];
+    for(let i=0;i<videoItens.length;i++){
+      const item=videoItens[i];
+      if(item?.file){const key=`video_${stamp}_${i}_${(item.name||'video').replace(/[^a-z0-9_.-]/gi,'_')}`; await putAsset(key,item.file); videoKeys.push(key)}
+    }
+    let audioKey='';
+    if(audioFile){audioKey=`audio_${stamp}_${audioFile.name.replace(/[^a-z0-9_.-]/gi,'_')}`; await putAsset(audioKey,audioFile)}
+    await clearStoredAssets(oldKeys.filter(k=>!videoKeys.includes(k)&&k!==audioKey));
     const perfil={
       nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim(),menor:cacheVals.length?Math.min(...cacheVals):''},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audio, coverMedia,
+      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), videoKeys, audio, audioKey, coverMedia,
       atualizadoEm:new Date().toISOString()
     };
     try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700); }

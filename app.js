@@ -5,27 +5,49 @@ let cityCache={};
 
 const demoProfiles=[{"id":"demo1","name":"Marina","age":24,"state":"SP","city":"São Paulo","district":"Jardins","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-01.jpg","gallery":["new-01.jpg","new-06.jpg","model-01.jpg","model-08.jpg"],"video":"","prices":{"min15":90,"min30":150,"hour1":280}},{"id":"demo2","name":"Bianca","age":25,"state":"RJ","city":"Rio de Janeiro","district":"Copacabana","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-02.jpg","gallery":["new-02.jpg","new-07.jpg","model-02.jpg","model-09.jpg"],"video":"video-01.mp4","prices":{"min15":100,"min30":165,"hour1":305},"coverMedia":"video"},{"id":"demo3","name":"Carla","age":26,"state":"MG","city":"Belo Horizonte","district":"Savassi","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":false,"image":"new-03.jpg","gallery":["new-03.jpg","new-08.jpg","model-03.jpg","model-10.jpg"],"video":"","prices":{"min15":110,"min30":180,"hour1":330}},{"id":"demo4","name":"Luna","age":27,"state":"PR","city":"Curitiba","district":"Batel","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-04.jpg","gallery":["new-04.jpg","new-09.jpg","model-04.jpg","model-11.jpg"],"video":"","prices":{"min15":120,"min30":195,"hour1":355}},{"id":"demo5","name":"Maya","age":28,"state":"BA","city":"Salvador","district":"Barra","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-05.jpg","gallery":["new-05.jpg","new-10.jpg","model-05.jpg","model-12.jpg"],"video":"","prices":{"min15":130,"min30":210,"hour1":380}},{"id":"demo6","name":"Isabela","age":29,"state":"DF","city":"Brasília","district":"Asa Sul","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-06.jpg","gallery":["new-06.jpg","new-11.jpg","model-06.jpg","model-13.jpg"],"video":"","prices":{"min15":90,"min30":150,"hour1":280}},{"id":"demo7","name":"Camila","age":30,"state":"SC","city":"Florianópolis","district":"Centro","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":false,"image":"new-07.jpg","gallery":["new-07.jpg","new-12.jpg","model-07.jpg","model-14.jpg"],"video":"video-02.mp4","prices":{"min15":100,"min30":165,"hour1":305},"coverMedia":"video"},{"id":"demo8","name":"Júlia","age":31,"state":"PE","city":"Recife","district":"Boa Viagem","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-08.jpg","gallery":["new-08.jpg","new-13.jpg","model-08.jpg","model-15.jpg"],"video":"","prices":{"min15":110,"min30":180,"hour1":330}},{"id":"demo9","name":"Amanda","age":24,"state":"GO","city":"Goiânia","district":"Setor Bueno","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-09.jpg","gallery":["new-09.jpg","new-14.jpg","model-09.jpg","model-01.jpg"],"video":"","prices":{"min15":120,"min30":195,"hour1":355}},{"id":"demo10","name":"Sofia","age":25,"state":"CE","city":"Fortaleza","district":"Meireles","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-10.jpg","gallery":["new-10.jpg","new-15.jpg","model-10.jpg","model-02.jpg"],"video":"","prices":{"min15":130,"min30":210,"hour1":380}},{"id":"demo11","name":"Valentina","age":26,"state":"RS","city":"Porto Alegre","district":"Moinhos de Vento","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":false,"image":"new-11.jpg","gallery":["new-11.jpg","new-16.jpg","model-11.jpg","model-03.jpg"],"video":"","prices":{"min15":90,"min30":150,"hour1":280}},{"id":"demo12","name":"Natalia","age":27,"state":"ES","city":"Vitória","district":"Praia do Canto","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-12.jpg","gallery":["new-12.jpg","new-01.jpg","model-12.jpg","model-04.jpg"],"video":"video-03.mp4","prices":{"min15":100,"min30":165,"hour1":305},"coverMedia":"video"},{"id":"demo13","name":"Larissa","age":28,"state":"PA","city":"Belém","district":"Umarizal","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-13.jpg","gallery":["new-13.jpg","new-02.jpg","model-13.jpg","model-05.jpg"],"video":"","prices":{"min15":110,"min30":180,"hour1":330}},{"id":"demo14","name":"Bruna","age":29,"state":"AM","city":"Manaus","district":"Adrianópolis","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-14.jpg","gallery":["new-14.jpg","new-03.jpg","model-14.jpg","model-06.jpg"],"video":"","prices":{"min15":120,"min30":195,"hour1":355}},{"id":"demo15","name":"Melissa","age":30,"state":"RN","city":"Natal","district":"Ponta Negra","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":false,"image":"new-15.jpg","gallery":["new-15.jpg","new-04.jpg","model-15.jpg","model-07.jpg"],"video":"","prices":{"min15":130,"min30":210,"hour1":380}},{"id":"demo16","name":"Gabriela","age":31,"state":"PB","city":"João Pessoa","district":"Tambaú","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-16.jpg","gallery":["new-16.jpg","new-05.jpg","model-01.jpg","model-08.jpg"],"video":"","prices":{"min15":90,"min30":150,"hour1":280}},{"id":"demo17","name":"Juliana","age":24,"state":"AL","city":"Maceió","district":"Pajuçara","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-17.png","gallery":["new-17.png","new-05.jpg","model-04.jpg","new-11.jpg"],"video":"","prices":{"min15":100,"min30":165,"hour1":305}},{"id":"demo18","name":"Helena","age":25,"state":"SE","city":"Aracaju","district":"Atalaia","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-18.png","gallery":["new-18.png","new-09.jpg","model-06.jpg","new-14.jpg"],"video":"","prices":{"min15":110,"min30":180,"hour1":330}},{"id":"demo19","name":"Renata","age":27,"state":"MT","city":"Cuiabá","district":"Goiabeiras","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":false,"image":"new-19.png","gallery":["new-19.png","new-02.jpg","model-12.jpg","new-16.jpg"],"video":"","prices":{"min15":120,"min30":195,"hour1":355}},{"id":"demo20","name":"Paola","age":28,"state":"MS","city":"Campo Grande","district":"Santa Fé","category":"Acompanhantes","gender":"Mulheres","text":"Perfil demonstrativo para teste do Lilás Club.","verified":true,"image":"new-20.png","gallery":["new-20.png","new-03.jpg","model-15.jpg","new-07.jpg"],"video":"","prices":{"min15":130,"min30":210,"hour1":380}}];
 
-function userProfiles(){
+let hydratedUserProfiles=[];
+const lilasObjectUrls=[];
+function rawUserProfiles(){
   const keys=["lilasPerfil","lilasPerfis"];
   let out=[];
   for(const k of keys){try{const v=JSON.parse(localStorage.getItem(k)||"null");if(Array.isArray(v))out.push(...v);else if(v&&typeof v==="object")out.push(v)}catch{}}
-  return out.map((p,i)=>({
-    id:p.id||`user${i}`,name:p.nome||p.name||"Perfil",age:p.idade||p.age||"",
-    state:(p.estado||p.state||"").toUpperCase(),city:p.cidade||p.city||"",district:p.bairro||p.district||"",
-    category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
-    text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
-    image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),
-    gallery:(p.fotos||[]).filter(Boolean),
-    video:(p.video||((p.videos||[])[0])||""),
-    coverMedia:(p.coverMedia||p.capaMidia||(((p.video||((p.videos||[])[0])||"") && (p.videoCapas||[]).length)?'video':'')),
-    prices:{
-      min15:Number(p.preco15||p.valor15||p.caches?.min15||0)||0,
-      min30:Number(p.preco30||p.valor30||p.caches?.min30||0)||0,
-      hour1:Number(p.preco60||p.valor60||p.valor1h||p.caches?.hora1||0)||0
-    }
-  }));
+  return out;
 }
-const allProfiles=()=>[...userProfiles(),...demoProfiles];
+function openLilDB(){return new Promise((resolve,reject)=>{const req=indexedDB.open('lilasClubMediaDB',1);req.onupgradeneeded=()=>{const db=req.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error)})}
+async function getAssetBlob(key){if(!key)return null;try{const db=await openLilDB();return await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readonly');const st=tx.objectStore('assets');const rq=st.get(key);rq.onsuccess=()=>resolve(rq.result||null);rq.onerror=()=>reject(rq.error)})}catch{return null}}
+async function hydrateUserProfiles(){
+  lilasObjectUrls.splice(0).forEach(u=>{try{URL.revokeObjectURL(u)}catch{}});
+  const raw=rawUserProfiles();
+  const list=[];
+  for(let i=0;i<raw.length;i++){
+    const p=raw[i]||{};
+    const videoKeys=(p.videoKeys||p.videoBlobKeys||[]).filter(Boolean);
+    const videoUrls=[];
+    for(const key of videoKeys){const blob=await getAssetBlob(key);if(blob instanceof Blob){const url=URL.createObjectURL(blob);lilasObjectUrls.push(url);videoUrls.push(url)}}
+    const firstVideo=videoUrls[0]||p.video||((p.videos||[])[0])||'';
+    const coverPref=p.coverMedia||p.capaMidia||(((firstVideo)&&((p.videoCapas||[]).length||videoUrls.length))?'video':'');
+    list.push({
+      id:p.id||`user${i}`,name:p.nome||p.name||"Perfil",age:p.idade||p.age||"",
+      state:(p.estado||p.state||"").toUpperCase(),city:p.cidade||p.city||"",district:p.bairro||p.district||"",
+      category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
+      text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
+      image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),
+      gallery:(p.fotos||[]).filter(Boolean),
+      video:firstVideo,
+      videosResolved:videoUrls,
+      coverMedia:coverPref,
+      prices:{
+        min15:Number(p.preco15||p.valor15||p.caches?.min15||0)||0,
+        min30:Number(p.preco30||p.valor30||p.caches?.min30||0)||0,
+        hour1:Number(p.preco60||p.valor60||p.valor1h||p.caches?.hora1||0)||0
+      }
+    });
+  }
+  hydratedUserProfiles=list;
+  return list;
+}
+function userProfiles(){return hydratedUserProfiles}
+const allProfiles=()=>[...hydratedUserProfiles,...demoProfiles];
 
 function fillStates(){
   const sel=$("#stateSelect");
@@ -120,6 +142,9 @@ function bindModal(){
 }
 function closeModal(){ $("#modal").classList.add("hidden") }
 
+window.addEventListener('storage',async()=>{await hydrateUserProfiles();render()});
+window.addEventListener('focus',async()=>{await hydrateUserProfiles();render()});
+
 
 
 // ===== Lilás Club — complementos DEMO autorizados =====
@@ -179,7 +204,9 @@ function openDemoProfile(id){
   const gallery=(p.gallery&&p.gallery.length?p.gallery:[p.image]).filter(Boolean);
   const prices=p.prices||{};
   const media=[];
-  gallery.forEach((src,i)=>{media.push({type:'image',src});if(i===0&&p.video)media.push({type:'video',src:p.video})});
+  const videos=(p.videosResolved&&p.videosResolved.length?p.videosResolved:(p.video?[p.video]:[])).filter(Boolean);
+  if(p.coverMedia==='video'&&videos.length){media.push({type:'video',src:videos[0]});gallery.forEach(src=>media.push({type:'image',src}));videos.slice(1).forEach(src=>media.push({type:'video',src}));}
+  else {gallery.forEach((src,i)=>{media.push({type:'image',src});if(i===0&&videos.length)media.push({type:'video',src:videos[0]})});videos.slice(1).forEach(src=>media.push({type:'video',src}));}
   const thumbs=media.map((m,i)=>`<button class="demo-thumb ${i===0?'active':''}" data-demo-type="${m.type}" data-demo-src="${escText(m.src)}">${m.type==='video'?`<video src="${escText(m.src)}" muted playsinline preload="metadata"></video><span class="thumb-play">▶</span>`:`<img src="${escText(m.src)}" alt="">`}</button>`).join('');
   const first=media[0]||{type:'image',src:p.image||''};
   const main=first.type==='video'?`<video id="demoMainVideo" controls playsinline preload="metadata" src="${escText(first.src)}"></video>`:`<img id="demoMainImage" src="${escText(first.src)}" alt="${escText(p.name)}">`;
@@ -189,7 +216,7 @@ function openDemoProfile(id){
     box.querySelector(':scope > img, :scope > video')?.remove();
     let el;
     if(b.dataset.demoType==='video'){
-      el=document.createElement('video');el.id='demoMainVideo';el.controls=true;el.playsInline=true;el.preload='metadata';el.src=b.dataset.demoSrc;
+      el=document.createElement('video');el.id='demoMainVideo';el.controls=true;el.playsInline=true;el.preload='metadata';el.muted=false;el.src=b.dataset.demoSrc;
     }else{
       el=document.createElement('img');el.id='demoMainImage';el.alt=p.name;el.src=b.dataset.demoSrc;
     }
@@ -199,8 +226,8 @@ function openDemoProfile(id){
   document.getElementById('profileDemoModal').classList.remove('hidden');
 }
 
-document.addEventListener("DOMContentLoaded",()=>{
-  fillStates(); render(); ensureDemoLayers();
+document.addEventListener("DOMContentLoaded", async ()=>{
+  fillStates(); await hydrateUserProfiles(); render(); ensureDemoLayers();
   if(localStorage.getItem("lilas18")==="yes")$("#ageGate").classList.add("hidden");
   $("#enterBtn").onclick=()=>{localStorage.setItem("lilas18","yes");$("#ageGate").classList.add("hidden")};
   $("#leaveBtn").onclick=()=>history.length>1?history.back():location.replace("about:blank");
