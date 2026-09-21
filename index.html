@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#8b2bd9">
   <title>Lilás Club</title>
-  <link rel="stylesheet" href="style.css?v=video-cover-final">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <div id="ageGate" class="gate">
     <div class="gate-card">
-      <img class="gate-logo" src="logo-lilas-club.png" alt="Lilás Club">
+      <div class="brand big"><span>✦</span> Lilás Club</div>
       <h1>Conteúdo para maiores de 18 anos</h1>
       <p>Ao continuar, você declara ter 18 anos ou mais.</p>
       <button id="enterBtn" class="primary">Tenho 18 anos ou mais</button>
@@ -19,7 +19,7 @@
   </div>
 
   <header class="topbar">
-    <a class="brand" href="index.html"><img src="logo-lilas-club.png" alt="Lilás Club"></a>
+    <a class="brand" href="index.html"><span>✦</span> Lilás Club</a>
     <div class="top-actions">
       <button id="favoritesBtn" class="icon-btn" aria-label="Favoritos">♡</button>
       <a class="publish" href="anunciar.html">PUBLICAR ANÚNCIO</a>
@@ -29,7 +29,7 @@
 
   <main>
     <section class="hero">
-      <h1>Encontre perfis da sua região</h1>
+      <h1>Encontre perfis na sua região</h1>
       <p>Pesquise por cidade, estado ou nome.</p>
 
       <div class="category-tabs" id="categoryTabs">
@@ -96,20 +96,13 @@
       </div>
       <div id="cards" class="cards"></div>
     </section>
-
-    <section class="signup-cta">
-      <div><strong>Quer aparecer no Lilás Club?</strong><span>Cadastre seu perfil, escolha suas fotos e publique seu anúncio.</span></div>
-      <a class="create-ad-alert" href="anunciar.html">CRIE SEU ANÚNCIO</a>
-    </section>
   </main>
-
-  <a class="mobile-signup create-ad-alert" href="anunciar.html">＋ CRIE SEU ANÚNCIO</a>
 
   <nav id="drawer" class="drawer">
     <button id="closeMenu" class="drawer-close">×</button>
-    <div class="brand drawer-brand"><img src="logo-lilas-club.png" alt="Lilás Club"></div>
+    <div class="brand"><span>✦</span> Lilás Club</div>
     <a href="index.html">Início</a>
-    <a  hidden class="drawer-signup create-ad-alert" href="anunciar.html">＋ CRIE SEU ANÚNCIO</a>
+    <a href="anunciar.html">Publicar anúncio</a>
     <button id="drawerFav">Favoritos</button>
     <button id="drawerCities">Cidades</button>
     <a href="#">Preços</a>
@@ -130,6 +123,6 @@
   </div>
 
   <script src="locations.js"></script>
-  <script src="app.js?v=video-cover-final"></script>
+  <script src="app.js"></script>
 </body>
 </html>
