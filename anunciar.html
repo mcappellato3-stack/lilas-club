@@ -187,10 +187,19 @@
   $('days').addEventListener('click',e=>{const b=e.target.closest('.day'); if(b)b.classList.toggle('active')});
   $('titulo').addEventListener('input',()=> $('tituloCount').textContent=$('titulo').value.length);
   $('descricao').addEventListener('input',()=> $('descCount').textContent=$('descricao').value.length);
+  document.querySelectorAll('input, textarea, select').forEach(el=>el.addEventListener('input',()=>el.classList.remove('field-error')));
+  document.querySelectorAll('input, textarea, select').forEach(el=>el.addEventListener('change',()=>el.classList.remove('field-error')));
 
-  function validateStep(step){ hideStatus(); if(step===0 && (!$('cidade').value.trim()||!$('bairro').value.trim())) return fail('Preencha cidade e bairro.'); if(step===1 && !$('telefone').value.trim()) return fail('Informe um telefone ou WhatsApp.'); if(step===2 && (!$('nome').value.trim()||!$('idade').value||!$('titulo').value.trim()||!$('descricao').value.trim())) return fail('Complete nome, idade, título e apresentação.'); return true; }
-  function fail(msg){ showStatus(msg,'err'); return false; }
-  function showStatus(msg,type){ const s=$('status'); s.textContent=msg; s.className='status '+type; s.scrollIntoView({behavior:'smooth',block:'center'}); }
+  function clearFieldErrors(){document.querySelectorAll('.field-error').forEach(el=>el.classList.remove('field-error'))}
+  function revealField(id,msg,step){ hideStatus(); clearFieldErrors(); openStep(step); const el=$(id); if(el){el.classList.add('field-error'); setTimeout(()=>el.classList.remove('field-error'),3500); el.focus({preventScroll:true}); el.scrollIntoView({behavior:'smooth',block:'center'});} return fail(msg,false); }
+  function validateStep(step){
+    hideStatus(); clearFieldErrors();
+    if(step===0){ if(!$('cidade').value.trim()) return revealField('cidade','Informe a cidade do anúncio.',0); if(!$('bairro').value.trim()) return revealField('bairro','Informe o bairro do anúncio.',0); }
+    if(step===1){ if(!$('telefone').value.trim()) return revealField('telefone','Informe um telefone ou WhatsApp.',1); }
+    if(step===2){ if(!$('nome').value.trim()) return revealField('nome','Informe o nome do perfil.',2); if(!$('idade').value) return revealField('idade','Selecione a idade.',2); if(!$('titulo').value.trim()) return revealField('titulo','Informe o título do anúncio.',2); if(!$('descricao').value.trim()) return revealField('descricao','Escreva sua apresentação.',2); }
+    return true; }
+  function fail(msg,scroll=true){ showStatus(msg,'err',scroll); return false; }
+  function showStatus(msg,type,scroll=true){ const s=$('status'); s.textContent=msg; s.className='status '+type; if(scroll)s.scrollIntoView({behavior:'smooth',block:'center'}); }
   function hideStatus(){ $('status').className='status'; }
 
   function loadImageFromFile(file,maxSide=1800,quality=.88){
@@ -259,13 +268,18 @@
   }
   function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
-  function publicar(){ hideStatus(); if(!$('adulto').checked||!$('responsavel').checked)return fail('Marque as duas declarações antes de publicar.'); if(!$('nome').value.trim()||!$('cidade').value.trim()||!$('bairro').value.trim())return fail('Revise os campos obrigatórios do cadastro.');
+  function publicar(){ hideStatus(); clearFieldErrors();
+    if(!validateStep(0)||!validateStep(1)||!validateStep(2)) return;
+    if(!$('adulto').checked) return revealField('adulto','Confirme que você é maior de 18 anos.',7);
+    if(!$('responsavel').checked) return revealField('responsavel','Confirme a declaração de responsabilidade.',7);
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
+    const cacheVals=[$('preco15').value.trim(),$('preco30').value.trim(),$('preco60').value.trim()].map(v=>Number(String(v).replace(',', '.'))||0).filter(v=>v>0);
+    const coverMedia=videoItens.length?'video':'image';
     const perfil={
       nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
-      caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audio,
+      caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim(),menor:cacheVals.length?Math.min(...cacheVals):''},
+      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audio, coverMedia,
       atualizadoEm:new Date().toISOString()
     };
     try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700); }

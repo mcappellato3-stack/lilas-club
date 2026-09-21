@@ -17,6 +17,7 @@ function userProfiles(){
     image:p.fotoCapa||p.image||p.foto||((p.fotos||[])[0]||""),
     gallery:(p.fotos||[]).filter(Boolean),
     video:(p.video||((p.videos||[])[0])||""),
+    coverMedia:(p.coverMedia||p.capaMidia||(((p.video||((p.videos||[])[0])||"") && (p.videoCapas||[]).length)?'video':'')),
     prices:{
       min15:Number(p.preco15||p.valor15||p.caches?.min15||0)||0,
       min30:Number(p.preco30||p.valor30||p.caches?.min30||0)||0,
@@ -73,11 +74,11 @@ function render(){
   if($("#sortSelect").value==="name")rows.sort((a,b)=>a.name.localeCompare(b.name,"pt-BR"));
   $("#resultCount").textContent=`${rows.length} ${rows.length===1?"perfil":"perfis"}`;
   $("#emptyState").classList.toggle("hidden",rows.length>0);
-  $("#cards").innerHTML=rows.map(p=>`<article class="card" data-id="${p.id}">
-    <div class="card-media">${p.image?`<span class="media-backdrop" style="background-image:url('${p.image}')"></span>`:''}${p.coverMedia==="video"&&p.video?`<video class="card-cover-video" src="${p.video}" muted autoplay loop playsinline preload="metadata" aria-label="Vídeo de ${p.name}"></video>`:(p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`)}${p.video?'<span class="video-indicator" title="Perfil com vídeo">▶</span>':''}</div>
+  $("#cards").innerHTML=rows.map((p,index)=>`<article class="card" data-id="${p.id}">
+    <div class="card-media">${p.image?`<span class="media-backdrop" style="background-image:url('${p.image}')"></span>`:''}${badgeForCard(index)}${p.coverMedia==="video"&&p.video?`<video class="card-cover-video" src="${p.video}" muted autoplay loop playsinline preload="metadata" aria-label="Vídeo de ${p.name}"></video>`:(p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`)}${p.video?'<span class="video-indicator" title="Perfil com vídeo">▶ VÍDEO</span>':''}</div>
     <button class="fav ${fav.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Favoritar">${fav.includes(p.id)?"♥":"♡"}</button>
     <div class="card-body"><div class="card-title">${p.name}${p.age?`, ${p.age}`:""} ${p.verified?'<span class="verified">✓</span>':""}</div>
-    <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div><p class="tagline">${p.text}</p></div>
+    <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div>${priceLabel(p.prices)}<p class="tagline">${p.text}</p></div>
   </article>`).join("");
   $$("[data-fav]").forEach(b=>b.onclick=e=>{e.stopPropagation();toggleFav(b.dataset.fav)});
   $$(".card[data-id]").forEach(c=>c.onclick=()=>openDemoProfile(c.dataset.id));
@@ -123,6 +124,10 @@ function closeModal(){ $("#modal").classList.add("hidden") }
 
 // ===== Lilás Club — complementos DEMO autorizados =====
 function moneyBR(v){return v?`R$ ${Number(v).toLocaleString('pt-BR')}`:'—'}
+function minPositivePrice(prices={}){const vals=[prices.min15,prices.min30,prices.hour1].map(v=>Number(v)||0).filter(v=>v>0);return vals.length?Math.min(...vals):0}
+function priceLabel(prices={}){const min=minPositivePrice(prices);return min?`<div class="card-price"><span>A partir de</span><b>${moneyBR(min)}</b></div>`:''}
+function badgeForCard(index){const seq=[["agora","🟢","AGORA"],null,["cheguei","📍🌃","CHEGUEI"],["favorita","❤️","FAVORITA"],null,["emalta","🔥","EM ALTA"]];const item=seq[index%seq.length];return !item?'':`<span class="smart-badge ${item[0]}"><span class="emoji">${item[1]}</span><span class="txt">${item[2]}</span></span>`}
+function profileRates(prices={}){const map=[["15 minutos",prices.min15],["30 minutos",prices.min30],["1 hora",prices.hour1]].filter(([,v])=>Number(v)>0);return map.length?map.map(([label,v])=>`<div><span>${label}</span><b>${moneyBR(v)}</b></div>`).join(''):`<div><span>Valores</span><b>A combinar</b></div>`}
 function escText(s){return String(s??'').replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[m]))}
 function ensureDemoLayers(){
   if(!document.getElementById('profileDemoModal')){
@@ -178,7 +183,7 @@ function openDemoProfile(id){
   const thumbs=media.map((m,i)=>`<button class="demo-thumb ${i===0?'active':''}" data-demo-type="${m.type}" data-demo-src="${escText(m.src)}">${m.type==='video'?`<video src="${escText(m.src)}" muted playsinline preload="metadata"></video><span class="thumb-play">▶</span>`:`<img src="${escText(m.src)}" alt="">`}</button>`).join('');
   const first=media[0]||{type:'image',src:p.image||''};
   const main=first.type==='video'?`<video id="demoMainVideo" controls playsinline preload="metadata" src="${escText(first.src)}"></video>`:`<img id="demoMainImage" src="${escText(first.src)}" alt="${escText(p.name)}">`;
-  document.getElementById('profileDemoContent').innerHTML=`<div class="demo-profile-grid"><div><div class="demo-main-media" id="demoMainMedia"><span class="profile-backdrop" style="background-image:url('${escText(p.image||'')}')"></span>${main}</div><div class="demo-thumbs">${thumbs}</div></div><div class="demo-profile-info"><small>PERFIL DEMONSTRATIVO</small><h2>${escText(p.name)}${p.age?`, ${p.age}`:''} ${p.verified?'<span class="verified">✓</span>':''}</h2><p>${escText([p.district,p.city,p.state].filter(Boolean).join(' • '))}</p><div class="demo-rates"><div><span>15 minutos</span><b>${moneyBR(prices.min15)}</b></div><div><span>30 minutos</span><b>${moneyBR(prices.min30)}</b></div><div><span>1 hora</span><b>${moneyBR(prices.hour1)}</b></div></div><p class="demo-copy">${escText(p.text)}</p><div class="demo-only">DEMO • dados e valores fictícios para teste</div></div></div>`;
+  document.getElementById('profileDemoContent').innerHTML=`<div class="demo-profile-grid"><div><div class="demo-main-media" id="demoMainMedia"><span class="profile-backdrop" style="background-image:url('${escText(p.image||'')}')"></span>${main}</div><div class="demo-thumbs">${thumbs}</div></div><div class="demo-profile-info"><small>PERFIL DEMONSTRATIVO</small><h2>${escText(p.name)}${p.age?`, ${p.age}`:''} ${p.verified?'<span class="verified">✓</span>':''}</h2><p>${escText([p.district,p.city,p.state].filter(Boolean).join(' • '))}</p><div class="demo-rates">${profileRates(prices)}</div><p class="demo-copy">${escText(p.text)}</p><div class="demo-only">DEMO • dados e valores fictícios para teste</div></div></div>`;
   document.querySelectorAll('[data-demo-src]').forEach(b=>b.onclick=()=>{
     const box=document.getElementById('demoMainMedia');
     box.querySelector(':scope > img, :scope > video')?.remove();

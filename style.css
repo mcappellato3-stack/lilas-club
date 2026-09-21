@@ -48,3 +48,19 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
 .card-media .fav,.card-media .video-indicator{z-index:6}
 .demo-thumb{position:relative;isolation:isolate;background:#17121b;border:0}
 .demo-thumb img,.demo-thumb video{position:relative;z-index:2}
+
+
+/* NEXT LEVEL — selos refinados + preço mínimo */
+.card-price{margin-top:8px;display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 10px;border-radius:12px;background:#f6ecfb;color:#6e3c83;font-size:11px;font-weight:700}
+.card-price b{font-size:18px;line-height:1;color:#5b2079}
+.card-media .smart-badge{position:absolute;top:14px;left:14px;z-index:7;display:inline-flex;align-items:center;gap:5px;max-width:calc(100% - 28px);padding:5px 8px;border-radius:999px;color:#fff;font-size:10px;font-weight:800;letter-spacing:.2px;backdrop-filter:blur(8px);box-shadow:0 2px 8px rgba(0,0,0,.14)}
+.card-media .smart-badge .emoji{font-size:13px;line-height:1;animation:lilasPulse 1.9s ease-in-out infinite}
+.card-media .smart-badge .txt{animation:lilasFade 2.8s ease-in-out infinite}
+.card-media .smart-badge.agora{background:rgba(28,125,67,.82)}
+.card-media .smart-badge.cheguei{background:rgba(65,58,120,.82)}
+.card-media .smart-badge.favorita{background:rgba(179,50,112,.82)}
+.card-media .smart-badge.emalta{background:rgba(177,103,34,.82)}
+.card-media .video-indicator{position:absolute;right:10px;bottom:10px;z-index:7;padding:5px 8px;border-radius:999px;background:rgba(30,23,34,.72);color:#fff;font-size:10px;font-weight:800;backdrop-filter:blur(6px)}
+@keyframes lilasPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.12);opacity:.76}}
+@keyframes lilasFade{0%,100%{opacity:1}50%{opacity:.5}}
+.field-error{outline:2px solid #cf2d68 !important;border-color:#cf2d68 !important;box-shadow:0 0 0 3px rgba(207,45,104,.12)!important}
