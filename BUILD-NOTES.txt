@@ -1,20 +1,25 @@
-LILÁS CLUB — FINAL ADM IA DEMO
+LILAS CLUB — FINAL CORRIGIDO PARA UPLOAD PELO GITHUB NO IPHONE
 
-Base preservada: lilas-club-pronto (index/style/locations/app) + fluxo anunciar existente.
-Mudanças autorizadas para TESTE:
-- 10 fotos demonstrativas copiadas do pacote final do Velvet.
-- 1 vídeo demonstrativo do Velvet, reutilizado nos perfis demo.
-- valores fictícios preenchidos para 15 min / 30 min / 1 hora.
-- marca d’água “lilás.com” em diagonal, discreta, 20% de opacidade.
-- Admin IA demonstrativo acessível por “Painel de controle • Admin IA” no menu.
-- nenhum gateway, cartão, banco ou pagamento real conectado.
-- mídia/perfis/valores do pacote são exclusivamente demonstrativos.
+Correção principal:
+- Todas as fotos e o vídeo ficam na RAIZ do projeto.
+- app.js usa caminhos diretos (model-01.jpg ... model-15.jpg e demo-video.mp4).
+- Isso evita imagens quebradas quando o GitHub do iPhone envia arquivos sem preservar a pasta assets.
 
-A versão-base original não foi sobrescrita.
+Mantido:
+- Layout e estrutura existentes.
+- Perfis fictícios e valores de teste.
+- Marca d'água www.lilassclub.com.br.
+- ADM + IA demo.
 
-2026-09-21 — Atualização de conteúdo DEMO
-- Mantido layout/estrutura existentes.
-- 10 perfis fictícios distribuídos por estados/cidades brasileiras, com valores DEMO variados.
-- Mantidas as 10 mídias existentes e adicionadas 5 novas fotos fornecidas pelo usuário.
-- Vídeo DEMO copiado da base Velvet usada para teste.
-- Marca d'água ajustada para “www.lilassclub.com.br”: única, central, diagonal suave, fina e discreta.
+Teste local executado antes de gerar este ZIP:
+- sintaxe JavaScript verificada;
+- todas as 15 fotos e o vídeo referenciados existem;
+- referências locais de CSS/JS/HTML verificadas.
+
+
+Atualização 21/09/2026:
+- vídeo final aprovado incluído como lilas-video-final.mp4
+- capas da demo intercalam fotos e vídeo
+- galeria do perfil intercala foto e vídeo na mesma faixa de miniaturas
+- som do vídeo final preservado no próprio arquivo
+- layout base mantido sem redesign
