@@ -1,0 +1,14 @@
+LILÁS CLUB — MASTER RECUPERAÇÃO
+
+BASE VISUAL:
+- Layout oficial antigo aprovado
+- Logo oficial em imagem
+- Blocos "CRIE SEU ANÚNCIO" restaurados
+- Layout simplificado/errado removido desta base
+
+BASE TÉCNICA:
+- Ponto do projeto em que o enquadramento Automático/Manual estava funcionando
+- Arquivos técnicos preservados desse checkpoint
+
+REGRA:
+NÃO substituir index.html/style.css por versões do layout simplificado.
