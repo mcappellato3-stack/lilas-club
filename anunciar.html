@@ -39,13 +39,25 @@
     .days{display:grid;grid-template-columns:repeat(4,1fr);gap:7px}.day{border:1px solid var(--borda);background:var(--azul-bebe);padding:10px 5px;border-radius:9px;font-size:12px;font-weight:800}.day.active{background:var(--lilas-claro);border-color:var(--lilas2);color:var(--lilas)}
     .photo-toolbar{display:flex;justify-content:space-between;gap:10px;align-items:center;margin:8px 0 12px}.upload-btn{display:inline-flex;align-items:center;justify-content:center;gap:7px;background:var(--lilas);color:#fff;border:0;border-radius:10px;padding:11px 14px;font-weight:800}.upload-btn.secondary{background:#dcecff;color:var(--lilas)}
     #fotosInput,#videosInput,#audioInput{display:none}
-    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.photo-card{aspect-ratio:3/4;background:#eeeaf1;border-radius:12px;overflow:hidden;position:relative;border:2px solid transparent}.photo-card.cover{border-color:var(--amarelo);box-shadow:0 0 0 2px rgba(255,217,90,.3)}.photo-card img{width:100%;height:100%;object-fit:cover}.photo-actions{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:4px}.photo-actions button{flex:1;border:0;border-radius:7px;background:rgba(30,20,36,.78);color:#fff;padding:6px 3px;font-size:10px;font-weight:800}.cover-tag{position:absolute;top:6px;left:6px;background:var(--amarelo);color:#402f00;font-size:10px;font-weight:900;border-radius:6px;padding:4px 6px}
+    .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px}.photo-card{aspect-ratio:3/4;background:#eeeaf1;border-radius:12px;overflow:hidden;position:relative;border:2px solid transparent}.photo-card.cover{border-color:var(--amarelo);box-shadow:0 0 0 2px rgba(255,217,90,.3)}.photo-card img{width:100%;height:100%;object-fit:contain;background:#18131c}.photo-actions{position:absolute;left:5px;right:5px;bottom:5px;display:flex;gap:4px}.photo-actions button{flex:1;border:0;border-radius:7px;background:rgba(30,20,36,.78);color:#fff;padding:6px 3px;font-size:10px;font-weight:800}.cover-tag{position:absolute;top:6px;left:6px;background:var(--amarelo);color:#402f00;font-size:10px;font-weight:900;border-radius:6px;padding:4px 6px}
     .empty-box{border:2px dashed #d6c9df;border-radius:12px;padding:24px;text-align:center;color:var(--cinza);background:var(--azul-bebe)}
     .file-list{display:grid;gap:7px;margin-top:10px}.file-item{display:flex;justify-content:space-between;gap:10px;background:var(--azul-bebe-2);border-radius:9px;padding:10px;font-size:12px}.file-item button{border:0;background:transparent;color:var(--vermelho);font-weight:800}
     .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:12px;line-height:1.45}.check input{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
     .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(6,18,37,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12);padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:780px;margin:auto;display:flex;gap:9px}.nav-btn,.publish-btn{border:0;border-radius:11px;padding:13px 14px;font-weight:900}.nav-btn{background:#cfe3fb;color:var(--lilas);min-width:112px}.publish-btn{background:linear-gradient(135deg,var(--rosa),#b5225a);color:white;flex:1}.publish-btn:disabled{opacity:.55}
     .status{display:none;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;font-weight:700}.status.ok{display:block;background:#e9f8ef;color:#18733f}.status.err{display:block;background:#fdecef;color:#a92134}
     @media(max-width:560px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(4,1fr)}.photo-grid{grid-template-columns:repeat(2,1fr)}.header-note{display:none}.logo{font-size:22px}}
+
+    /* Enquadramento automático + editor manual */
+    .photo-actions{z-index:4}.photo-actions button[data-adjust]{background:rgba(111,54,168,.92)}
+    .frame-mode{position:absolute;top:6px;right:6px;z-index:4;background:rgba(12,17,29,.78);color:#fff;border-radius:7px;padding:4px 6px;font-size:9px;font-weight:900}
+    .crop-modal{position:fixed;inset:0;z-index:100;background:rgba(5,10,20,.86);display:none;align-items:center;justify-content:center;padding:14px}.crop-modal.open{display:flex}
+    .crop-box{width:min(94vw,430px);max-height:94vh;overflow:auto;background:#fff;border-radius:18px;padding:14px;box-shadow:0 18px 60px rgba(0,0,0,.38)}
+    .crop-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}.crop-head strong{color:#5b266f}.crop-close{border:0;background:#edf4ff;width:36px;height:36px;border-radius:50%;font-size:20px}
+    .crop-preview{width:100%;aspect-ratio:3/4;background:#17131b;border-radius:14px;overflow:hidden;display:grid;place-items:center}.crop-preview canvas{width:100%;height:100%;display:block}
+    .crop-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:12px 0}.crop-modes button{border:1px solid #cfc5d8;border-radius:10px;padding:10px;background:#eef5ff;color:#55335f;font-weight:900}.crop-modes button.active{background:var(--lilas);color:#fff;border-color:var(--lilas)}
+    .crop-controls{display:grid;gap:9px}.crop-controls label{margin:0;font-size:12px}.crop-controls input[type=range]{padding:0;border:0;background:transparent}.crop-controls.disabled{opacity:.42;pointer-events:none}
+    .crop-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}.crop-actions button{border:0;border-radius:11px;padding:12px;font-weight:900}.crop-reset{background:#e5efff;color:#5b266f}.crop-save{background:linear-gradient(135deg,var(--lilas),var(--rosa));color:#fff}
+    .auto-note{font-size:11px;color:#6e6874;line-height:1.4;margin:8px 0 0}
   </style>
 </head>
 <body>
@@ -132,13 +144,33 @@
   </section>
 </main>
 
+
+<div id="cropModal" class="crop-modal" aria-hidden="true">
+  <div class="crop-box">
+    <div class="crop-head"><strong>Ajustar enquadramento</strong><button id="cropClose" class="crop-close" type="button">×</button></div>
+    <div class="crop-preview"><canvas id="cropCanvas" width="900" height="1200"></canvas></div>
+    <div class="crop-modes">
+      <button id="modeAuto" type="button" class="active">✨ Automático</button>
+      <button id="modeManual" type="button">✋ Manual</button>
+    </div>
+    <div id="manualControls" class="crop-controls disabled">
+      <label>Zoom <input id="cropZoom" type="range" min="100" max="220" value="100"></label>
+      <label>Horizontal <input id="cropX" type="range" min="0" max="100" value="50"></label>
+      <label>Vertical <input id="cropY" type="range" min="0" max="100" value="50"></label>
+    </div>
+    <p class="auto-note">Automático mantém a foto inteira e completa o card discretamente. Manual permite ampliar e mover a imagem antes de publicar.</p>
+    <div class="crop-actions"><button id="cropReset" class="crop-reset" type="button">↺ Restaurar</button><button id="cropSave" class="crop-save" type="button">Usar enquadramento</button></div>
+  </div>
+</div>
+
 <div class="bottom-bar"><div class="bottom-inner"><button id="prevBtn" class="nav-btn" type="button">← Voltar</button><button id="nextBtn" class="publish-btn" type="button">Continuar →</button></div></div>
 
 <script>
   const sections=[...document.querySelectorAll('.section')];
   let current=0;
   let genero='Mulher', categoria='Acompanhantes';
-  let fotos=[]; let capaIndex=0; let videos=[]; let audio='';
+  let fotos=[]; let fotoOriginais=[]; let fotoModos=[]; let capaIndex=0; let videos=[]; let audio='';
+  let editIndex=-1, editMode='auto', editorImg=null;
   const MAX_FOTOS=6;
   const $=id=>document.getElementById(id);
 
@@ -159,12 +191,54 @@
   function showStatus(msg,type){ const s=$('status'); s.textContent=msg; s.className='status '+type; s.scrollIntoView({behavior:'smooth',block:'center'}); }
   function hideStatus(){ $('status').className='status'; }
 
-  function resizeImage(file,maxW=900,quality=.74){ return new Promise((resolve,reject)=>{ const reader=new FileReader(); reader.onload=e=>{const img=new Image(); img.onload=()=>{const scale=Math.min(1,maxW/img.width); const c=document.createElement('canvas'); c.width=Math.round(img.width*scale); c.height=Math.round(img.height*scale); c.getContext('2d').drawImage(img,0,0,c.width,c.height); resolve(c.toDataURL('image/jpeg',quality));}; img.onerror=reject; img.src=e.target.result;}; reader.onerror=reject; reader.readAsDataURL(file);}); }
+  function loadImageFromFile(file,maxSide=1800,quality=.88){
+    return new Promise((resolve,reject)=>{
+      const reader=new FileReader();
+      reader.onload=e=>{const img=new Image(); img.onload=()=>{
+        const scale=Math.min(1,maxSide/Math.max(img.width,img.height));
+        const c=document.createElement('canvas'); c.width=Math.max(1,Math.round(img.width*scale)); c.height=Math.max(1,Math.round(img.height*scale));
+        const x=c.getContext('2d'); x.imageSmoothingQuality='high'; x.drawImage(img,0,0,c.width,c.height);
+        resolve(c.toDataURL('image/jpeg',quality));
+      }; img.onerror=reject; img.src=e.target.result;}; reader.onerror=reject; reader.readAsDataURL(file);
+    });
+  }
 
-  $('fotosInput').addEventListener('change',async e=>{ const files=[...e.target.files]; const available=MAX_FOTOS-fotos.length; if(available<=0)return fail('Você já adicionou '+MAX_FOTOS+' fotos.'); for(const f of files.slice(0,available)){ if(!f.type.startsWith('image/'))continue; try{fotos.push(await resizeImage(f));}catch{}} if(fotos.length===1)capaIndex=0; renderFotos(); e.target.value=''; });
-  $('limparFotos').addEventListener('click',()=>{fotos=[];capaIndex=0;renderFotos()});
-  function renderFotos(){ const g=$('photoGrid'); g.innerHTML=''; $('photoEmpty').style.display=fotos.length?'none':'block'; fotos.forEach((src,i)=>{ const d=document.createElement('div'); d.className='photo-card'+(i===capaIndex?' cover':''); d.innerHTML=`${i===capaIndex?'<span class="cover-tag">CAPA</span>':''}<img alt="Foto ${i+1}" src="${src}"><div class="photo-actions"><button type="button" data-cover="${i}">Capa</button><button type="button" data-remove="${i}">Excluir</button></div>`; g.appendChild(d); }); }
-  $('photoGrid').addEventListener('click',e=>{ const c=e.target.dataset.cover, r=e.target.dataset.remove; if(c!==undefined){capaIndex=Number(c);renderFotos()} if(r!==undefined){const idx=Number(r);fotos.splice(idx,1); if(capaIndex>=fotos.length)capaIndex=Math.max(0,fotos.length-1); else if(idx<capaIndex)capaIndex--; renderFotos()} });
+  function imageFromData(src){return new Promise((resolve,reject)=>{const i=new Image();i.onload=()=>resolve(i);i.onerror=reject;i.src=src})}
+  function drawCover(ctx,img,w,h,zoom=1,posX=.5,posY=.5){
+    const base=Math.max(w/img.width,h/img.height), sc=base*zoom, dw=img.width*sc, dh=img.height*sc;
+    const overflowX=Math.max(0,dw-w), overflowY=Math.max(0,dh-h);
+    const dx=-overflowX*posX, dy=-overflowY*posY; ctx.drawImage(img,dx,dy,dw,dh);
+  }
+  function drawAutoFrame(ctx,img,w,h){
+    ctx.clearRect(0,0,w,h); ctx.save(); ctx.filter='blur(34px) brightness(.58)';
+    drawCover(ctx,img,w,h,1.16,.5,.5); ctx.restore();
+    ctx.fillStyle='rgba(10,8,12,.12)';ctx.fillRect(0,0,w,h);
+    const sc=Math.min(w/img.width,h/img.height), dw=img.width*sc, dh=img.height*sc;
+    ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);
+  }
+  async function makeAutoFrame(src){const img=await imageFromData(src);const c=document.createElement('canvas');c.width=900;c.height=1200;drawAutoFrame(c.getContext('2d'),img,900,1200);return c.toDataURL('image/jpeg',.86)}
+
+  $('fotosInput').addEventListener('change',async e=>{
+    const files=[...e.target.files], available=MAX_FOTOS-fotos.length; if(available<=0)return fail('Você já adicionou '+MAX_FOTOS+' fotos.');
+    for(const f of files.slice(0,available)){ if(!f.type.startsWith('image/'))continue; try{
+      const original=await loadImageFromFile(f); fotoOriginais.push(original); fotos.push(await makeAutoFrame(original)); fotoModos.push('auto');
+    }catch{}}
+    if(fotos.length===1)capaIndex=0; renderFotos(); e.target.value='';
+  });
+  $('limparFotos').addEventListener('click',()=>{fotos=[];fotoOriginais=[];fotoModos=[];capaIndex=0;renderFotos()});
+  function renderFotos(){ const g=$('photoGrid'); g.innerHTML=''; $('photoEmpty').style.display=fotos.length?'none':'block'; fotos.forEach((src,i)=>{ const d=document.createElement('div'); d.className='photo-card'+(i===capaIndex?' cover':''); d.innerHTML=`${i===capaIndex?'<span class="cover-tag">CAPA</span>':''}<span class="frame-mode">${fotoModos[i]==='manual'?'MANUAL':'AUTO'}</span><img alt="Foto ${i+1}" src="${src}"><div class="photo-actions"><button type="button" data-cover="${i}">Capa</button><button type="button" data-adjust="${i}">Ajustar</button><button type="button" data-remove="${i}">Excluir</button></div>`; g.appendChild(d); }); }
+  $('photoGrid').addEventListener('click',e=>{ const c=e.target.dataset.cover, a=e.target.dataset.adjust, r=e.target.dataset.remove; if(c!==undefined){capaIndex=Number(c);renderFotos()} if(a!==undefined)openEditor(Number(a)); if(r!==undefined){const idx=Number(r);fotos.splice(idx,1);fotoOriginais.splice(idx,1);fotoModos.splice(idx,1); if(capaIndex>=fotos.length)capaIndex=Math.max(0,fotos.length-1); else if(idx<capaIndex)capaIndex--; renderFotos()} });
+
+  const cropCtx=$('cropCanvas').getContext('2d');
+  async function openEditor(i){editIndex=i;editorImg=await imageFromData(fotoOriginais[i]||fotos[i]);editMode=fotoModos[i]||'auto';$('cropZoom').value=100;$('cropX').value=50;$('cropY').value=50;$('cropModal').classList.add('open');$('cropModal').setAttribute('aria-hidden','false');setMode(editMode);drawEditor()}
+  function closeEditor(){$('cropModal').classList.remove('open');$('cropModal').setAttribute('aria-hidden','true');editIndex=-1;editorImg=null}
+  function setMode(m){editMode=m;$('modeAuto').classList.toggle('active',m==='auto');$('modeManual').classList.toggle('active',m==='manual');$('manualControls').classList.toggle('disabled',m==='auto');drawEditor()}
+  function drawEditor(){if(!editorImg)return;const c=$('cropCanvas'),w=c.width,h=c.height;if(editMode==='auto')drawAutoFrame(cropCtx,editorImg,w,h);else{cropCtx.clearRect(0,0,w,h);cropCtx.fillStyle='#17131b';cropCtx.fillRect(0,0,w,h);drawCover(cropCtx,editorImg,w,h,Number($('cropZoom').value)/100,Number($('cropX').value)/100,Number($('cropY').value)/100)}}
+  $('modeAuto').addEventListener('click',()=>setMode('auto'));$('modeManual').addEventListener('click',()=>setMode('manual'));
+  ['cropZoom','cropX','cropY'].forEach(id=>$(id).addEventListener('input',drawEditor));
+  $('cropReset').addEventListener('click',()=>{$('cropZoom').value=100;$('cropX').value=50;$('cropY').value=50;setMode('auto')});
+  $('cropClose').addEventListener('click',closeEditor);$('cropModal').addEventListener('click',e=>{if(e.target===$('cropModal'))closeEditor()});
+  $('cropSave').addEventListener('click',()=>{if(editIndex<0)return;drawEditor();fotos[editIndex]=$('cropCanvas').toDataURL('image/jpeg',.86);fotoModos[editIndex]=editMode;renderFotos();closeEditor()});
 
   $('videosInput').addEventListener('change',e=>{ videos=[...e.target.files].slice(0,3).map(f=>f.name); renderFiles(); });
   $('audioInput').addEventListener('change',e=>{ audio=e.target.files[0]?.name||''; renderFiles(); });
@@ -177,7 +251,7 @@
       nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, capaIndex, videos, audio,
+      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, audio,
       atualizadoEm:new Date().toISOString()
     };
     try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700); }

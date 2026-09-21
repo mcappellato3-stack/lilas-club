@@ -1,0 +1,13 @@
+LILÁS CLUB — FINAL CHECKLIST
+
+- 16 fotos novas usadas como capas únicas.
+- 15 fotos anteriores preservadas nas galerias.
+- 3 vídeos novos distintos: video-01.mp4, video-02.mp4 e video-03.mp4.
+- Capas de vídeo intercaladas nos perfis 2, 7 e 12, sem repetir o mesmo vídeo.
+- Marca d’água: somente “LILÁS CLUB”, repetida na diagonal, contorno sutil, dentro da mídia.
+- Fotos e vídeos em object-fit: contain para não cortar cabeça/pernas.
+- Fundo desfocado da própria mídia preenche o card sem borda dura e sem deformar.
+- Perfil aberto e miniaturas seguem a mesma regra anti-corte.
+
+
+Atualização extra: adicionadas 4 novas fotos ao pacote (new-17.png a new-20.png) e 4 perfis demonstrativos adicionais.
