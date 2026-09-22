@@ -1,10 +1,10 @@
-Lilás Club — MENU + VÍDEO CORRIGIDOS
+Lilás Club — FOTO + VÍDEO FIX
 
+Base: exatamente o ZIP instalado enviado pelo usuário.
 Alterações desta versão:
-- Preços, Termos de uso e Privacidade agora abrem páginas reais.
-- Painel de controle permanece desativado (em breve), conforme solicitado.
-- Vídeos/áudio passam a ser gravados como Blob diretamente no IndexedDB para melhor compatibilidade com Safari/iPhone.
-- O salvamento confirma a mídia antes de concluir.
-- Legenda dos emojis fica imediatamente acima de “Perfis em destaque”.
-
-V2: posição/visual da legenda de emojis preservados como estavam aprovados; somente menu e correções de vídeo/áudio mantidos.
+- Não altera layout, legendas, banner, cabeçalho ou páginas do menu.
+- Corrige persistência de foto/vídeo/áudio no Safari/iPhone.
+- Mídia passa a ser gravada no IndexedDB como bytes serializáveis.
+- Vídeo/áudio ganham fallback adicional em Cache Storage.
+- Foto de capa leve fica sempre salva como fallback local, evitando card sem imagem.
+- Home tenta IndexedDB, depois Cache Storage e depois fallback local.

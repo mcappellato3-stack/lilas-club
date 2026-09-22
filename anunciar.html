@@ -239,25 +239,41 @@
   function openMediaDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open('lilasClubMediaDB',1);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
   async function putMediaBlob(key,blob,name=''){
     const db=await openMediaDB();
-    // Guarda o Blob/File diretamente. No Safari/iPhone isso evita criar uma cópia grande em ArrayBuffer na memória.
+    // Safari/iPhone: persistimos os bytes em um objeto simples, em vez de depender
+    // da serialização de File/Blob entre navegações.
+    const buffer=await blob.arrayBuffer();
+    const payload={__lilasAsset:true,type:blob.type||'application/octet-stream',name:name||blob.name||'',size:blob.size||buffer.byteLength,buffer};
     return await new Promise((resolve,reject)=>{
       const tx=db.transaction('assets','readwrite');
-      tx.objectStore('assets').put(blob,key);
+      tx.objectStore('assets').put(payload,key);
       tx.oncomplete=()=>resolve(key);
       tx.onerror=()=>reject(tx.error);
       tx.onabort=()=>reject(tx.error||new Error('IndexedDB abort'));
     });
   }
-  async function mediaExists(key){
+  async function getStoredMedia(key){
     try{
       const db=await openMediaDB();
       return await new Promise((resolve,reject)=>{
         const tx=db.transaction('assets','readonly');
         const q=tx.objectStore('assets').get(key);
-        q.onsuccess=()=>resolve(!!q.result);
+        q.onsuccess=()=>resolve(q.result||null);
         q.onerror=()=>reject(q.error);
       });
-    }catch{return false}
+    }catch{return null}
+  }
+  async function mediaExists(key){
+    const v=await getStoredMedia(key);
+    if(!v)return false;
+    if(v instanceof Blob)return v.size>0;
+    if(v.__lilasAsset&&v.buffer)return (v.buffer.byteLength||v.size||0)>0;
+    if(v instanceof ArrayBuffer)return v.byteLength>0;
+    return true;
+  }
+  function cacheMediaUrl(key){return new URL('./__lilas_media__/'+encodeURIComponent(key),location.href).href}
+  async function putMediaCache(key,blob){
+    if(!('caches' in window))return false;
+    try{const c=await caches.open('lilasClubMediaCache-v1');await c.put(cacheMediaUrl(key),new Response(blob,{headers:{'Content-Type':blob.type||'application/octet-stream'}}));return true}catch{return false}
   }
   async function dataUrlBlob(data){const r=await fetch(data);return await r.blob()}
   function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result||''));r.onerror=()=>reject(r.error);r.readAsDataURL(file)})}
@@ -288,6 +304,7 @@
     ctx.drawImage(img,(w-dw)/2,(h-dh)/2,dw,dh);
   }
   async function makeAutoFrame(src){const img=await imageFromData(src);const c=document.createElement('canvas');c.width=900;c.height=1200;drawAutoFrame(c.getContext('2d'),img,900,1200);return c.toDataURL('image/jpeg',.86)}
+  async function makeSmallFallback(src){const img=await imageFromData(src);const c=document.createElement('canvas');c.width=480;c.height=640;const x=c.getContext('2d');x.imageSmoothingQuality='high';x.drawImage(img,0,0,c.width,c.height);return c.toDataURL('image/jpeg',.68)}
 
   $('fotosInput').addEventListener('change',async e=>{
     const files=[...e.target.files], available=MAX_FOTOS-fotos.length; if(available<=0)return fail('Você já adicionou '+MAX_FOTOS+' fotos.');
@@ -338,49 +355,59 @@
     }
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
     const uid='perfil-'+Date.now();
-    const photoKeys=[],videoKeys=[],warnings=[];
+    const photoKeys=[],videoKeys=[],videoCacheKeys=[],warnings=[];
     const fotosFallback=[];
-    let videoDataUrl='',audioKey='',audioDataUrl='';
+    let fotoCapaFallback='',videoDataUrl='',audioKey='',audioCacheKey='',audioDataUrl='';
     showStatus('Salvando anúncio e mídias…','ok');
     try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch{}
 
+    // Mantém sempre uma capa leve no localStorage. Assim o card nunca fica sem foto
+    // mesmo se o Safari perder/limitar o IndexedDB depois da navegação.
+    if(fotos.length){
+      try{fotoCapaFallback=await makeSmallFallback(fotos[Math.min(Math.max(capaIndex,0),fotos.length-1)])}catch{}
+      const ordem=[capaIndex,...fotos.map((_,i)=>i)].filter((v,i,a)=>v>=0&&v<fotos.length&&a.indexOf(v)===i).slice(0,3);
+      for(const i of ordem){try{fotosFallback.push(await makeSmallFallback(fotos[i]))}catch{}}
+    }
+
     for(let i=0;i<fotos.length;i++){
       const k=`${uid}:photo:${i}`;
-      try{await putMediaBlob(k,await dataUrlBlob(fotos[i]),`foto-${i+1}.jpg`);photoKeys.push(k)}
-      catch(err){console.warn('Foto no IndexedDB:',err);if(i<4)fotosFallback.push(fotos[i]);warnings.push('foto')}
+      try{await putMediaBlob(k,await dataUrlBlob(fotos[i]),`foto-${i+1}.jpg`);if(await mediaExists(k))photoKeys.push(k);else throw new Error('Foto não confirmada')}
+      catch(err){console.warn('Foto no IndexedDB:',err);warnings.push('foto')}
     }
     for(let i=0;i<videoItens.length;i++){
       const item=videoItens[i]; if(!item.file)continue; const k=`${uid}:video:${i}`;
-      try{await putMediaBlob(k,item.file,item.name);if(await mediaExists(k))videoKeys.push(k);else throw new Error('Vídeo não confirmado no armazenamento')}
-      catch(err){
-        console.warn('Vídeo no IndexedDB:',err);warnings.push('vídeo');
-        if(!videoDataUrl && item.file.size<=3500000){try{videoDataUrl=await fileToDataURL(item.file)}catch{}}
+      let idbOk=false,cacheOk=false;
+      try{await putMediaBlob(k,item.file,item.name);idbOk=await mediaExists(k);if(idbOk)videoKeys.push(k)}catch(err){console.warn('Vídeo no IndexedDB:',err)}
+      try{cacheOk=await putMediaCache(k,item.file);if(cacheOk)videoCacheKeys.push(k)}catch{}
+      if(!idbOk&&!cacheOk){
+        warnings.push('vídeo');
+        if(!videoDataUrl && item.file.size<=2200000){try{videoDataUrl=await fileToDataURL(item.file)}catch{}}
       }
     }
     if(audioFile){
       audioKey=`${uid}:audio:0`;
-      try{await putMediaBlob(audioKey,audioFile,audioFile.name);if(!(await mediaExists(audioKey)))throw new Error('Áudio não confirmado no armazenamento')}
-      catch(err){
-        console.warn('Áudio no IndexedDB:',err);warnings.push('áudio');audioKey='';
-        if(audioFile.size<=2500000){try{audioDataUrl=await fileToDataURL(audioFile)}catch{}}
-      }
+      let idbOk=false,cacheOk=false;
+      try{await putMediaBlob(audioKey,audioFile,audioFile.name);idbOk=await mediaExists(audioKey)}catch(err){console.warn('Áudio no IndexedDB:',err)}
+      try{cacheOk=await putMediaCache(audioKey,audioFile);if(cacheOk)audioCacheKey=audioKey}catch{}
+      if(!idbOk){audioKey=''}
+      if(!idbOk&&!cacheOk){warnings.push('áudio');if(audioFile.size<=1800000){try{audioDataUrl=await fileToDataURL(audioFile)}catch{}}}
     }
 
     const perfil={
       id:uid,nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(),
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotoModos, capaIndex, photoKeys, videoKeys,
-      fotosFallback, videoDataUrl,
-      videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audioKey, audioDataUrl,
-      atualizadoEm:new Date().toISOString()
+      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotoModos, capaIndex, photoKeys, videoKeys,videoCacheKeys,
+      fotosFallback,fotoCapaFallback,videoDataUrl,
+      videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audioKey,audioCacheKey,audioDataUrl,
+      mediaVersion:2,atualizadoEm:new Date().toISOString()
     };
 
     let saved=false;
     try{localStorage.setItem('lilasPerfil',JSON.stringify(perfil));saved=true}
     catch(err){
       console.warn('localStorage com fallback:',err);
-      perfil.fotosFallback=[];perfil.videoDataUrl='';perfil.audioDataUrl='';
+      perfil.fotosFallback=perfil.fotoCapaFallback?[perfil.fotoCapaFallback]:[];perfil.videoDataUrl='';perfil.audioDataUrl='';
       try{localStorage.setItem('lilasPerfil',JSON.stringify(perfil));saved=true}catch(err2){console.error(err2)}
     }
     if(!saved)return fail('Não foi possível salvar o anúncio neste aparelho. Libere espaço do Safari e tente novamente.');

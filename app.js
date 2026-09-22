@@ -22,8 +22,8 @@ function profileFromRaw(p,i){
     state:(p.estado||p.state||"").toUpperCase(),city:p.cidade||p.city||"",district:p.bairro||p.district||"",
     category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
     text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
-    image:runtime.image||p.fotoCapa||p.image||p.foto||gallery[Number(p.capaIndex)||0]||gallery[0]||"",
-    gallery,video,audio:runtime.audio||p.audioDataUrl||p.audioUrl||"",
+    image:runtime.image||p.fotoCapa||p.fotoCapaFallback||p.image||p.foto||gallery[Number(p.capaIndex)||0]||gallery[0]||"",
+    gallery,video,audio:runtime.audio||p.audioDataUrl||p.audioUrl||"",coverMedia:p.coverMedia||((video&&!runtime.image&&!p.fotoCapaFallback)?'video':'image'),
     prices:{
       min15:Number(p.preco15||p.valor15||p.caches?.min15||0)||0,
       min30:Number(p.preco30||p.valor30||p.caches?.min30||0)||0,
@@ -35,13 +35,18 @@ function userProfiles(){return hydratedUserProfiles.length?hydratedUserProfiles:
 function openMediaDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open('lilasClubMediaDB',1);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
 async function getMediaBlob(key){if(!key)return null;try{const db=await openMediaDB();const value=await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readonly');const q=tx.objectStore('assets').get(key);q.onsuccess=()=>resolve(q.result||null);q.onerror=()=>reject(q.error)});if(!value)return null;if(value instanceof Blob)return value;if(value.__lilasAsset&&value.buffer)return new Blob([value.buffer],{type:value.type||'application/octet-stream'});if(value instanceof ArrayBuffer)return new Blob([value]);return null}catch{return null}}
 async function blobUrl(key){const b=await getMediaBlob(key);if(!b)return '';const u=URL.createObjectURL(b);mediaObjectUrls.push(u);return u}
+function cacheMediaUrl(key){return new URL('./__lilas_media__/'+encodeURIComponent(key),location.href).href}
+async function cacheBlobUrl(key){if(!key||!('caches' in window))return '';try{const c=await caches.open('lilasClubMediaCache-v1');const r=await c.match(cacheMediaUrl(key));if(!r)return '';const b=await r.blob();if(!b.size)return '';const u=URL.createObjectURL(b);mediaObjectUrls.push(u);return u}catch{return ''}}
 async function hydrateUserProfiles(){
   const raws=rawUserProfiles(); hydratedUserProfiles=[];
   for(let i=0;i<raws.length;i++){
     const p=raws[i], runtime={gallery:[],videos:[]};
     if(Array.isArray(p.photoKeys)&&p.photoKeys.length){for(const k of p.photoKeys){const u=await blobUrl(k);if(u)runtime.gallery.push(u)}runtime.image=runtime.gallery[Number(p.capaIndex)||0]||runtime.gallery[0]||''}
-    if(Array.isArray(p.videoKeys)&&p.videoKeys.length){for(const k of p.videoKeys){const u=await blobUrl(k);if(u)runtime.videos.push(u)}runtime.video=runtime.videos[0]||'';}
+    if(Array.isArray(p.videoKeys)&&p.videoKeys.length){for(const k of p.videoKeys){const u=await blobUrl(k);if(u)runtime.videos.push(u)}}
+    if(!runtime.videos.length&&Array.isArray(p.videoCacheKeys)&&p.videoCacheKeys.length){for(const k of p.videoCacheKeys){const u=await cacheBlobUrl(k);if(u)runtime.videos.push(u)}}
+    runtime.video=runtime.videos[0]||p.videoDataUrl||'';
     if(p.audioKey)runtime.audio=await blobUrl(p.audioKey);
+    if(!runtime.audio&&p.audioCacheKey)runtime.audio=await cacheBlobUrl(p.audioCacheKey);
     p.__runtime=runtime; hydratedUserProfiles.push(profileFromRaw(p,i));
   }
 }
@@ -101,7 +106,7 @@ function render(){
   $("#resultCount").textContent=`${rows.length} ${rows.length===1?"perfil":"perfis"}`;
   $("#emptyState").classList.toggle("hidden",rows.length>0);
   $("#cards").innerHTML=rows.map(p=>{const badge=badgeFor(p),min=minPositivePrice(p);return `<article class="card" data-id="${p.id}">
-    <div class="card-media">${p.image?`<span class="media-backdrop" style="background-image:url('${p.image}')"></span>`:''}${p.coverMedia==="video"&&p.video?`<video class="card-cover-video" src="${p.video}" muted autoplay loop playsinline preload="metadata" aria-label="Vídeo de ${p.name}"></video>`:(p.image?`<img src="${p.image}" alt="${p.name}">`:`<span>Foto do perfil<br>${p.name}</span>`)}${badge?`<span class="profile-badge"><i>${badge[0]}</i><b>${badge[1]}</b></span>`:''}${p.video?'<span class="video-indicator" title="Perfil com vídeo">▶</span>':''}</div>
+    <div class="card-media">${p.image?`<span class="media-backdrop" style="background-image:url('${p.image}')"></span>`:''}${p.video&&(p.coverMedia==="video"||!p.image)?`<video class="card-cover-video" src="${p.video}" muted autoplay loop playsinline preload="metadata" aria-label="Vídeo de ${p.name}"></video>`:(p.image?`<img src="${p.image}" alt="${p.name}">`:(p.video?`<video class="card-cover-video" src="${p.video}" muted autoplay loop playsinline preload="metadata" aria-label="Vídeo de ${p.name}"></video>`:`<span>Foto do perfil<br>${p.name}</span>`))}${badge?`<span class="profile-badge"><i>${badge[0]}</i><b>${badge[1]}</b></span>`:''}${p.video?'<span class="video-indicator" title="Perfil com vídeo">▶</span>':''}</div>
     <button class="fav ${fav.includes(p.id)?"on":""}" data-fav="${p.id}" aria-label="Favoritar">${fav.includes(p.id)?"♥":"♡"}</button>
     <div class="card-body"><div class="card-title">${p.name}${p.age?`, ${p.age}`:""} ${p.verified?'<span class="verified">✓</span>':""}</div>
     <div class="meta">${[p.district,p.city,p.state].filter(Boolean).join(" • ")}</div>${min?`<div class="card-price">A partir de ${moneyBR(min)}</div>`:''}<p class="tagline">${p.text}</p></div>
