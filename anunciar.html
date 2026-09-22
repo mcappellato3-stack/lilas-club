@@ -45,7 +45,7 @@
     .file-list{display:grid;gap:7px;margin-top:10px}.file-item{display:flex;justify-content:space-between;gap:10px;background:var(--azul-bebe-2);border-radius:9px;padding:10px;font-size:12px}.file-item button{border:0;background:transparent;color:var(--vermelho);font-weight:800}
     .check{display:flex;gap:10px;align-items:flex-start;margin:12px 0;font-size:12px;line-height:1.45}.check input{width:20px;height:20px;flex:0 0 auto;margin-top:1px}
     .bottom-bar{position:fixed;left:0;right:0;bottom:0;background:rgba(6,18,37,.96);backdrop-filter:blur(10px);border-top:1px solid rgba(255,255,255,.12);padding:10px 12px calc(10px + env(safe-area-inset-bottom));z-index:30}.bottom-inner{max-width:780px;margin:auto;display:flex;gap:9px}.nav-btn,.publish-btn{border:0;border-radius:11px;padding:13px 14px;font-weight:900}.nav-btn{background:#cfe3fb;color:var(--lilas);min-width:112px}.publish-btn{background:linear-gradient(135deg,var(--rosa),#b5225a);color:white;flex:1}.publish-btn:disabled{opacity:.55}
-    .status{display:none;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;font-weight:700}.status.ok{display:block;background:#e9f8ef;color:#18733f}.status.err{display:block;background:#fdecef;color:#a92134}
+    .status{display:none;border-radius:10px;padding:12px;margin:10px 0;font-size:13px;font-weight:700}.check.field-error{border:2px solid #d83343;border-radius:10px;padding:9px;background:#fff3f5}.status.ok{display:block;background:#e9f8ef;color:#18733f}.status.err{display:block;background:#fdecef;color:#a92134}
     @media(max-width:560px){.grid3{grid-template-columns:1fr}.grid2{grid-template-columns:1fr 1fr}.days{grid-template-columns:repeat(4,1fr)}.photo-grid{grid-template-columns:repeat(2,1fr)}.publish{font-size:10px;padding:10px 12px}.brand img{width:min(190px,48vw)}}
 
     /* Enquadramento automático + editor manual */
@@ -306,7 +306,7 @@
   }
   function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
-  async function publicar(){ hideStatus(); if(!validateAll())return; if(!$('adulto').checked||!$('responsavel').checked){openStep(7);return fail('Marque as duas declarações antes de publicar.');}
+  async function publicar(){ hideStatus(); if(!validateAll())return; if(!$('adulto').checked||!$('responsavel').checked){openStep(7);setTimeout(()=>{const faltando=!$('adulto').checked?$('adulto'):$('responsavel');faltando.closest('.check')?.classList.add('field-error');faltando.scrollIntoView({behavior:'smooth',block:'center'});faltando.focus();},180);return fail('Para publicar, marque as DUAS declarações da etapa Revisão e termos.');}
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
     const uid='perfil-'+Date.now();
     try{

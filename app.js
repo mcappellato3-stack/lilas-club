@@ -201,7 +201,8 @@ function openDemoProfile(id){
   const gallery=(p.gallery&&p.gallery.length?p.gallery:[p.image]).filter(Boolean);
   const prices=p.prices||{};
   const media=[];
-  gallery.forEach((src,i)=>{media.push({type:'image',src});if(i===0&&p.video)media.push({type:'video',src:p.video})});
+  if(p.video&&p.coverMedia==='video')media.push({type:'video',src:p.video});
+  gallery.forEach((src,i)=>{media.push({type:'image',src});if(i===0&&p.video&&p.coverMedia!=='video')media.push({type:'video',src:p.video})});
   const thumbs=media.map((m,i)=>`<button class="demo-thumb ${i===0?'active':''}" data-demo-type="${m.type}" data-demo-src="${escText(m.src)}">${m.type==='video'?`<video src="${escText(m.src)}" muted playsinline preload="metadata"></video><span class="thumb-play">▶</span>`:`<img src="${escText(m.src)}" alt="">`}</button>`).join('');
   const first=media[0]||{type:'image',src:p.image||''};
   const main=first.type==='video'?`<video id="demoMainVideo" controls playsinline preload="metadata" src="${escText(first.src)}"></video>`:`<img id="demoMainImage" src="${escText(first.src)}" alt="${escText(p.name)}">`;
@@ -211,14 +212,17 @@ function openDemoProfile(id){
     box.querySelector(':scope > img, :scope > video')?.remove();
     let el;
     if(b.dataset.demoType==='video'){
-      el=document.createElement('video');el.id='demoMainVideo';el.controls=true;el.playsInline=true;el.preload='metadata';el.src=b.dataset.demoSrc;
+      el=document.createElement('video');el.id='demoMainVideo';el.controls=true;el.playsInline=true;el.preload='metadata';el.src=b.dataset.demoSrc;el.muted=false;el.volume=1;
     }else{
       el=document.createElement('img');el.id='demoMainImage';el.alt=p.name;el.src=b.dataset.demoSrc;
     }
     box.prepend(el);
     document.querySelectorAll('[data-demo-src]').forEach(x=>x.classList.remove('active'));b.classList.add('active');
+    if(b.dataset.demoType==='video'){el.play().catch(()=>{});}
   });
   document.getElementById('profileDemoModal').classList.remove('hidden');
+  const openedVideo=document.getElementById('demoMainVideo');
+  if(openedVideo){openedVideo.muted=false;openedVideo.volume=1;openedVideo.play().catch(()=>{});}
 }
 
 const weatherIcon=code=>code===0?'☀️':code<=3?'⛅':code<=48?'🌫️':code<=67?'🌧️':code<=77?'❄️':code<=82?'🌦️':code<=99?'⛈️':'☀️';
