@@ -104,12 +104,12 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
   font-weight:900!important;
   letter-spacing:.15px;
   box-shadow:0 8px 22px rgba(201,45,151,.23)!important;
-  animation:lilasBannerPulse 1.7s ease-in-out infinite!important;
+  animation:lilasBannerPulse 1.35s ease-in-out infinite!important;
   will-change:transform,filter,box-shadow;
 }
 @keyframes lilasBannerPulse{
-  0%,100%{transform:scale(1);filter:brightness(1);box-shadow:0 8px 22px rgba(201,45,151,.23)}
-  50%{transform:scale(1.035);filter:brightness(1.08);box-shadow:0 0 0 5px rgba(232,52,166,.10),0 10px 27px rgba(139,43,217,.26)}
+  0%,100%{transform:scale(1);filter:brightness(1);opacity:1;box-shadow:0 8px 22px rgba(201,45,151,.23)}
+  50%{transform:scale(1.045);filter:brightness(1.12);opacity:.88;box-shadow:0 0 0 6px rgba(232,52,166,.13),0 10px 30px rgba(139,43,217,.30)}
 }
 @media(max-width:390px){
   .signup-cta{gap:9px!important;padding:12px!important}

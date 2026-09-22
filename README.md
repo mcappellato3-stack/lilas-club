@@ -1,1 +1,1 @@
-TESTE: cabeçalho com Menu e banner real centralizado abaixo da busca.
+Lilás Club — teste do banner com botão + CRIE SEU ANÚNCIO clicável e pulsação suave. Sem alteração de clima/localização nesta versão.
