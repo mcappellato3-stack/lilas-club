@@ -14,3 +14,7 @@ Estado desta versão:
 Regra:
 - testar esta versão primeiro
 - só depois continuar com o restante da lista
+
+ATUALIZAÇÃO MASTER 2:
+- Frase principal alterada para: “Encontre quem combina com você”
+- Escolhida por ser mais atual, curta e inclusiva para todas as categorias do site.
