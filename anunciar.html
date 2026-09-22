@@ -70,6 +70,7 @@
     .top-menu-drawer .drawer-signup{margin-top:10px;border:0;border-radius:12px;text-align:center;background:linear-gradient(135deg,#d63d78,#b5225a);color:white}
     .top-menu-overlay{position:fixed;inset:0;z-index:80;background:rgba(20,8,25,.48);display:none}.top-menu-overlay.open{display:block}
 
+    .field-error{border-color:#d83343!important;box-shadow:0 0 0 3px rgba(216,51,67,.13)!important}.section.validation-error{outline:2px solid rgba(216,51,67,.22);outline-offset:-2px}
 </style>
 </head>
 <body>
@@ -148,7 +149,7 @@
   <section class="section" data-step="5">
     <button class="section-title" type="button"><span class="left"><span class="badge">📷</span>Fotos</span><span class="chev">⌄</span></button>
     <div class="section-body">
-      <p class="hint"><b>Teste atual: até 6 fotos.</b> Depois aumentamos para 12. Toque em “Capa” para escolher a primeira foto do anúncio.</p>
+      <p class="hint"><b>Até 12 fotos.</b> Toque em “Capa” para escolher a primeira foto do anúncio.</p>
       <div class="photo-toolbar"><label class="upload-btn" for="fotosInput">＋ Adicionar fotos</label><button class="upload-btn secondary" id="limparFotos" type="button">Limpar</button></div>
       <input id="fotosInput" type="file" accept="image/*" multiple />
       <div id="photoGrid" class="photo-grid"></div><div id="photoEmpty" class="empty-box">Nenhuma foto adicionada ainda.</div>
@@ -210,9 +211,9 @@
   const sections=[...document.querySelectorAll('.section')];
   let current=0;
   let genero='Mulher', categoria='Acompanhantes';
-  let fotos=[]; let fotoOriginais=[]; let fotoModos=[]; let capaIndex=0; let videos=[]; let videoItens=[]; let audio='';
+  let fotos=[]; let fotoOriginais=[]; let fotoModos=[]; let capaIndex=0; let videos=[]; let videoItens=[]; let audio=''; let audioFile=null;
   let editIndex=-1, editMode='auto', editorImg=null;
-  const MAX_FOTOS=6;
+  const MAX_FOTOS=12;
   const $=id=>document.getElementById(id);
 
   for(let i=18;i<=70;i++){ const o=document.createElement('option'); o.value=i; o.textContent=i+' anos'; $('idade').appendChild(o); }
@@ -227,10 +228,17 @@
   $('titulo').addEventListener('input',()=> $('tituloCount').textContent=$('titulo').value.length);
   $('descricao').addEventListener('input',()=> $('descCount').textContent=$('descricao').value.length);
 
-  function validateStep(step){ hideStatus(); if(step===0 && (!$('cidade').value.trim()||!$('bairro').value.trim())) return fail('Preencha cidade e bairro.'); if(step===1 && !$('telefone').value.trim()) return fail('Informe um telefone ou WhatsApp.'); if(step===2 && (!$('nome').value.trim()||!$('idade').value||!$('titulo').value.trim()||!$('descricao').value.trim())) return fail('Complete nome, idade, título e apresentação.'); return true; }
+  function clearValidation(){document.querySelectorAll('.field-error').forEach(x=>x.classList.remove('field-error'));document.querySelectorAll('.validation-error').forEach(x=>x.classList.remove('validation-error'))}
+  function failField(step,id,msg){clearValidation();openStep(step);const el=$(id);sections[step]?.classList.add('validation-error');if(el){el.classList.add('field-error');setTimeout(()=>{el.scrollIntoView({behavior:'smooth',block:'center'});try{el.focus({preventScroll:true})}catch{el.focus()}},180)}showStatus(msg,'err');return false}
+  function validateStep(step){ hideStatus(); clearValidation(); if(step===0){if(!$('cidade').value.trim())return failField(0,'cidade','Preencha a cidade.');if(!$('bairro').value.trim())return failField(0,'bairro','Preencha o bairro.')} if(step===1&&!$('telefone').value.trim())return failField(1,'telefone','Informe um telefone ou WhatsApp.'); if(step===2){if(!$('nome').value.trim())return failField(2,'nome','Informe o nome do perfil.');if(!$('idade').value)return failField(2,'idade','Selecione a idade.');if(!$('titulo').value.trim())return failField(2,'titulo','Preencha o título do anúncio.');if(!$('descricao').value.trim())return failField(2,'descricao','Preencha a apresentação.')} return true; }
+  function validateAll(){for(const step of [0,1,2])if(!validateStep(step))return false;return true}
   function fail(msg){ showStatus(msg,'err'); return false; }
   function showStatus(msg,type){ const s=$('status'); s.textContent=msg; s.className='status '+type; s.scrollIntoView({behavior:'smooth',block:'center'}); }
   function hideStatus(){ $('status').className='status'; }
+
+  function openMediaDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open('lilasClubMediaDB',1);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
+  async function putMediaBlob(key,blob){const db=await openMediaDB();return await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readwrite');tx.objectStore('assets').put(blob,key);tx.oncomplete=()=>resolve(key);tx.onerror=()=>reject(tx.error)})}
+  async function dataUrlBlob(data){const r=await fetch(data);return await r.blob()}
 
   function loadImageFromFile(file,maxSide=1800,quality=.88){
     return new Promise((resolve,reject)=>{
@@ -284,31 +292,38 @@
   $('videosInput').addEventListener('change',e=>{
     videoItens.forEach(v=>{if(v.url)URL.revokeObjectURL(v.url)});
     const fs=[...e.target.files].slice(0,3);
-    videoItens=fs.map(f=>({name:f.name,url:URL.createObjectURL(f),mode:'auto',time:0,duration:0}));
+    videoItens=fs.map(f=>({name:f.name,file:f,url:URL.createObjectURL(f),mode:'auto',time:0,duration:0}));
     videos=fs.map(f=>f.name); renderFiles(); e.target.value='';
   });
-  $('audioInput').addEventListener('change',e=>{ audio=e.target.files[0]?.name||''; renderFiles(); });
+  $('audioInput').addEventListener('change',e=>{ audioFile=e.target.files[0]||null; audio=audioFile?.name||''; renderFiles(); });
   function setVideoMode(i,mode){const v=videoItens[i];if(!v)return;v.mode=mode;if(mode==='auto'&&v.duration){v.time=Math.min(Math.max(v.duration*.12,.2),1.5)}renderFiles()}
   function setVideoTime(i,value){const v=videoItens[i];if(!v)return;v.mode='manual';v.time=Number(value)||0;const el=document.querySelector(`[data-video-preview="${i}"]`);if(el&&isFinite(v.time))el.currentTime=v.time;const tag=document.querySelector(`[data-video-time="${i}"]`);if(tag)tag.textContent=v.time.toFixed(1)+'s'}
   function removeVideo(i){const v=videoItens[i];if(v?.url)URL.revokeObjectURL(v.url);videoItens.splice(i,1);videos.splice(i,1);renderFiles()}
   function onVideoMeta(i,el){const v=videoItens[i];if(!v)return;v.duration=Number(el.duration)||0;if(v.mode==='auto'){v.time=Math.min(Math.max(v.duration*.12,.2),1.5)}el.currentTime=Math.min(v.time,Math.max(0,v.duration-.05));const r=document.querySelector(`[data-video-range="${i}"]`);if(r){r.max=Math.max(.1,v.duration);r.value=v.time}const t=document.querySelector(`[data-video-time="${i}"]`);if(t)t.textContent=v.time.toFixed(1)+'s'}
   function renderFiles(){
     $('videoList').innerHTML=videoItens.map((v,i)=>`<div class="video-card"><video data-video-preview="${i}" src="${v.url}" muted playsinline preload="metadata" onloadedmetadata="onVideoMeta(${i},this)"></video><div class="video-name">🎬 ${escapeHtml(v.name)}</div><div class="video-cover-controls"><button type="button" class="${v.mode==='auto'?'active':''}" onclick="setVideoMode(${i},'auto')">✨ Capa automática</button><button type="button" class="${v.mode==='manual'?'active':''}" onclick="setVideoMode(${i},'manual')">✋ Escolher quadro</button></div><div class="video-slider"><input data-video-range="${i}" type="range" min="0" max="${Math.max(.1,v.duration||1)}" step="0.1" value="${v.time||0}" ${v.mode==='manual'?'':'disabled'} oninput="setVideoTime(${i},this.value)"><div class="video-cover-hint">Quadro da capa: <b data-video-time="${i}">${(v.time||0).toFixed(1)}s</b> · ${v.mode==='auto'?'automático':'manual'}</div></div><button class="video-remove" type="button" onclick="removeVideo(${i})">Excluir vídeo</button></div>`).join('');
-    $('audioList').innerHTML=audio?`<div class="file-item"><span>🎤 ${escapeHtml(audio)}</span><button type="button" onclick="audio='';renderFiles()">Excluir</button></div>`:'';
+    $('audioList').innerHTML=audio?`<div class="file-item"><span>🎤 ${escapeHtml(audio)}</span><button type="button" onclick="audio='';audioFile=null;renderFiles()">Excluir</button></div>`:'';
   }
   function escapeHtml(s){return s.replace(/[&<>'"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c]))}
 
-  function publicar(){ hideStatus(); if(!$('adulto').checked||!$('responsavel').checked)return fail('Marque as duas declarações antes de publicar.'); if(!$('nome').value.trim()||!$('cidade').value.trim()||!$('bairro').value.trim())return fail('Revise os campos obrigatórios do cadastro.');
+  async function publicar(){ hideStatus(); if(!validateAll())return; if(!$('adulto').checked||!$('responsavel').checked){openStep(7);return fail('Marque as duas declarações antes de publicar.');}
     const dias=[...document.querySelectorAll('.day.active')].map(b=>b.dataset.day);
-    const perfil={
-      nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(), foto:fotos[capaIndex]||'',
-      genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
-      caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
-      horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotos, fotoModos, capaIndex, videos, videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audio,
-      atualizadoEm:new Date().toISOString()
-    };
-    try{ localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700); }
-    catch(err){ fail('As fotos ficaram grandes demais para este protótipo. Tente usar menos fotos por enquanto.'); }
+    const uid='perfil-'+Date.now();
+    try{
+      showStatus('Salvando fotos e vídeos…','ok');
+      const photoKeys=[];for(let i=0;i<fotos.length;i++){const k=`${uid}:photo:${i}`;await putMediaBlob(k,await dataUrlBlob(fotos[i]));photoKeys.push(k)}
+      const videoKeys=[];for(let i=0;i<videoItens.length;i++){if(!videoItens[i].file)continue;const k=`${uid}:video:${i}`;await putMediaBlob(k,videoItens[i].file);videoKeys.push(k)}
+      let audioKey='';if(audioFile){audioKey=`${uid}:audio:0`;await putMediaBlob(audioKey,audioFile)}
+      const perfil={
+        id:uid,nome:$('nome').value.trim(), categoria, cidade:$('cidade').value.trim(), bairro:$('bairro').value.trim(), descricao:$('descricao').value.trim(),
+        genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
+        caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
+        horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotoModos, capaIndex, photoKeys, videoKeys,
+        videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audioKey,
+        atualizadoEm:new Date().toISOString()
+      };
+      localStorage.setItem('lilasPerfil',JSON.stringify(perfil)); showStatus('Anúncio salvo com sucesso! Abrindo a página inicial…','ok'); setTimeout(()=>window.location.href='index.html',700);
+    }catch(err){console.error(err);fail('Não foi possível salvar a mídia neste aparelho. Tente novamente com arquivos menores.');}
   }
 
   renderFotos(); openStep(0);

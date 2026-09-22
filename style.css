@@ -123,3 +123,16 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
   .signup-cta .create-ad-alert{min-width:200px;max-width:220px;font-size:13px}
 }
 @media(prefers-reduced-motion:reduce){.signup-cta .create-ad-alert{animation:none!important}}
+
+
+/* FULL TESTE — clima discreto, selos, preços e mídia persistente */
+.weather-bar{min-height:32px;padding:6px 14px;background:linear-gradient(90deg,#201333,#39204f);color:#fff;display:flex;align-items:center;gap:12px;font-size:11px;font-weight:800;letter-spacing:.1px}
+.weather-bar #weatherLocation{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.weather-bar #weatherNow{margin-left:auto;white-space:nowrap}.weather-age{border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:3px 8px;background:rgba(139,43,217,.28);white-space:nowrap}
+.card-media .profile-badge{position:absolute;left:8px;top:8px;z-index:7;min-height:22px;display:inline-flex;align-items:center;gap:4px;padding:3px 7px;border-radius:999px;background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.32);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);box-shadow:0 2px 9px rgba(0,0,0,.13);animation:badgeSoftPulse 2s ease-in-out infinite;pointer-events:none}
+.profile-badge i{font-style:normal;font-size:9px}.profile-badge b{font-size:8.5px;line-height:1;letter-spacing:.35px;color:transparent;-webkit-text-stroke:.7px rgba(255,255,255,.98);text-shadow:0 1px 2px rgba(0,0,0,.18)}
+@keyframes badgeSoftPulse{0%,100%{opacity:.78;transform:scale(1)}50%{opacity:1;transform:scale(1.025)}}
+.card-price{margin-top:5px;font-size:12px;font-weight:900;color:#cf2e86}.card-price:empty{display:none}
+.demo-audio{margin:14px 0}.demo-audio audio{width:100%;height:38px}
+.demo-rates:empty{display:none}.demo-rates.hidden{display:none}
+.field-error{border-color:#d83343!important;box-shadow:0 0 0 3px rgba(216,51,67,.13)!important}.section.validation-error{outline:2px solid rgba(216,51,67,.22);outline-offset:-2px}
+@media(prefers-reduced-motion:reduce){.profile-badge{animation:none}}
