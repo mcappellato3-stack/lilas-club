@@ -1,0 +1,16 @@
+LILÁS CLUB — CHECKPOINT MASTER 1
+
+Objetivo:
+- salvar um ponto único de teste
+- usar esta versão como base oficial temporária
+- não misturar com versões antigas
+
+Estado desta versão:
+- layout base recuperado
+- logo oficial
+- auto/manual presente
+- ponto de partida para testar no iPhone/Safari
+
+Regra:
+- testar esta versão primeiro
+- só depois continuar com o restante da lista
