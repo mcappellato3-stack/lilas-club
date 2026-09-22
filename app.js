@@ -38,9 +38,9 @@ async function blobUrl(key){const b=await getMediaBlob(key);if(!b)return '';cons
 async function hydrateUserProfiles(){
   const raws=rawUserProfiles(); hydratedUserProfiles=[];
   for(let i=0;i<raws.length;i++){
-    const p=raws[i], runtime={gallery:[]};
+    const p=raws[i], runtime={gallery:[],videos:[]};
     if(Array.isArray(p.photoKeys)&&p.photoKeys.length){for(const k of p.photoKeys){const u=await blobUrl(k);if(u)runtime.gallery.push(u)}runtime.image=runtime.gallery[Number(p.capaIndex)||0]||runtime.gallery[0]||''}
-    if(Array.isArray(p.videoKeys)&&p.videoKeys.length)runtime.video=await blobUrl(p.videoKeys[0]);
+    if(Array.isArray(p.videoKeys)&&p.videoKeys.length){for(const k of p.videoKeys){const u=await blobUrl(k);if(u)runtime.videos.push(u)}runtime.video=runtime.videos[0]||'';}
     if(p.audioKey)runtime.audio=await blobUrl(p.audioKey);
     p.__runtime=runtime; hydratedUserProfiles.push(profileFromRaw(p,i));
   }

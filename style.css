@@ -141,3 +141,6 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
 
 /* Correção: balões dos cards sempre sólidos/opacos */
 .card-media .profile-badge{background:#fff!important;opacity:1!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+
+.drawer a[aria-disabled="true"]{opacity:.45;pointer-events:none}
+.info-page{max-width:760px;margin:0 auto;padding:28px 18px 80px}.info-card{background:rgba(255,255,255,.82);border:1px solid rgba(111,54,168,.16);border-radius:18px;padding:20px;margin:14px 0;box-shadow:0 8px 24px rgba(61,35,82,.06)}.info-card h1,.info-card h2{color:#5b266f}.info-card p,.info-card li{line-height:1.6;color:#5f5663}.info-back{display:inline-flex;margin-top:12px;text-decoration:none;font-weight:850;color:#7b249f}.plan-grid{display:grid;gap:12px}.plan{padding:16px;border:1px solid rgba(111,54,168,.16);border-radius:14px;background:#fff}.plan b{display:block;color:#5b266f;font-size:18px}.plan small{color:#7a6e80}@media(min-width:650px){.plan-grid{grid-template-columns:repeat(3,1fr)}}

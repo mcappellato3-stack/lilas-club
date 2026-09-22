@@ -88,10 +88,10 @@
   <a class="drawer-signup" href="anunciar.html">＋ CRIE SEU ANÚNCIO</a>
   <a href="index.html#cards">Perfis</a>
   <a href="index.html">Cidades</a>
-  <a href="#">Preços</a>
-  <a href="#">Painel de controle</a>
-  <a href="#">Termos de uso</a>
-  <a href="#">Privacidade</a>
+  <a href="precos.html">Preços</a>
+  <a href="#" aria-disabled="true" onclick="return false">Painel de controle (em breve)</a>
+  <a href="termos.html">Termos de uso</a>
+  <a href="privacidade.html">Privacidade</a>
 </nav>
 <div id="topMenuOverlay" class="top-menu-overlay"></div>
 <main>
@@ -239,9 +239,25 @@
   function openMediaDB(){return new Promise((resolve,reject)=>{const r=indexedDB.open('lilasClubMediaDB',1);r.onupgradeneeded=()=>{const db=r.result;if(!db.objectStoreNames.contains('assets'))db.createObjectStore('assets')};r.onsuccess=()=>resolve(r.result);r.onerror=()=>reject(r.error)})}
   async function putMediaBlob(key,blob,name=''){
     const db=await openMediaDB();
-    const buffer=await blob.arrayBuffer();
-    const record={__lilasAsset:1,type:blob.type||'',name:name||'',buffer};
-    return await new Promise((resolve,reject)=>{const tx=db.transaction('assets','readwrite');tx.objectStore('assets').put(record,key);tx.oncomplete=()=>resolve(key);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||new Error('IndexedDB abort'))})
+    // Guarda o Blob/File diretamente. No Safari/iPhone isso evita criar uma cópia grande em ArrayBuffer na memória.
+    return await new Promise((resolve,reject)=>{
+      const tx=db.transaction('assets','readwrite');
+      tx.objectStore('assets').put(blob,key);
+      tx.oncomplete=()=>resolve(key);
+      tx.onerror=()=>reject(tx.error);
+      tx.onabort=()=>reject(tx.error||new Error('IndexedDB abort'));
+    });
+  }
+  async function mediaExists(key){
+    try{
+      const db=await openMediaDB();
+      return await new Promise((resolve,reject)=>{
+        const tx=db.transaction('assets','readonly');
+        const q=tx.objectStore('assets').get(key);
+        q.onsuccess=()=>resolve(!!q.result);
+        q.onerror=()=>reject(q.error);
+      });
+    }catch{return false}
   }
   async function dataUrlBlob(data){const r=await fetch(data);return await r.blob()}
   function fileToDataURL(file){return new Promise((resolve,reject)=>{const r=new FileReader();r.onload=()=>resolve(String(r.result||''));r.onerror=()=>reject(r.error);r.readAsDataURL(file)})}
@@ -326,6 +342,7 @@
     const fotosFallback=[];
     let videoDataUrl='',audioKey='',audioDataUrl='';
     showStatus('Salvando anúncio e mídias…','ok');
+    try{if(navigator.storage&&navigator.storage.persist)await navigator.storage.persist()}catch{}
 
     for(let i=0;i<fotos.length;i++){
       const k=`${uid}:photo:${i}`;
@@ -334,7 +351,7 @@
     }
     for(let i=0;i<videoItens.length;i++){
       const item=videoItens[i]; if(!item.file)continue; const k=`${uid}:video:${i}`;
-      try{await putMediaBlob(k,item.file,item.name);videoKeys.push(k)}
+      try{await putMediaBlob(k,item.file,item.name);if(await mediaExists(k))videoKeys.push(k);else throw new Error('Vídeo não confirmado no armazenamento')}
       catch(err){
         console.warn('Vídeo no IndexedDB:',err);warnings.push('vídeo');
         if(!videoDataUrl && item.file.size<=3500000){try{videoDataUrl=await fileToDataURL(item.file)}catch{}}
@@ -342,7 +359,7 @@
     }
     if(audioFile){
       audioKey=`${uid}:audio:0`;
-      try{await putMediaBlob(audioKey,audioFile,audioFile.name)}
+      try{await putMediaBlob(audioKey,audioFile,audioFile.name);if(!(await mediaExists(audioKey)))throw new Error('Áudio não confirmado no armazenamento')}
       catch(err){
         console.warn('Áudio no IndexedDB:',err);warnings.push('áudio');audioKey='';
         if(audioFile.size<=2500000){try{audioDataUrl=await fileToDataURL(audioFile)}catch{}}

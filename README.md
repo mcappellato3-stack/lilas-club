@@ -1,6 +1,10 @@
-Lilás Club — correção focada em publicação/mídia no Safari.
-- Legenda dos emojis movida para imediatamente acima de Perfis em destaque.
-- Balões dentro das fotos sólidos/opacos.
-- Persistência de fotos, vídeos e áudio usa ArrayBuffer no IndexedDB para maior compatibilidade com Safari/iPhone.
-- Publicação não é mais cancelada inteira se uma mídia falhar.
-- Admin IA removido do site.
+Lilás Club — MENU + VÍDEO CORRIGIDOS
+
+Alterações desta versão:
+- Preços, Termos de uso e Privacidade agora abrem páginas reais.
+- Painel de controle permanece desativado (em breve), conforme solicitado.
+- Vídeos/áudio passam a ser gravados como Blob diretamente no IndexedDB para melhor compatibilidade com Safari/iPhone.
+- O salvamento confirma a mídia antes de concluir.
+- Legenda dos emojis fica imediatamente acima de “Perfis em destaque”.
+
+V2: posição/visual da legenda de emojis preservados como estavam aprovados; somente menu e correções de vídeo/áudio mantidos.
