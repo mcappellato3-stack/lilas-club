@@ -61,6 +61,15 @@
     .auto-note{font-size:11px;color:#6e6874;line-height:1.4;margin:8px 0 0}
   
     .video-cards{display:grid;gap:12px;margin-top:12px}.video-card{background:#f7f2fa;border:1px solid #e5d7ec;border-radius:14px;padding:10px}.video-card video{width:100%;aspect-ratio:3/4;object-fit:contain;background:#17131b;border-radius:11px;display:block}.video-name{font-size:12px;font-weight:800;margin:8px 0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.video-cover-controls{display:grid;grid-template-columns:1fr 1fr;gap:7px}.video-cover-controls button{border:1px solid #d9c7e2;background:#fff;border-radius:9px;padding:8px;font-weight:800}.video-cover-controls button.active{background:#6d1c8e;color:#fff;border-color:#6d1c8e}.video-slider{margin-top:9px}.video-slider input{width:100%}.video-cover-hint{font-size:11px;color:#7b687f;margin-top:5px}.video-remove{margin-top:8px;width:100%;border:0;background:#eee5f2;border-radius:8px;padding:7px;font-weight:800;color:#60356f}
+
+    /* Cabeçalho completo: mesma identidade, logo central e menu funcional */
+    .top-menu-drawer{position:fixed;right:-320px;top:0;bottom:0;width:min(310px,88vw);z-index:90;background:#f8f0fd;padding:22px;transition:right .24s ease;box-shadow:-10px 0 35px rgba(0,0,0,.22)}
+    .top-menu-drawer.open{right:0}.top-menu-drawer .drawer-close{float:right;border:0;background:transparent;font-size:30px;color:#5b266f}
+    .top-menu-drawer .drawer-logo{display:block;width:210px;max-width:80%;margin:10px auto 24px;height:auto}
+    .top-menu-drawer a{display:block;padding:14px 4px;border-bottom:1px solid #e6d6f0;text-decoration:none;color:#34263b;font-weight:800}
+    .top-menu-drawer .drawer-signup{margin-top:10px;border:0;border-radius:12px;text-align:center;background:linear-gradient(135deg,#d63d78,#b5225a);color:white}
+    .top-menu-overlay{position:fixed;inset:0;z-index:80;background:rgba(20,8,25,.48);display:none}.top-menu-overlay.open{display:block}
+
 </style>
 </head>
 <body>
@@ -69,10 +78,21 @@
     <a class="icon-btn" href="index.html" aria-label="Início" style="display:grid;place-items:center;text-decoration:none">⌂</a>
   </div>
   <a class="brand" href="index.html"><img src="logo-lilas-club.png" alt="Lilás Club" /></a>
-  <div class="topbar-side topbar-right">
-    <a class="publish" href="anunciar.html">＋ CRIE SEU ANÚNCIO</a>
-  </div>
+  <div class="topbar-side topbar-right"><button id="menuBtn" class="icon-btn" type="button" aria-label="Menu">☰</button></div>
 </header>
+<nav id="topMenuDrawer" class="top-menu-drawer" aria-hidden="true">
+  <button id="closeTopMenu" class="drawer-close" type="button" aria-label="Fechar menu">×</button>
+  <img class="drawer-logo" src="logo-lilas-club.png" alt="Lilás Club">
+  <a href="index.html">Início</a>
+  <a class="drawer-signup" href="anunciar.html">＋ CRIE SEU ANÚNCIO</a>
+  <a href="index.html#cards">Perfis</a>
+  <a href="index.html">Cidades</a>
+  <a href="#">Preços</a>
+  <a href="#">Painel de controle</a>
+  <a href="#">Termos de uso</a>
+  <a href="#">Privacidade</a>
+</nav>
+<div id="topMenuOverlay" class="top-menu-overlay"></div>
 <main>
   <div class="intro">
     <h1>Publique seu anúncio</h1>
@@ -177,6 +197,16 @@
 <div class="bottom-bar"><div class="bottom-inner"><button id="prevBtn" class="nav-btn" type="button">← Voltar</button><button id="nextBtn" class="publish-btn" type="button">Continuar →</button></div></div>
 
 <script>
+  const topMenuDrawer=document.getElementById('topMenuDrawer');
+  const topMenuOverlay=document.getElementById('topMenuOverlay');
+  const menuBtn=document.getElementById('menuBtn');
+  const closeTopMenu=document.getElementById('closeTopMenu');
+  function setTopMenu(open){topMenuDrawer.classList.toggle('open',open);topMenuOverlay.classList.toggle('open',open);topMenuDrawer.setAttribute('aria-hidden',open?'false':'true');document.body.style.overflow=open?'hidden':''}
+  menuBtn?.addEventListener('click',()=>setTopMenu(true));
+  closeTopMenu?.addEventListener('click',()=>setTopMenu(false));
+  topMenuOverlay?.addEventListener('click',()=>setTopMenu(false));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')setTopMenu(false)});
+
   const sections=[...document.querySelectorAll('.section')];
   let current=0;
   let genero='Mulher', categoria='Acompanhantes';

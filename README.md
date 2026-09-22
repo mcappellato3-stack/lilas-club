@@ -1,1 +1,1 @@
-Versão focada somente no item 1: cabeçalho principal unificado e centralizado.
+MASTER-05: cabeçalho da página Anunciar com Início à esquerda, logo centralizado e Menu funcional à direita; sem botão redundante Criar anúncio no topo.
