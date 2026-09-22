@@ -23,7 +23,7 @@ function profileFromRaw(p,i){
     category:p.categoria||p.category||"Acompanhantes",gender:p.genero||p.gender||"Mulheres",
     text:p.descricao||p.text||"Veja mais informações no perfil.",verified:!!(p.verificado||p.verified),
     image:runtime.image||p.fotoCapa||p.fotoCapaFallback||p.image||p.foto||gallery[Number(p.capaIndex)||0]||gallery[0]||"",
-    gallery,video,audio:runtime.audio||p.audioDataUrl||p.audioUrl||"",coverMedia:p.coverMedia||((video&&!runtime.image&&!p.fotoCapaFallback)?'video':'image'),
+    gallery,video,audio:runtime.audio||p.audioDataUrl||p.audioUrl||"",coverMedia:p.coverMedia||(video?'video':'image'),
     prices:{
       min15:Number(p.preco15||p.valor15||p.caches?.min15||0)||0,
       min30:Number(p.preco30||p.valor30||p.caches?.min30||0)||0,

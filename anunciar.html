@@ -398,7 +398,7 @@
       genero, telefone:$('telefone').value.trim(), idade:Number($('idade').value), titulo:$('titulo').value.trim(),
       caches:{min15:$('preco15').value.trim(),min30:$('preco30').value.trim(),hora1:$('preco60').value.trim()},
       horario:{dias,inicio:$('horaInicio').value,fim:$('horaFim').value}, fotoModos, capaIndex, photoKeys, videoKeys,videoCacheKeys,
-      fotosFallback,fotoCapaFallback,videoDataUrl,
+      fotosFallback,fotoCapaFallback,videoDataUrl,coverMedia:videoItens.length?'video':'image',
       videoCapas:videoItens.map(v=>({nome:v.name,modo:v.mode,tempo:Number((v.time||0).toFixed(1))})), audioKey,audioCacheKey,audioDataUrl,
       mediaVersion:2,atualizadoEm:new Date().toISOString()
     };
