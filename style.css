@@ -66,3 +66,60 @@ main{max-width:1120px;margin:auto}.hero{padding:28px 16px 18px;background:linear
 .demo-thumb img,.demo-thumb video{position:relative;z-index:2}
 
 @media(max-width:430px){.topbar{grid-template-columns:44px auto 1fr}.brand img{width:min(190px,48vw)}.publish{font-size:10px;padding:10px 12px}.topbar-right{gap:6px}}
+
+
+/* BANNER CORRETO — CTA saiu do cabeçalho e virou bloco real abaixo da busca */
+.topbar .publish{display:none!important}
+.mobile-signup{display:none!important}
+.signup-cta{
+  margin:14px 16px 4px!important;
+  padding:14px 14px!important;
+  border-radius:18px!important;
+  background:rgba(255,255,255,.48)!important;
+  color:var(--ink)!important;
+  border:1px solid rgba(139,43,217,.16)!important;
+  box-shadow:0 8px 24px rgba(74,28,95,.08)!important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) auto!important;
+  align-items:center!important;
+  gap:12px!important;
+}
+.signup-cta .signup-copy{min-width:0}
+.signup-cta strong{display:block;font-size:18px!important;line-height:1.15;color:#4f2166}
+.signup-cta span{display:block;margin-top:5px!important;font-size:13px!important;line-height:1.3!important;color:#766b7b;opacity:1!important}
+.signup-cta .create-ad-alert{
+  width:auto!important;
+  min-width:150px;
+  max-width:180px;
+  padding:12px 14px!important;
+  border-radius:999px!important;
+  background:linear-gradient(135deg,#8b2bd9,#e834a6)!important;
+  color:#fff!important;
+  text-decoration:none!important;
+  text-align:center!important;
+  font-size:12px;
+  line-height:1.18;
+  font-weight:900!important;
+  letter-spacing:.15px;
+  box-shadow:0 8px 22px rgba(201,45,151,.23)!important;
+  animation:lilasBannerPulse 1.7s ease-in-out infinite!important;
+  will-change:transform,filter,box-shadow;
+}
+@keyframes lilasBannerPulse{
+  0%,100%{transform:scale(1);filter:brightness(1);box-shadow:0 8px 22px rgba(201,45,151,.23)}
+  50%{transform:scale(1.035);filter:brightness(1.08);box-shadow:0 0 0 5px rgba(232,52,166,.10),0 10px 27px rgba(139,43,217,.26)}
+}
+@media(max-width:390px){
+  .signup-cta{gap:9px!important;padding:12px!important}
+  .signup-cta strong{font-size:16px!important}
+  .signup-cta span{font-size:12px!important}
+  .signup-cta .create-ad-alert{min-width:136px;max-width:145px;padding:11px 10px!important;font-size:11px}
+}
+@media(min-width:700px){
+  .signup-cta{margin:18px 28px 4px!important;padding:18px 20px!important}
+  .signup-cta strong{font-size:21px!important}
+  .signup-cta .create-ad-alert{min-width:200px;max-width:220px;font-size:13px}
+}
+@media(prefers-reduced-motion:reduce){.signup-cta .create-ad-alert{animation:none!important}}
